@@ -1,0 +1,80 @@
+import React, { useState } from 'react';
+import {View, StyleSheet, Text, TouchableOpacity, } from 'react-native';
+
+import InputCodigos from '../../components/inputCodigos';
+
+export default function RecuperarSenha_Codigo() {
+
+    //declarando variáveis apenas para teste de frontend, depois colocar em funções requisitando bd
+    const [email, setEmail] = useState("issoeumteste@gmail.com"); 
+    const [numeroTel, setNumerotel] = useState("(11)94002-8922"); 
+
+    return (
+        <View style={estilos.Container}>
+            <Text style={estilos.Titulo}>DIGITE O CÓDIGO</Text>
+
+            <Text style={estilos.Subtitulo}>ENVIAMOS UM CÓDIGO DE 6 DÍGITOS PARA: {email} OU {numeroTel}</Text>
+
+            <InputCodigos></InputCodigos> 
+
+            <TouchableOpacity style={estilos.botaoContinuar}>
+                <Text style={estilos.textBotao}>CONTINUAR</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={estilos.reenviar}>
+                <Text style={estilos.reenviarText}>REENVIAR CÓDIGO</Text>
+            </TouchableOpacity>
+       </View>
+      );
+    }
+
+
+    const estilos = StyleSheet.create({
+        Container:{
+            flex: 1,
+            width: '100%',
+            backgroundColor: '#fff',
+            alignItems: 'center',
+        },
+        Titulo:{
+            width: '100%',
+            fontSize: 30,
+            color: '#38b6ff',
+            marginTop: 100,
+            marginBottom: 10,
+            textAlign: 'center',
+            fontWeight: 700,
+        },
+        Subtitulo:{
+            width: '80%',
+            fontSize: 14.5,
+            textAlign:'center',
+            marginBottom: 70,
+        },
+        textBotao:{
+            fontSize: 23,
+            fontWeight: 700,
+            color: '#fff',
+            marginBottom: 2
+        },
+        botaoContinuar:{
+            paddingBottom: 10,
+            paddingTop: 10,
+            paddingRight: 32,
+            paddingLeft: 32,        
+            backgroundColor: "#0e52b2",
+            borderRadius: 100,
+            justifyContent: "center",
+            marginBottom: 3,
+        },
+        reenviar:{
+            width: "50%",
+            marginBottom: 100
+        },
+        reenviarText:{
+            fontSize: 14.5,
+            color: "#0c4a86",
+            textAlign: "center",
+            textDecorationLine: "underline",
+        },
+    })
