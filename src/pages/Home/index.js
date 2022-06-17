@@ -1,23 +1,24 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image, ScrollView} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image, ScrollView, StatusBar} from 'react-native';
 import Post from '../../components/post/post';
 import Filters from '../../components/filterHome/index';
+import CarouselCards from '../../components/CarouselCards';
 
 export default function Home({navigation}) {
     return (
         <SafeAreaView style={styles.container}>
-          <ScrollView contentContainerStyle={{alignItems:'center'}}>
-            {/* <TouchableOpacity onPress={() => navigation.navigate('Sobre')}>
-                <Text>Aperte</Text>
-            </TouchableOpacity> */}
-            <Image 
-              style={styles.carrosel}
-              source={require('../../assets/carrosel-img1.jpg')}>
-            </Image>
+          <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+          
+          <ScrollView contentContainerStyle={{alignItems:'center',width:'100%'}}>
+          
+            <CarouselCards/>
+
             <Filters/>
+
             <View style={styles.contanierTitulo}>
               <Text style={styles.titulo}>PUBLICAÇÕES</Text>
             </View>
+
             <Post/>
             <Post/>
 
@@ -33,16 +34,12 @@ export default function Home({navigation}) {
         alignItems: 'center',
         // justifyContent: 'center',
       },
-      carrosel:{
-        width:'100%',
-        height:200,
-      },
       contanierTitulo:{
-        marginBottom:15
+        marginVertical:5
       },
       titulo:{
         fontSize:30,
         fontWeight:'bold',
-        color:'#00c4cc',
+        color:'#38B6FF',
       },
     });

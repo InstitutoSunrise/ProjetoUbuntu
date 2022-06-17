@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -8,10 +8,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 
-
 import Home from '../pages/Home/index';
 import Exemplo from '../pages/Exemplos/index';
-
+import Entrar from '../pages/Entrar/Entrar';
+import LoginCadastro from '../pages/LoginCadastro/loginCadastro';
+import Login from '../pages/Login/Login';
 
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
@@ -22,7 +23,7 @@ function tabs(){
             screenOptions={{
                 tabBarShowLabel:false,
                 tabBarInactiveTintColor: '#fff',
-                tabBarActiveTintColor: '#fff',
+                tabBarActiveTintColor: '#38B6FF',
                 tabBarStyle:{
                     paddingBottom:5,
                     paddingTop:5,
@@ -50,7 +51,7 @@ function tabs(){
                 headerLeft: () =>(
                     <FontAwesome 
                         name="user-circle-o" 
-                        size={45} 
+                        size={40} 
                         color="#fff"
                         style={{marginLeft:25}}
                     />
@@ -98,15 +99,37 @@ function tabs(){
     )
 }
 
-export default function Routes() {
+export default function Routes({navigation}) {
  return (
     <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName='Entrar'>
             <Stack.Screen 
             name="Home" 
             component={tabs} 
             options={{
                 headerShown: false,
+            }}
+            />
+            <Stack.Screen 
+            name="Entrar" 
+            component={Entrar} 
+            options={{
+                headerShown: false,
+                title:'Bem Vindo'
+            }}
+            />
+            <Stack.Screen 
+            name="LoginCadastro" 
+            component={LoginCadastro} 
+            options={{
+                headerShown: false,
+            }}
+            />
+            <Stack.Screen 
+            name="Login" 
+            component={Login} 
+            options={{
+                headerShown:false,
             }}
             />
         </Stack.Navigator>

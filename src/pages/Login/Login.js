@@ -1,0 +1,74 @@
+import React from 'react';
+import { View, Text, TouchableOpacity, TextInput, StyleSheet} from 'react-native';
+import Backbutton from '../../components/backbutton/backbutton';
+
+
+export default function Login({navigation}) {
+ return (
+   <View style={styles.container}>
+    <Backbutton onClick={() => navigation.goBack()}/>
+    <View style={styles.container2}>
+        <Text style={styles.titulo}>LOGIN</Text>
+        <TextInput style={styles.input} placeholder='ENTRE COM O SEU EMAIL'></TextInput>
+        <TextInput style={styles.input} placeholder='ENTRE COM A SUA SENHA'></TextInput>
+        <Text style={styles.texto}>ESQUECEU A SENHA?</Text>
+        <TouchableOpacity 
+        style={styles.botao}
+        onPress={() => navigation.navigate('Home')}
+        ><Text style={styles.textoBotao}>ENTRAR</Text></TouchableOpacity>
+        <Text style={styles.texto}>AINDA NÃO CRIOU A SUA CONTA? <TouchableOpacity style={styles.span}>CLIQUE AQUI</TouchableOpacity> PARA SE CADASTRAR</Text>
+    </View>
+   </View>
+  );
+}
+
+const styles = StyleSheet.create({
+    container:{
+        flex: 1,
+        alignItems:'center',
+        backgroundColor:'#fff',
+    },
+    container2:{
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor:'#fff',
+        flex: 1
+    },
+    titulo:{
+        fontSize:50,
+        fontWeight:'bold',
+        color:'#38B6FF',
+    },
+    input:{
+        width:'80%',
+        marginTop:15,
+        backgroundColor:'lightgrey',
+        paddingVertical: 15,
+        paddingHorizontal: 25,
+        borderRadius:30,
+        fontSize:17,
+    },
+    botao:{
+        marginTop:'30%',
+        width:200,
+        backgroundColor:'rgb(14, 82, 178)',
+        padding:12,
+        borderRadius:30,
+    },
+    textoBotao:{
+        textAlign:'center',
+        fontSize:25,
+        fontWeight:'bold',
+        color:'#fff',
+        letterSpacing:2
+    },
+    texto:{
+        fontSize:12,
+        textAlign:'center',
+        marginTop:2
+    },
+    span:{
+        color:'rgb(14, 82, 178)',
+        fontWeight:'bold'
+    },
+});
