@@ -11,12 +11,20 @@ export default function Login({navigation}) {
         <Text style={styles.titulo}>LOGIN</Text>
         <TextInput style={styles.input} placeholder='ENTRE COM O SEU EMAIL'></TextInput>
         <TextInput style={styles.input} placeholder='ENTRE COM A SUA SENHA'></TextInput>
-        <Text style={styles.texto}>ESQUECEU A SENHA?</Text>
+        
+        <TouchableOpacity style={styles.esqueceu}>
+        <Text style={styles.textoEsqueceu}>ESQUECEU A SENHA?</Text>
+        </TouchableOpacity>
+        
         <TouchableOpacity 
         style={styles.botao}
         onPress={() => navigation.navigate('Home')}
-        ><Text style={styles.textoBotao}>ENTRAR</Text></TouchableOpacity>
-        <Text style={styles.texto}>AINDA NÃO CRIOU A SUA CONTA? <TouchableOpacity style={styles.span}>CLIQUE AQUI</TouchableOpacity> PARA SE CADASTRAR</Text>
+        >
+        <Text style={styles.textoBotao}>ENTRAR</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.texto}>AINDA NÃO CRIOU A SUA CONTA? 
+        <TouchableOpacity style={styles.span}> CLIQUE AQUI</TouchableOpacity> PARA SE CADASTRAR</Text>
     </View>
    </View>
   );
@@ -38,15 +46,16 @@ const styles = StyleSheet.create({
         fontSize:50,
         fontWeight:'bold',
         color:'#38B6FF',
+        marginTop: -180,
     },
     input:{
         width:'80%',
         marginTop:15,
         backgroundColor:'lightgrey',
-        paddingVertical: 15,
+        paddingVertical: 16,
         paddingHorizontal: 25,
         borderRadius:30,
-        fontSize:17,
+        fontSize:14,
     },
     botao:{
         marginTop:'30%',
@@ -58,17 +67,31 @@ const styles = StyleSheet.create({
     textoBotao:{
         textAlign:'center',
         fontSize:25,
-        fontWeight:'bold',
+        fontWeight:'800',
         color:'#fff',
         letterSpacing:2
     },
     texto:{
         fontSize:12,
         textAlign:'center',
-        marginTop:2
+        marginTop:8
+    },
+    esqueceu:{
+        alignSelf: 'flex-end',
+        marginTop: 8,
+        marginRight: 60
+    },
+    textoEsqueceu:{
+        textAlign: 'center',
+        fontSize: 14,
+        color: "#0c4a86",
+        textDecorationLine: "underline",
+
+
     },
     span:{
         color:'rgb(14, 82, 178)',
+        marginTop: 5,
         fontWeight:'bold'
     },
 });

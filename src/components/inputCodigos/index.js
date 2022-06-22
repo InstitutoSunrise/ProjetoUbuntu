@@ -40,7 +40,6 @@ export default function InputCodigos() {
   
 const estilos = StyleSheet.create({
   container:{
-    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between"
   },

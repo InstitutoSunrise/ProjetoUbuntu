@@ -7,7 +7,7 @@ export default function EscolherTipoLogin() {
    <View style={estilos.container}>
         <Image
         style={estilos.imagem}
-        source={require('../../store/escolherTipo_.png')}
+        source={require('../../assets/escolherTipo_.png')}
         />
 
         <Text style={estilos.descricao}>
@@ -48,15 +48,15 @@ const estilos = StyleSheet.create({
     },
     botao:{
         height: 65,
-        width: '60%',
-        marginTop: 23,
+        width: '75%',
+        marginTop: 22,
         backgroundColor: '#0e52b2',
         borderRadius: 60,
         justifyContent: 'center',
     },
     textBotao:{
         fontSize:25,
-        fontWeight: '700',
+        fontWeight: '800',
         color: '#fff',
         textAlign: 'center',
         marginBottom:5

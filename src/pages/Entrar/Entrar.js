@@ -3,35 +3,50 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, StatusBar } from 'reac
 
 export default function Entrar({navigation}) {
  return (
-   <View style={styles.container}>
-       <StatusBar barStyle="dark-content" backgroundColor="rgb(14, 82, 178)"/>
-
+   <View style={styles.main}>
        <Image 
-       style={styles.img}
-       source={require('../../assets/ubuntu.jpg')}/>
+            style={styles.imggeo}
+            source={require('../../assets/figuraGeometrica.png')}/>
 
-       <Text style={styles.texto}>"Gerando gestos de solidariedade"</Text>
+       <View style={styles.container}>
+            <StatusBar barStyle="dark-content" backgroundColor="rgb(14, 82, 178)"/>
 
-       <TouchableOpacity 
-       style={styles.botao}
-       onPress={() => navigation.navigate('LoginCadastro')}
-       >
-           <Text style={styles.textoBotao}>INICIAR</Text>
-        </TouchableOpacity>
+            <Image 
+            style={styles.img}
+            source={require('../../assets/logo projeto sem fundo2.png')}/>
+
+            <Text style={styles.texto}>"Gerando gestos de solidariedade"</Text>
+
+            <TouchableOpacity 
+            style={styles.botao}
+            onPress={() => navigation.navigate('LoginCadastro')}
+            >
+            <Text style={styles.textoBotao}>INICIAR</Text>
+            </TouchableOpacity>
+       </View>
+       
+       <Image 
+            style={styles.imggeo2}
+            source={require('../../assets/figuraGeometrica2.png')}/>
    </View>
   );
 }
 
     const styles = StyleSheet.create({
-        container:{
+        main:{
             flex: 1,
+            backgroundColor:'#fff',
+            flexDirection:'column', 
+            overflow:'hidden',
+        },
+        container:{
+            flex:1,
             justifyContent:'center',
-            alignItems:'center',
-            backgroundColor:'#fff'
+            alignItems:'center'
         },
         img:{
-            width: 250,
-            height: 250
+            width: 290,
+            height: 290
         },
         texto:{
             fontSize:18,
@@ -48,8 +63,23 @@ export default function Entrar({navigation}) {
         textoBotao:{
             textAlign:'center',
             fontSize:25,
-            fontWeight:'bold',
+            fontWeight:'800',
             color:'#fff',
             letterSpacing:2
+        },
+        imggeo:{
+            width: 250,
+            height: 250,
+            alignSelf:'flex-start',
+            top:0,
+            marginTop:-80,
+            marginLeft:-80
+        },
+        imggeo2:{
+            width: 250,
+            height: 250,
+            bottom:-80,
+            right:-80,
+            alignSelf:'flex-end',
         },
     });

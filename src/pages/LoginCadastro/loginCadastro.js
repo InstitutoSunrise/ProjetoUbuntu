@@ -41,15 +41,15 @@ export default function LoginCadastro({navigation}) {
         },
         botao:{
             backgroundColor:'rgb(14, 82, 178)',
-            width:200,
-            padding:12,
-            borderRadius:30,
+            width:250,
+            paddingVertical: 18,
+            borderRadius:35,
             margin:10
         },
         textoBotao:{
             textAlign:'center',
             fontSize:25,
-            fontWeight:'bold',
+            fontWeight:'800',
             color:'#fff',
             letterSpacing:2
         },

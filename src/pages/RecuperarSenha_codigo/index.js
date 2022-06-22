@@ -15,7 +15,9 @@ export default function RecuperarSenha_Codigo() {
 
             <Text style={estilos.Subtitulo}>ENVIAMOS UM CÓDIGO DE 6 DÍGITOS PARA: {email} OU {numeroTel}</Text>
 
-            <InputCodigos></InputCodigos> 
+            <View>
+                <InputCodigos></InputCodigos> 
+            </View>
 
             <TouchableOpacity style={estilos.botaoContinuar}>
                 <Text style={estilos.textBotao}>CONTINUAR</Text>
@@ -43,7 +45,7 @@ export default function RecuperarSenha_Codigo() {
             marginTop: 100,
             marginBottom: 10,
             textAlign: 'center',
-            fontWeight: 700,
+            fontWeight: '700',
         },
         Subtitulo:{
             width: '80%',
@@ -53,26 +55,26 @@ export default function RecuperarSenha_Codigo() {
         },
         textBotao:{
             fontSize: 23,
-            fontWeight: 700,
+            fontWeight: '800',
             color: '#fff',
             marginBottom: 2
         },
         botaoContinuar:{
-            paddingBottom: 10,
-            paddingTop: 10,
-            paddingRight: 32,
-            paddingLeft: 32,        
+            paddingVertical: 10,
+            paddingHorizontal: 40,      
             backgroundColor: "#0e52b2",
             borderRadius: 100,
             justifyContent: "center",
             marginBottom: 3,
+            marginTop: 230,
         },
         reenviar:{
             width: "50%",
-            marginBottom: 100
+            marginBottom: 100,
+            marginTop: 3,
         },
         reenviarText:{
-            fontSize: 14.5,
+            fontSize: 15,
             color: "#0c4a86",
             textAlign: "center",
             textDecorationLine: "underline",

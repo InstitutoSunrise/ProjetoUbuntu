@@ -1,6 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text } from 'react-native';
-import { TouchableOpacity } from 'react-native-web';
+import {StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 export default function RecuperarSenha() {
     return (
@@ -14,8 +13,6 @@ export default function RecuperarSenha() {
           <TouchableOpacity style={estilos.Botoes}>
               <Text style={estilos.BotoesText}>RECEBER CODIGO PELO E-MAIL</Text>
           </TouchableOpacity>
-
-
       </View>
      );
    }
@@ -31,21 +28,21 @@ const estilos = StyleSheet.create({
         width: '100%',
         fontSize:35,
         color: '#38b6ff',
-        marginTop: 100,
+        marginTop: 125,
         marginBottom: 20,
         textAlign: 'center',
-        fontWeight: 700,
+        fontWeight: '700',
     },
     SubTitulo:{
-        width: '70%',
+        width: '75%',
         marginBottom: 60,
         textAlign: 'center',
         fontSize: 14.5,        
     },
     Botoes:{
-        padding: 25 ,
+        width: '85%',
+        paddingVertical: 25,
         textAlign: 'center',
-        fontWeight: 'bold',
         alignContent: 'center',
         backgroundColor: '#e8eaea',
         marginBottom: 25,
@@ -54,6 +51,6 @@ const estilos = StyleSheet.create({
     BotoesText:{
         textAlign: 'center',
         fontSize: 16.5,
-        fontWeight: 'bold',
+        fontWeight: '700',
     }
 });

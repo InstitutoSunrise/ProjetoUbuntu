@@ -1,26 +1,26 @@
 import React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import { TextInput } from 'react-native-web';
-
+import { View, StyleSheet, Text, TouchableOpacity, TextInput} from 'react-native';
 
 export default function RedefinirSenha() {
  return (
    <View style={estilos.container}>
     <Text style={estilos.Titulo}>REDEFINIR SENHA</Text>
 
-    <TextInput
-     style={estilos.inputsContainer}
-     placeholder={"DIGITE SUA NOVA SENHA"}
-     placeholderTextColor={"#545454"}
-     secureTextEntry={true}
-    />
+    <View style={estilos.inputsContainer}>
+        <TextInput
+        style={estilos.inputs}
+        placeholder={"DIGITE SUA NOVA SENHA"}
+        placeholderTextColor={"#545454"}
+        secureTextEntry={true}
+        />
 
-    <TextInput
-     style={estilos.inputsContainer}
-     placeholder={"CONFIRME SUA SENHA"}
-     placeholderTextColor={"#545454"}
-     secureTextEntry={true}
-    />
+        <TextInput
+        style={estilos.inputs}
+        placeholder={"CONFIRME SUA SENHA"}
+        placeholderTextColor={"#545454"}
+        secureTextEntry={true}
+        />
+    </View>
 
     <TouchableOpacity style={estilos.botaoContinuar}>
         <Text style={estilos.textBotao}>CONTINUAR</Text>
@@ -41,12 +41,12 @@ const estilos = StyleSheet.create({
         width: '90%',
         fontSize: 35,
         color: '#38b6ff',
-        marginTop: 100,
-        marginBottom: 140,
+        marginTop: 120,
         textAlign: 'center',
-        fontWeight: 700,
+        fontWeight: '700',
+        marginBottom: -45,
     },
-    inputsContainer:{
+    inputs:{
         width: '80%',
         height: 52,
         backgroundColor: '#ebeff1',
@@ -55,20 +55,23 @@ const estilos = StyleSheet.create({
         textAlign: "left",
         paddingLeft: 20,
     },
+    inputsContainer:{
+        width: '100%',
+        marginVertical: 150,
+        alignItems: 'center',
+    },
     textBotao:{
         fontSize: 23,
-        fontWeight: 700,
+        fontWeight: '800',
         color: '#fff',
         marginBottom: 2
     },
     botaoContinuar:{
-        paddingBottom: 10,
-        paddingTop: 10,
-        paddingRight: 32,
-        paddingLeft: 32,        
+        paddingVertical: 10,
+        paddingHorizontal: 40,      
         backgroundColor: "#0e52b2",
         borderRadius: 100,
         justifyContent: "center",
-        marginTop: 230,
+
     },
 })
