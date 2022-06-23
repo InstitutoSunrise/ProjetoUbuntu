@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, } from 'react-native';
-
+import Backbutton from '../../components/backbutton/backbutton';
 import InputCodigos from '../../components/inputCodigos';
 
-export default function RecuperarSenha_Codigo() {
+export default function RecuperarSenha_Codigo({navigation}) {
 
     //declarando variáveis apenas para teste de frontend, depois colocar em funções requisitando bd
     const [email, setEmail] = useState("issoeumteste@gmail.com"); 
@@ -11,6 +11,7 @@ export default function RecuperarSenha_Codigo() {
 
     return (
         <View style={estilos.Container}>
+            <Backbutton onClick={() => navigation.goBack()}/>
             <Text style={estilos.Titulo}>DIGITE O CÓDIGO</Text>
 
             <Text style={estilos.Subtitulo}>ENVIAMOS UM CÓDIGO DE 6 DÍGITOS PARA: {email} OU {numeroTel}</Text>
@@ -19,7 +20,10 @@ export default function RecuperarSenha_Codigo() {
                 <InputCodigos></InputCodigos> 
             </View>
 
-            <TouchableOpacity style={estilos.botaoContinuar}>
+            <TouchableOpacity 
+            style={estilos.botaoContinuar}
+            onPress={() => navigation.navigate('RedefinirSenha')}
+            >
                 <Text style={estilos.textBotao}>CONTINUAR</Text>
             </TouchableOpacity>
 
@@ -34,15 +38,14 @@ export default function RecuperarSenha_Codigo() {
     const estilos = StyleSheet.create({
         Container:{
             flex: 1,
-            width: '100%',
             backgroundColor: '#fff',
             alignItems: 'center',
         },
         Titulo:{
             width: '100%',
-            fontSize: 30,
+            fontSize: 35,
             color: '#38b6ff',
-            marginTop: 100,
+            marginTop: 30,
             marginBottom: 10,
             textAlign: 'center',
             fontWeight: '700',

@@ -7,12 +7,14 @@ export default function Login({navigation}) {
  return (
    <View style={styles.container}>
     <Backbutton onClick={() => navigation.goBack()}/>
-    <View style={styles.container2}>
         <Text style={styles.titulo}>LOGIN</Text>
         <TextInput style={styles.input} placeholder='ENTRE COM O SEU EMAIL'></TextInput>
         <TextInput style={styles.input} placeholder='ENTRE COM A SUA SENHA'></TextInput>
         
-        <TouchableOpacity style={styles.esqueceu}>
+        <TouchableOpacity 
+        style={styles.esqueceu}
+        onPress={() => navigation.navigate('RecuperarSenha')}
+        >
         <Text style={styles.textoEsqueceu}>ESQUECEU A SENHA?</Text>
         </TouchableOpacity>
         
@@ -25,7 +27,6 @@ export default function Login({navigation}) {
 
         <Text style={styles.texto}>AINDA NÃO CRIOU A SUA CONTA? 
         <TouchableOpacity style={styles.span}> CLIQUE AQUI</TouchableOpacity> PARA SE CADASTRAR</Text>
-    </View>
    </View>
   );
 }
@@ -36,22 +37,16 @@ const styles = StyleSheet.create({
         alignItems:'center',
         backgroundColor:'#fff',
     },
-    container2:{
-        justifyContent:'center',
-        alignItems:'center',
-        backgroundColor:'#fff',
-        flex: 1
-    },
     titulo:{
         fontSize:50,
         fontWeight:'bold',
         color:'#38B6FF',
-        marginTop: -180,
+        marginTop: 30,
     },
     input:{
         width:'80%',
         marginTop:15,
-        backgroundColor:'lightgrey',
+        backgroundColor:'#e8eaea',
         paddingVertical: 16,
         paddingHorizontal: 25,
         borderRadius:30,

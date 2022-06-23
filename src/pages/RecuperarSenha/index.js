@@ -1,17 +1,26 @@
 import React from 'react';
 import {StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import Backbutton from '../../components/backbutton/backbutton';
 
-export default function RecuperarSenha() {
+export default function RecuperarSenha({navigation}) {
     return (
       <View style={estilos.Container}>
+            
+        <Backbutton onClick={() => navigation.goBack()}/>
           <Text style={estilos.Titulo}>RECUPERAR SENHA</Text>
           <Text style={estilos.SubTitulo}>ESCOLHA COMO VOCÊ QUER RECEBER O CÓDIGO PARA REDIFINIR SUA SENHA:</Text>
 
-          <TouchableOpacity style={estilos.Botoes}>
-              <Text style={estilos.BotoesText}>RECEBER CODIGO PELO TELEFONE </Text>
+          <TouchableOpacity 
+            style={estilos.Botoes}
+            onPress={() => navigation.navigate('RecuperarSenha_Codigo')}
+            >
+            <Text style={estilos.BotoesText}>RECEBER CODIGO PELO TELEFONE </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={estilos.Botoes}>
-              <Text style={estilos.BotoesText}>RECEBER CODIGO PELO E-MAIL</Text>
+          <TouchableOpacity 
+            style={estilos.Botoes}
+            onPress={() => navigation.navigate('RecuperarSenha_Codigo')}
+          >
+            <Text style={estilos.BotoesText}>RECEBER CODIGO PELO E-MAIL</Text>
           </TouchableOpacity>
       </View>
      );
@@ -28,7 +37,7 @@ const estilos = StyleSheet.create({
         width: '100%',
         fontSize:35,
         color: '#38b6ff',
-        marginTop: 125,
+        marginTop: 30,
         marginBottom: 20,
         textAlign: 'center',
         fontWeight: '700',

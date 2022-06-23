@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, TextInput} from 'react-native';
 
-export default function RedefinirSenha() {
+export default function RedefinirSenha({navigation}) {
  return (
    <View style={estilos.container}>
     <Text style={estilos.Titulo}>REDEFINIR SENHA</Text>
@@ -22,7 +22,10 @@ export default function RedefinirSenha() {
         />
     </View>
 
-    <TouchableOpacity style={estilos.botaoContinuar}>
+    <TouchableOpacity 
+    style={estilos.botaoContinuar}
+    onPress={() => navigation.navigate('Login')}
+    >
         <Text style={estilos.textBotao}>CONTINUAR</Text>
     </TouchableOpacity>
 

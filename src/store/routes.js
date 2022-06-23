@@ -8,11 +8,16 @@ import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 
-import Home from '../pages/Home/index';
-import Exemplo from '../pages/Exemplos/index';
+
 import Entrar from '../pages/Entrar/Entrar';
 import LoginCadastro from '../pages/LoginCadastro/loginCadastro';
 import Login from '../pages/Login/Login';
+import Home from '../pages/Home/index';
+import RecuperarSenha from '../pages/RecuperarSenha/index';
+import RecuperarSenha_codigo from '../pages/RecuperarSenha_codigo/index';
+import RedefinirSenha from '../pages/RedefinirSenha/index';
+import EscolherTipoLogin from '../pages/EscolherTipoLogin/index';
+import Exemplo from '../pages/Exemplos/index';
 
 
 const Stack = createNativeStackNavigator();
@@ -129,6 +134,34 @@ export default function Routes({navigation}) {
             <Stack.Screen 
             name="Login" 
             component={Login} 
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen 
+            name="RecuperarSenha" 
+            component={RecuperarSenha} 
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen 
+            name="RecuperarSenha_Codigo" 
+            component={RecuperarSenha_codigo} 
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen 
+            name="RedefinirSenha" 
+            component={RedefinirSenha} 
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen 
+            name="EscolherTipoLogin" 
+            component={EscolherTipoLogin} 
             options={{
                 headerShown:false,
             }}

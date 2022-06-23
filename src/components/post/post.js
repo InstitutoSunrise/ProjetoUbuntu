@@ -29,7 +29,7 @@ export default function post() {
 
 const styles = StyleSheet.create({
     card:{
-        backgroundColor:'lightgrey',
+        backgroundColor:'#e8eaea',
         width:'90%',
         height:240,
         borderRadius:8,
@@ -37,14 +37,13 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'space-between',
         marginVertical:10,
-        borderColor:'#38B6FF',
-        borderWidth:2
+        // borderColor:'#38B6FF',
+        // borderWidth:2
     },
     userDatail:{
         width:'100%',
         flexDirection:'row',
         alignItems:'center',
-        // marginBottom:10
     },
     userText:{
         alignItems:'center',

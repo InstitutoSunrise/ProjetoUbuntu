@@ -1,42 +1,61 @@
 import React from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
+import Backbutton from '../../components/backbutton/backbutton';
 
-
-export default function EscolherTipoLogin() {
+export default function EscolherTipoLogin({navigation}) {
  return (
-   <View style={estilos.container}>
-        <Image
-        style={estilos.imagem}
-        source={require('../../assets/escolherTipo_.png')}
-        />
+    <View style={estilos.main}>
+        <Backbutton onClick={() => navigation.goBack()}/>
+        {/* <Image 
+            style={estilos.imggeo}
+            source={require('../../assets/figuraGeometrica.png')}/> */}
 
-        <Text style={estilos.descricao}>
-            PARA SE CADASTRAR, PRECISAMOS SABER SE VOCÊ É UMA INSTITUIÇÃO OU PESSOA FÍSICA? 
-        </Text>
+        <View style={estilos.container}>
 
-        <TouchableOpacity style={estilos.botao}>
-            <Text style={estilos.textBotao}>PESSOA FISICA</Text>
-        </TouchableOpacity>
+            <Image
+            style={estilos.imagem}
+            source={require('../../assets/escolherTipo_.png')}
+            />
 
-        <TouchableOpacity style={estilos.botao}>
-            <Text style={estilos.textBotao}>INSTITUIÇÃO</Text>
-        </TouchableOpacity>
+            <Text style={estilos.descricao}>
+                PARA SE CADASTRAR, PRECISAMOS SABER SE VOCÊ É UMA INSTITUIÇÃO OU PESSOA FÍSICA? 
+            </Text>
+
+            <TouchableOpacity style={estilos.botao}>
+                <Text style={estilos.textBotao}>PESSOA FISICA</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={estilos.botao}>
+                <Text style={estilos.textBotao}>INSTITUIÇÃO</Text>
+            </TouchableOpacity>
+    
+        </View>
+
+        <Image 
+            style={estilos.imggeo2}
+            source={require('../../assets/figuraGeometrica2.png')}/>
+
+    </View>
    
-   </View>
   );
 }
 
 const estilos = StyleSheet.create({
-    container:{
+    main:{
         flex: 1,
-        width: '100%',
-        backgroundColor: '#fff',
-        alignItems: 'center',
+        backgroundColor:'#fff',
+        flexDirection:'column', 
+        overflow:'hidden',
+    },
+    container:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center'
     },
     imagem:{
         height: 300,
         width: 300,
-        marginTop: 70
+        marginTop:30
     },
     descricao:{
         width: '85%',
@@ -60,5 +79,20 @@ const estilos = StyleSheet.create({
         color: '#fff',
         textAlign: 'center',
         marginBottom:5
-    }
-})
+    },
+    imggeo:{
+        width: 250,
+        height: 250,
+        alignSelf:'flex-start',
+        top:0,
+        marginTop:-80,
+        marginLeft:-80
+    },
+    imggeo2:{
+        width: 250,
+        height: 250,
+        bottom:-80,
+        right:-80,
+        alignSelf:'flex-end',
+    },
+});
