@@ -18,7 +18,8 @@ import RecuperarSenha_codigo from '../pages/RecuperarSenha_codigo/index';
 import RedefinirSenha from '../pages/RedefinirSenha/index';
 import EscolherTipoLogin from '../pages/EscolherTipoLogin/index';
 import Exemplo from '../pages/Exemplos/index';
-
+import MapaSolidariedade from '../pages/MapaSolidariedade';
+import DentroMapa from '../pages/DentroMapa';
 
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
@@ -84,7 +85,7 @@ function tabs(){
             />
             <Tabs.Screen 
             name='Locate' 
-            component={Exemplo}
+            component={MapaSolidariedade}
             options={{
                 tabBarIcon:({size,color}) => (
                     <Ionicons name="location-sharp" size={size} color={color} />
@@ -108,7 +109,7 @@ function tabs(){
 export default function Routes({navigation}) {
  return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName='Entrar'>
+        <Stack.Navigator initialRouteName='home'>
             <Stack.Screen 
             name="Home" 
             component={tabs} 
@@ -162,6 +163,13 @@ export default function Routes({navigation}) {
             <Stack.Screen 
             name="EscolherTipoLogin" 
             component={EscolherTipoLogin} 
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen
+            name="DentroMapa"
+            component={DentroMapa}
             options={{
                 headerShown:false,
             }}
