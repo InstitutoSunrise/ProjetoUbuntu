@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet} from 'react-native';
-import Backbutton from '../../components/backbutton/backbutton';
+import Backbutton from '../../components/Backbutton';
 
 
 export default function Login({navigation}) {

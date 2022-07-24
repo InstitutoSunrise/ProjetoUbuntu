@@ -11,9 +11,9 @@ export default function backbutton({onClick}) {
             <Ionicons 
                 name="md-arrow-undo-sharp" 
                 size={25} 
-                color="rgb(14, 82, 178)"
+                color="#0e52b2"
                 />
-            <Text style={styles.texto}>Voltar</Text>
+            <Text style={styles.texto}>VOLTAR</Text>
         </TouchableOpacity>
    </View>
   );
@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
     texto:{
         fontSize:18,
         fontWeight:'bold',
-        color:'rgb(14, 82, 178)',
+        color:'#0e52b2',
         marginLeft: 10,
+        letterSpacing:2
     },
 });

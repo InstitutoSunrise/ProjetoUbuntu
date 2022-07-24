@@ -10,7 +10,7 @@ export default function post() {
             <FontAwesome 
                 name="user-circle-o" 
                 size={45} 
-                color="rgb(14, 82, 178)"
+                color="#0e52b2"
             />
             <View style={styles.userText}>
                 <Text style={styles.name}>Danillo Main</Text>
@@ -54,12 +54,12 @@ const styles = StyleSheet.create({
     name:{
         fontSize: 20,
         fontWeight: 'bold',
-        color:'rgb(14, 82, 178)'
+        color:'#0e52b2'
     },
     cidade:{
         fontSize:15,
         fontWeight:'bold',
-        color:'rgb(14, 82, 178)',
+        color:'#0e52b2',
     },
     description:{
         fontSize:16,

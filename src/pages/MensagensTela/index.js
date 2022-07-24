@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity} from 'react-native';
 
-import UserImg from '../../../assets/userImgs/icon.png';
 const Messages = [
     {
       id: '1',
@@ -124,7 +123,7 @@ export default function MensagemTela({navigation}) {
       },
       userName:{
         fontSize:20,
-        color: 'rgb(14, 82, 178)',
+        color: '#0c4a86',
       },
       dataHora:{
         fontSize: 13,

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import routes from './src/store/routes'
+import Routes from './src/store/routes'
 
 export default function App() {
   return (

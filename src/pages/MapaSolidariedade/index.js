@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function MapaSolidariedade({navigation}) {
  return (
@@ -13,7 +14,7 @@ export default function MapaSolidariedade({navigation}) {
     </TouchableOpacity>
 
     <View style={styles.descContainer}>
-        <Image source={'https://icons-for-free.com/iconfiles/png/512/svg+map+map+pin+marker+pin+icon-1320184912273635197.png'} style={styles.descIcon}/>
+        <FontAwesome name="map-marker" size={30} color="#0e52b2" />
         <Text style={styles.descText}>CLIQUE NO MAPA</Text>
     </View>
    
@@ -25,6 +26,7 @@ container:{
     flex: 1,
     alignItems: 'center',
     width: '100%',
+    backgroundColor: '#fff',
 },
 titulo:{
     width: '90%',
@@ -58,14 +60,11 @@ descContainer:{
     alignItems: 'center',
     marginRight: 10
 },
-descIcon:{
-    width: 30,
-    height: 30,
-},
 descText:{
     textAlign: 'center',
     color: '#0e52B2',
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: 'bold',
+    marginLeft: 5
 },
 })

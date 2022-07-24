@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, Text, TextInput, Button } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, Text, TextInput,  ScrollView  } from 'react-native';
 
 import Checkbox from 'expo-checkbox';
 import * as ImagePicker from 'expo-image-picker';
 
-import Backbutton from '../../components/backbutton/backbutton';
+import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function Publicar({navigation}) {
 
@@ -28,33 +28,26 @@ export default function Publicar({navigation}) {
         quality: 1,
         });
 
-        // console.log(result);
-
         if (!result.cancelled) {
             setCount(() => (count + 1))
             
             setImage(oldArray => [...oldArray, result.uri]);
-            // console.log("teste número" + count, image, )
     };
-    // console.log("teste número" + count, image, )
 }
 
 
  return (
    <View style={styles.container}>
 
-    <View style={styles.containerBackFoto}>
-        <Backbutton onClick={() => navigation.goBack()}/>
+    <ScrollView contentContainerStyle={{alignItems:'center',width:'100%'}}>
 
         <TouchableOpacity style={styles.containerFoto}>
-            <Image
-                style={styles.fotoPerfil}
-                source={{
-                uri: 'https://cdn.icon-icons.com/icons2/2506/PNG/512/user_icon_150670.png',
-                }}
+            <FontAwesome 
+                name="user-circle-o" 
+                size={65} 
+                color="#0e52b2"
             />
         </TouchableOpacity>
-    </View>
 
     <View style={styles.checkBoxesContainer}>
         <Text style={styles.textoCheckBox}>Você está recebendo ou doando?</Text>
@@ -110,7 +103,12 @@ export default function Publicar({navigation}) {
     
     <View style={styles.imgPickerContainer}>
     <TouchableOpacity style={styles.touchable} onPress={pickImage}>
-       <Image source={{uri: 'https://static.thenounproject.com/png/3322766-200.png'}} style={styles.imgPickerImage}/>
+       {/* <Image source={{uri: 'https://static.thenounproject.com/png/3322766-200.png'}} style={styles.imgPickerImage}/> */}
+       <MaterialCommunityIcons 
+        name="file-image-plus" 
+        size={55} 
+        color='#0e52b2'
+         />
        <Text style={styles.imgPickerTitle}>ADICIONAR IMAGENS</Text> 
     </TouchableOpacity>
         {image && <Image source={{ uri: image[0] }} style={styles.imgPicker} />}
@@ -122,31 +120,24 @@ export default function Publicar({navigation}) {
         <Text style={styles.btnPublicarTexto}>PUBLICAR</Text>
     </TouchableOpacity>
 
+    </ScrollView>
    </View>
   );
 }
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        alignItems: 'center',
         width: '100%',
-    },
-    containerBackFoto:{
-        flexDirection: 'row',
-        marginTop: 30,
-        marginBottom: 17,
-        width: '90%',
+        backgroundColor: '#fff'
     },
     containerFoto:{
-        width: 70,
-        height: 70,
+        width: 65,
+        height: 65,
         alignItems: 'center',
+        alignSelf: 'flex-end',
         borderStyle: 'solid',
-        borderWidth: 1,
-        borderRadius: 100,
-        borderColor: '#0e52B2',
         marginBottom: 10,
-        marginLeft: -80,
+        marginTop: 15,  
     },
     fotoPerfil:{
         height: '90%',
@@ -237,6 +228,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#0e52B2',
         borderRadius: 60,
         marginTop: 25,
+        marginBottom:15,
     },
     btnPublicarTexto:{
         fontSize: 25,

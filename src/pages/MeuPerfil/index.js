@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Image, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-import Backbutton from '../../components/backbutton/backbutton';
+import Backbutton from '../../components/Backbutton';
 
 export default function MeuPerfil({navigation}) {
  return (

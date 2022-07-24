@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -20,11 +20,19 @@ import EscolherTipoLogin from '../pages/EscolherTipoLogin/index';
 import Exemplo from '../pages/Exemplos/index';
 import MapaSolidariedade from '../pages/MapaSolidariedade';
 import DentroMapa from '../pages/DentroMapa';
+import MensagensTelas from '../pages/MensagensTela';
+import Mensagem from '../pages/Mensagem';
+import Publicar from '../pages/Publicar';
+import MeuPerfil from '../pages/MeuPerfil';
+import MinhasPubs from '../pages/minhaPubs';
+import Instituicoes from '../pages/Instituicoes/instituicoes';
+import InstituiçoesDetalhes from '../pages/instituiçãoDestalhe/instDetalhes';
+import Notificacao from '../pages/Notificações/notificações';
 
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
 
-function tabs(){
+function tabs({navigation}){
     return(
         <Tabs.Navigator
             screenOptions={{
@@ -34,12 +42,12 @@ function tabs(){
                 tabBarStyle:{
                     paddingBottom:5,
                     paddingTop:5,
-                    backgroundColor: 'rgb(14, 82, 178)',
+                    backgroundColor: '#0e52b2',
                     borderTopColor: 'transparent'
                 },
                 headerTintColor: '#fff',
                 headerStyle:{
-                    backgroundColor: 'rgb(14, 82, 178)',
+                    backgroundColor: '#0e52b2',
                     borderBottomColor: 'transparent',
 
             },
@@ -56,31 +64,35 @@ function tabs(){
                 headerTitle:'Maria Aparecida',
                 headerShown:true,
                 headerLeft: () =>(
-                    <FontAwesome 
-                        name="user-circle-o" 
-                        size={40} 
-                        color="#fff"
-                        style={{marginLeft:25}}
-                    />
+                    <TouchableOpacity onPress={() => navigation.navigate('MeuPerfil')}>
+                        <FontAwesome 
+                            name="user-circle-o" 
+                            size={40} 
+                            color="#fff"
+                            style={{marginLeft:25}}
+                        />
+                    </TouchableOpacity>
               )
             }}
             />
             <Tabs.Screen 
-            name='Exemplo' 
-            component={Exemplo}
+            name='Noticações' 
+            component={Notificacao}
             options={{
                 tabBarIcon:({size,color}) => (
                     <Ionicons name="notifications-sharp" size={size} color={color} />
-                   ),
+                ),
+                headerShown:false
             }}
             />
             <Tabs.Screen 
             name='CreatePost' 
-            component={Exemplo}
+            component={Publicar}
             options={{
                 tabBarIcon:({size,color}) => (
                     <FontAwesome5 name="plus" size={35} color={color} />
-                   ),
+                ),
+                headerShown:false
             }}
             />
             <Tabs.Screen 
@@ -90,15 +102,17 @@ function tabs(){
                 tabBarIcon:({size,color}) => (
                     <Ionicons name="location-sharp" size={size} color={color} />
                    ),
+                   headerShown: false
             }}
             />
             <Tabs.Screen 
             name='Chat' 
-            component={Exemplo}
+            component={MensagensTelas}
             options={{
                 tabBarIcon:({size,color}) => (
                     <Ionicons name="chatbubble-sharp" size={size} color={color}/>
                    ),
+                headerShown:false
             }}
             />
             
@@ -109,7 +123,7 @@ function tabs(){
 export default function Routes({navigation}) {
  return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName='home'>
+        <Stack.Navigator initialRouteName='Entrar'>
             <Stack.Screen 
             name="Home" 
             component={tabs} 
@@ -174,6 +188,40 @@ export default function Routes({navigation}) {
                 headerShown:false,
             }}
             />
+            <Stack.Screen
+            name="Mensagem"
+            component={Mensagem}
+            options={({route}) => ({title: route.params.userName})}
+            />
+            <Stack.Screen
+            name="MeuPerfil"
+            component={MeuPerfil}
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen
+            name="minhasPubs"
+            component={MinhasPubs}
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen
+            name="instituicoes"
+            component={Instituicoes}
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen
+            name="instituiçãoDetalhe"
+            component={InstituiçoesDetalhes}
+            options={{
+                headerShown:false,
+            }}
+            />
+            
         </Stack.Navigator>
     </NavigationContainer>
   );

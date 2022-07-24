@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, FlatList } from 'react-native';
 
 
 import MinhaPublicacao from '../../components/minhaPublicacao';
+import Backbutton from '../../components/Backbutton';
 
 const DATA = [
     {
@@ -29,10 +30,11 @@ const DATA = [
 
 
 
-export default function MinhaPubs() {
+export default function MinhaPubs({navigation}) {
  return (
     
    <View style={styles.container}> 
+   <Backbutton onClick={() => navigation.goBack()}/>
     <Text style={styles.titulo}>
         MINHAS PUBLICAÇÕES
     </Text>
@@ -61,12 +63,13 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         alignItems: 'center',
+        backgroundColor:'#fff'
     },
     titulo:{
         width: '90%',
         fontSize: 40,
         color: '#38b6ff',
-        marginTop: 120,
+        marginTop: 30,
         textAlign: 'center',
         fontWeight: '700',
         marginBottom: 50,

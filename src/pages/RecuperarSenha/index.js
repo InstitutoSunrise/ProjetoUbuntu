@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import Backbutton from '../../components/backbutton/backbutton';
+import Backbutton from '../../components/Backbutton';
 
 export default function RecuperarSenha({navigation}) {
     return (

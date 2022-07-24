@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, } from 'react-native';
-import Backbutton from '../../components/backbutton/backbutton';
+import Backbutton from '../../components/Backbutton';
 import InputCodigos from '../../components/inputCodigos';
 
 export default function RecuperarSenha_Codigo({navigation}) {

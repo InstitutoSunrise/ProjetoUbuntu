@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
-import Backbutton from '../../components/backbutton/backbutton';
-import CarouselCards from '../../components/CarouselCards';
+import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import Backbutton from '../../components/Backbutton/index';
 import { Ionicons } from '@expo/vector-icons';
-import data from '../../../assets/data/data';
+import { FontAwesome } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function instituiçãoDestalhe({navigation}) {
  return (
@@ -41,28 +41,28 @@ export default function instituiçãoDestalhe({navigation}) {
                 <View style={styles.containerFuncao}>
 
                     <View style={styles.funcoesGrid}>
-                        <TouchableOpacity style={styles.btn}>
+                        <View style={styles.btn}>
                             <View style={styles.containerIcon}>
-                                <Ionicons style={styles.icon} name="heart" size={60} color="#fff" />
+                                <FontAwesome name="shower" size={40} color="#fff" />
                             </View>
-                            <Text style={styles.textFuncoes}>NOS AVALIE</Text>
-                        </TouchableOpacity>
+                            <Text style={styles.textFuncoes}>Banho</Text>
+                        </View>
                     </View>
                     <View style={styles.funcoesGrid}>
-                        <TouchableOpacity style={styles.btn}>
+                        <View style={styles.btn}>
                             <View style={styles.containerIcon}>
-                                <Ionicons style={styles.icon} name="heart" size={60} color="#fff" />
+                                <MaterialCommunityIcons name="hand-heart" size={40} color="#fff" />
                             </View>
-                            <Text style={styles.textFuncoes}>NOS AVALIE</Text>
-                        </TouchableOpacity>
+                            <Text style={styles.textFuncoes}>Seja voluntário</Text>
+                        </View>
                     </View>
                     <View style={styles.funcoesGrid}>
-                        <TouchableOpacity style={styles.btn}>
+                        <View style={styles.btn}>
                             <View style={styles.containerIcon}>
-                                <Ionicons style={styles.icon} name="heart" size={60} color="#fff" />
+                                <MaterialCommunityIcons name="silverware-fork-knife" size={40} color="#fff" />
                             </View>
-                            <Text style={styles.textFuncoes}>NOS AVALIE</Text>
-                        </TouchableOpacity>
+                            <Text style={styles.textFuncoes}>alimentação</Text>
+                        </View>
                     </View>
                     
                     
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     },
     info:{
         fontSize:15,
-        color:'rgb(14, 82, 178)',
+        color:'#0c4a86',
         textTransform:'uppercase',
     },
     texto:{
@@ -133,13 +133,15 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         borderRadius: 100,
         backgroundColor: '#0e52B2',
+        padding:5
     },
     textFuncoes:{
         fontSize: 11,
-        color:'#0e52B2',
+        color:'#0c4a86',
         fontWeight: '700',
         letterSpacing: -0.8,
         textAlign: 'center',
+        textTransform:'uppercase',
     },
     containerFuncao:{
         width:'90%',

@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     },
     containerPub:{
         flex: 1,
-        backgroundColor: '#ebeff1',
+        backgroundColor: '#e8eaea',
         width: '80%',
         height: 165,
         marginBottom: 25,

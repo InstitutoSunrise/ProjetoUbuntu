@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import Backbutton from '../../components/backbutton/backbutton';
+import Backbutton from '../../components/Backbutton/index';
 import PostInstituicao from '../../components/postInstituicao/postInstituicao';
 
 export default function Instituicoes({navigation}) {
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     },
     subTitulo:{
         fontSize:17,
-        color:'rgb(14, 82, 178)',
+        color:'#0c4a86',
         textAlign:'center',
         textTransform:'uppercase'
     },

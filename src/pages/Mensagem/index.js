@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image, ScrollVi
 import { GiftedChat, Bubble, Send, scrollToBottom, scrollToBottomComponent} from 'react-native-gifted-chat';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-import Backbuttom from '../../components/backbutton/backbutton'
+import Backbuttom from '../../components/Backbutton'
 
 const Mensagem = () => {
 
@@ -54,7 +54,7 @@ const Mensagem = () => {
             name="send-circle" 
             style={{marginVertical:5,marginHorizontal:5}}
             size={40} 
-            color="rgb(14, 82, 178)"/>
+            color="#0c4a86"/>
           </View>
         </Send>
       );

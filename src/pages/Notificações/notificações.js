@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -11,35 +12,35 @@ export default function Notificações() {
             <Text style={styles.titulo}>NOTIFICAÇÕES</Text>
 
             <View style={styles.box_noti}>
-                <Ionicons style={styles.icon} name="heart-circle" size={70} color="rgb(14, 82, 178)" />
+                <Ionicons style={styles.icon} name="heart-circle" size={55} color="#0e52b2" />
                 <View style={styles.descricao}>
                     <Text style={styles.dataHora}>18:00</Text>
                     <Text style={styles.text}>Descubra novas instituições perto de você! Clique aqui para visualizar.</Text>
                 </View>
             </View>
             <View style={styles.box_noti}>
-                <Ionicons style={styles.icon} name="chatbubble-ellipses" size={70} color="rgb(14, 82, 178)" />
+                <Entypo style={styles.icon} name="chat" size={55} color="#0e52b2" />
                 <View style={styles.descricao}>
                     <Text style={styles.dataHora}>18:00</Text>
                     <Text style={styles.text}>Você recebeu uma nova mensagem. Clique aqui para visualizar.</Text>
                 </View>
             </View>
             <View style={styles.box_noti}>
-                <Ionicons style={styles.icon} name="chatbubble-ellipses" size={70} color="rgb(14, 82, 178)" />
+                <Entypo style={styles.icon} name="chat" size={55} color="#0e52b2" />
                 <View style={styles.descricao}>
                     <Text style={styles.dataHora}>18:00</Text>
                     <Text style={styles.text}>Você recebeu uma nova mensagem. Clique aqui para visualizar.</Text>
                 </View>
             </View>
             <View style={styles.box_noti}>
-                <MaterialIcons name="stars" size={70} color="rgb(10, 82, 178)" />
+                <MaterialIcons name="stars" size={55} color="rgb(10, 82, 178)" />
                 <View style={styles.descricao}>
                     <Text style={styles.dataHora}>18:00</Text>
                     <Text style={styles.text}>Descubra novas instituições perto de você! Clique aqui para visualizar.</Text>
                 </View>
             </View>
             <View style={styles.box_noti}>
-                <Ionicons style={styles.icon} name="chatbubble-ellipses" size={70} color="rgb(14, 82, 178)" />
+                <Entypo style={styles.icon} name="chat" size={55} color="#0e52b2" />
                 <View style={styles.descricao}>
                     <Text style={styles.dataHora}>18:00</Text>
                     <Text style={styles.text}>Você recebeu uma nova mensagem. Clique aqui para visualizar.</Text>
@@ -66,9 +67,9 @@ const styles = StyleSheet.create({
     box_noti:{
         backgroundColor:'#e8eaea',
         width:'90%',
-        height:70,
+        height:85,
         borderRadius:8,
-        paddingHorizontal:5,
+        padding: 5,
         alignItems:'center',
         marginVertical:10,
         flexDirection:'row'
@@ -77,7 +78,8 @@ const styles = StyleSheet.create({
         fontSize:'15',
         textAlign:'left',
         justifyContent:'center',
-        // width:'70%',
+        marginLeft: 5,
+        // width:'55%',
     },
     descricao:{
         width:'75%',
