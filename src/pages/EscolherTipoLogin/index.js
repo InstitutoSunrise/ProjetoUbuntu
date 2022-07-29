@@ -21,11 +21,11 @@ export default function EscolherTipoLogin({navigation}) {
                 PARA SE CADASTRAR, PRECISAMOS SABER SE VOCÊ É UMA INSTITUIÇÃO OU PESSOA FÍSICA? 
             </Text>
 
-            <TouchableOpacity style={estilos.botao}>
+            <TouchableOpacity style={estilos.botao} onPress={() => navigation.navigate('CadastroFisi')}>
                 <Text style={estilos.textBotao}>PESSOA FISICA</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={estilos.botao}>
+            <TouchableOpacity style={estilos.botao} onPress={() => navigation.navigate('CadastroInst1')}>
                 <Text style={estilos.textBotao}>INSTITUIÇÃO</Text>
             </TouchableOpacity>
     

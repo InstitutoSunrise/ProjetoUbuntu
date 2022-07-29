@@ -57,7 +57,7 @@ export default function MensagemTela({navigation}) {
         <View style={styles.container}>
           <Text style={styles.titulo}> Mensagem</Text>
             <FlatList
-                contentContainerStyle={{alignItems:'center',width:'100%'}}
+                contentContainerStyle={{alignItems:'center'}}
                 vertical
                 data={Messages}
                 keyExtractor={item=>item.id}
@@ -88,14 +88,14 @@ export default function MensagemTela({navigation}) {
       container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
       },
       titulo:{
         fontSize:40,
         fontWeight:'bold',
         color:'#38B6FF',
         marginTop: 35,
-        textTransform:'uppercase'
+        textTransform:'uppercase',
+        textAlign:'center'
       },
       containerFlatList:{
         backgroundColor:'#e8eaea',

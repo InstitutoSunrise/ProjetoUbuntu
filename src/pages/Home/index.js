@@ -43,8 +43,6 @@ export default function Home({navigation}) {
       container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        // justifyContent: 'center',
       },
       contanierTitulo:{
         marginVertical:5

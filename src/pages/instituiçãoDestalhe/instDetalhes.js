@@ -1,9 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import Backbutton from '../../components/Backbutton/index';
-import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function instituiçãoDestalhe({navigation}) {
  return (
@@ -51,7 +49,7 @@ export default function instituiçãoDestalhe({navigation}) {
                     <View style={styles.funcoesGrid}>
                         <View style={styles.btn}>
                             <View style={styles.containerIcon}>
-                                <MaterialCommunityIcons name="hand-heart" size={40} color="#fff" />
+                                <FontAwesome name="heart" size={40} color="#fff" />
                             </View>
                             <Text style={styles.textFuncoes}>Seja voluntário</Text>
                         </View>

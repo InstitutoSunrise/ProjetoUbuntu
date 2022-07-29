@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         marginBottom: 10,
         marginTop: 15,  
+        marginRight:30
     },
     fotoPerfil:{
         height: '90%',

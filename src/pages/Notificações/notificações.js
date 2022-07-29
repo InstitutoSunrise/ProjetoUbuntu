@@ -1,8 +1,6 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { Entypo } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
+import {Ionicons, Entypo } from '@expo/vector-icons';
 
 export default function Notificações() {
  return (
@@ -33,7 +31,7 @@ export default function Notificações() {
                 </View>
             </View>
             <View style={styles.box_noti}>
-                <MaterialIcons name="stars" size={55} color="rgb(10, 82, 178)" />
+                <Entypo name="star" size={55} color="#0e52b2" />
                 <View style={styles.descricao}>
                     <Text style={styles.dataHora}>18:00</Text>
                     <Text style={styles.text}>Descubra novas instituições perto de você! Clique aqui para visualizar.</Text>

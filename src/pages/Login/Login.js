@@ -26,7 +26,7 @@ export default function Login({navigation}) {
         </TouchableOpacity>
 
         <Text style={styles.texto}>AINDA NÃO CRIOU A SUA CONTA? 
-        <TouchableOpacity style={styles.span}> CLIQUE AQUI</TouchableOpacity> PARA SE CADASTRAR</Text>
+        <TouchableOpacity style={{alignItems:'center',justifyContent:'center'}}><Text style={styles.span}>CLIQUE AQUI</Text></TouchableOpacity> PARA SE CADASTRAR</Text>
    </View>
   );
 }

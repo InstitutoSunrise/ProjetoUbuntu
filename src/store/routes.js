@@ -28,6 +28,10 @@ import MinhasPubs from '../pages/minhaPubs';
 import Instituicoes from '../pages/Instituicoes/instituicoes';
 import InstituiçoesDetalhes from '../pages/instituiçãoDestalhe/instDetalhes';
 import Notificacao from '../pages/Notificações/notificações';
+import CadastroFisi from '../pages/CadastroFisi/CadastroFisi';
+import CadastroInst1 from '../pages/CadastroInst1/CadastroInst1';
+import CadastroInst2 from'../pages/CadastroInst2/CadastroInst2';
+import AdicionarFoto from '../pages/AdicionarFoto/AdiconarFoto';
 
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
@@ -217,6 +221,34 @@ export default function Routes({navigation}) {
             <Stack.Screen
             name="instituiçãoDetalhe"
             component={InstituiçoesDetalhes}
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen
+            name="CadastroFisi"
+            component={CadastroFisi}
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen
+            name="AdicionarFoto"
+            component={AdicionarFoto}
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen
+            name="CadastroInst1"
+            component={CadastroInst1}
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen
+            name="CadastroInst2"
+            component={CadastroInst2}
             options={{
                 headerShown:false,
             }}

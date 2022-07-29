@@ -1,15 +1,18 @@
 import React from 'react';
 
-import { Image, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, Text, View, StyleSheet, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
+
 import Backbutton from '../../components/Backbutton';
 
 export default function MeuPerfil({navigation}) {
  return (
    <View style={styles.container}>
 
-    <View style={{marginTop: 10, alignSelf: 'flex-start'}}>
-        <Backbutton onClick={() => navigation.goBack()}/>
-    </View>
+    <StatusBar barStyle="dark-content" backgroundColor="#0e52b2"/>
+    <ScrollView contentContainerStyle={{alignItems:'center',width:'100%'}}>
+
+            <Backbutton onClick={() => navigation.goBack()}/>
 
     <Text style={styles.titulo}>MEU PERFIL</Text>
 
@@ -44,62 +47,43 @@ export default function MeuPerfil({navigation}) {
     </View>
 
     <View style={styles.funcoesContainer}>
-        <View style={styles.funcoesGrid}>
-            <TouchableOpacity>
-                <View style={styles.funcoesIconContainer}>
-                    <Image
-                    style={styles.funcoesIcon}
-                    source={{
-                    uri: 'https://cdn-icons-png.flaticon.com/512/1345/1345823.png',
-                    }}
-                    />
-                </View>
-                <Text style={styles.funcoesTitle}>EXCLUIR CONTA</Text>
-            </TouchableOpacity>
-        </View>
-
-        <View style={styles.funcoesGrid}>
-            <TouchableOpacity>
-                <View style={styles.funcoesIconContainer}>
-                    <Image
-                        style={styles.funcoesIcon}
-                        source={{
-                        uri: 'https://cdn.icon-icons.com/icons2/2768/PNG/512/star_icon_176624.png',
-                        }}
-                    />
-                </View>
-                <Text style={styles.funcoesTitle}>MINHAS PUBLICAÇÕES</Text>
+            <View style={styles.funcoesGrid}>
+                <TouchableOpacity style={styles.btn}>
+                    <View style={styles.funcoesIconContainer}>
+                        <Ionicons name="trash" size={40} color="#fff" />
+                    </View>
+                    <Text style={styles.funcoesTitle}>EXCLUIR CONTA</Text>
                 </TouchableOpacity>
-        </View>
+            </View>
 
-        <View style={styles.funcoesGrid}>
-            <TouchableOpacity>
-                <View style={styles.funcoesIconContainer}>
-                    <Image
-                        style={styles.funcoesIcon}
-                        source={{
-                        uri: 'https://icon-library.com/images/settings-icon/settings-icon-1.jpg',
-                        }}
-                    />
-                </View>
-                <Text style={styles.funcoesTitle}>CONFIGURAÇÕES</Text>
-            </TouchableOpacity>
+            <View style={styles.funcoesGrid}>
+                <TouchableOpacity style={styles.btn}>
+                    <View style={styles.funcoesIconContainer}>
+                        <Ionicons name="create" size={40} color="#fff" />
+                    </View>
+                    <Text style={styles.funcoesTitle}>MINHAS PUBLICAÇÕES</Text>
+                    </TouchableOpacity>
+            </View>
+
+            <View style={styles.funcoesGrid}>
+                <TouchableOpacity style={styles.btn}>
+                    <View style={styles.funcoesIconContainer}>
+                        <Ionicons name="settings" size={40} color="#fff" />
+                    </View>
+                    <Text style={styles.funcoesTitle}>CONFIGURAÇÕES</Text>
+                </TouchableOpacity>
+            </View>
+            
+            <View style={styles.funcoesGrid}>
+                <TouchableOpacity style={styles.btn}>
+                    <View style={styles.funcoesIconContainer}>
+                        <Ionicons name="ios-star" size={40} color="#fff" />
+                    </View>
+                    <Text style={styles.funcoesTitle}>NOS AVALIE</Text>
+                </TouchableOpacity>
+            </View>
         </View>
-        
-        <View style={styles.funcoesGrid}>
-            <TouchableOpacity>
-                <View style={styles.funcoesIconContainer}>
-                    <Image
-                        style={styles.funcoesIcon}
-                        source={{
-                        uri: 'https://cdn-icons-png.flaticon.com/512/4087/4087743.png',
-                        }}
-                    />
-                </View>
-                <Text style={styles.funcoesTitle}>NOS AVALIE</Text>
-            </TouchableOpacity>
-        </View>
-    </View>
+    </ScrollView>
    </View>
   );
 }
@@ -108,7 +92,7 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         alignItems: 'center',
-        width: '100%',
+        backgroundColor:'#fff'
     },
     titulo:{
         width: '90%',
@@ -180,32 +164,32 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         marginTop: 65,
+        justifyContent:'space-between'
     },
     funcoesGrid:{
         flexDirection: 'column',
         alignContent:'space-between',
         textAlign: 'center',
         width: '23%',
-        marginLeft: 5,
     },
     funcoesIconContainer:{
         width: 75,
         height: 75,
         alignItems: 'center',
+        justifyContent:'center',
         borderRadius: 100,
         backgroundColor: '#0e52B2',
-    },
-    funcoesIcon:{
-        width: '60%',
-        height: '60%',
-        marginTop: 15
+        padding:5
     },
     funcoesTitle:{
-        width: '90%',
         fontSize: 11,
-        color:'#0e52B2',
+        color:'#0c4a86',
         fontWeight: '700',
         letterSpacing: -0.8,
         textAlign: 'center',
+        textTransform:'uppercase',
+    },
+    btn:{
+        alignItems:'center'
     }
 })
