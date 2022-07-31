@@ -9,7 +9,7 @@ export default function Entrar({navigation}) {
             source={require('../../assets/figuraGeometrica.png')}/>
 
        <View style={styles.container}>
-            <StatusBar barStyle="dark-content" backgroundColor="rgb(14, 82, 178)"/>
+            <StatusBar barStyle="dark-content" backgroundColor="#0e52b2"/>
 
             <Image 
             style={styles.img}
@@ -46,7 +46,8 @@ export default function Entrar({navigation}) {
         },
         img:{
             width: 290,
-            height: 290
+            height: 290,
+            marginTop:50
         },
         texto:{
             fontSize:18,

@@ -1,12 +1,17 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity,Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity,Text, StatusBar } from 'react-native';
 
-export default function Configuracoes() {
+import Backbutton from '../../components/Backbutton';
+
+export default function Configuracoes({navigation}) {
  return (
    <View style={styles.container}>
+    <StatusBar barStyle="dark-content" backgroundColor="#0e52b2"/>
+    <Backbutton onClick={() => navigation.goBack()}/>
 
         <Text style={styles.titulo}>CONFIGURAÇÕES</Text>
-        <TouchableOpacity style={styles.btn}>
+
+        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SobreApp')}>
             <Text style={styles.btnText}>SOBRE O APP</Text>
         </TouchableOpacity>
 
@@ -25,16 +30,15 @@ const styles = StyleSheet.create({
 container:{
     flex: 1,
     alignItems: 'center',
-    width: '100%',
+    backgroundColor:'#fff'
 },
 titulo:{
-    width: '90%',
-    fontSize: 35,
-    color: '#38b6ff',
-    marginTop: 120,
-    textAlign: 'center',
-    fontWeight: '700',
-    marginBottom: 50,
+    fontSize:35,
+    fontWeight:'bold',
+    color:'#38B6FF',
+    marginTop: 30,
+    textTransform:'uppercase',
+    marginBottom:50
 },
 btn:{
     height: '9%',

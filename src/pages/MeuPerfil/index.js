@@ -57,7 +57,7 @@ export default function MeuPerfil({navigation}) {
             </View>
 
             <View style={styles.funcoesGrid}>
-                <TouchableOpacity style={styles.btn}>
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('minhasPubs')}>
                     <View style={styles.funcoesIconContainer}>
                         <Ionicons name="create" size={40} color="#fff" />
                     </View>
@@ -66,7 +66,7 @@ export default function MeuPerfil({navigation}) {
             </View>
 
             <View style={styles.funcoesGrid}>
-                <TouchableOpacity style={styles.btn}>
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Configurações')}>
                     <View style={styles.funcoesIconContainer}>
                         <Ionicons name="settings" size={40} color="#fff" />
                     </View>

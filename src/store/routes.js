@@ -32,6 +32,8 @@ import CadastroFisi from '../pages/CadastroFisi/CadastroFisi';
 import CadastroInst1 from '../pages/CadastroInst1/CadastroInst1';
 import CadastroInst2 from'../pages/CadastroInst2/CadastroInst2';
 import AdicionarFoto from '../pages/AdicionarFoto/AdiconarFoto';
+import SobreApp  from '../pages/SobreApp/Index';
+import Configurações from '../pages/Configuracoes/index'
 
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
@@ -249,6 +251,20 @@ export default function Routes({navigation}) {
             <Stack.Screen
             name="CadastroInst2"
             component={CadastroInst2}
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen
+            name="SobreApp"
+            component={SobreApp}
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen
+            name="Configurações"
+            component={Configurações}
             options={{
                 headerShown:false,
             }}
