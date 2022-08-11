@@ -2,8 +2,20 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity,Text, StatusBar } from 'react-native';
 
 import Backbutton from '../../components/Backbutton';
+import { getAuth, signOut } from "firebase/auth";
 
 export default function Configuracoes({navigation}) {
+
+    function Logout(){
+        const auth = getAuth();
+        signOut(auth).then(() => {
+          // Sign-out successful.
+          navigation.navigate("Login")
+        }).catch((error) => {
+          // An error happened.
+        });
+      }
+
  return (
    <View style={styles.container}>
     <StatusBar barStyle="dark-content" backgroundColor="#0e52b2"/>
@@ -19,7 +31,7 @@ export default function Configuracoes({navigation}) {
             <Text style={styles.btnText}>PERMISSÕES</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity style={styles.btn} onPress={() => {Logout()}}>
             <Text style={styles.btnText}>SAIR</Text>
         </TouchableOpacity>
    </View>

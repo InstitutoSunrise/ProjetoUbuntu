@@ -38,7 +38,7 @@ import Configurações from '../pages/Configuracoes/index'
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
 
-function tabs({navigation}){
+function TabBar({navigation}){
     return(
         <Tabs.Navigator
             screenOptions={{
@@ -60,7 +60,7 @@ function tabs({navigation}){
         }}
         >
             <Tabs.Screen 
-            name='Home' 
+            name='TelaHome' 
             component={Home}
             options={{
                 tabBarIcon:({size,color}) => (
@@ -132,7 +132,7 @@ export default function Routes({navigation}) {
         <Stack.Navigator initialRouteName='Entrar'>
             <Stack.Screen 
             name="Home" 
-            component={tabs} 
+            component={TabBar} 
             options={{
                 headerShown: false,
             }}
@@ -221,7 +221,7 @@ export default function Routes({navigation}) {
             }}
             />
             <Stack.Screen
-            name="instituiçãoDetalhe"
+            name="InstituiçãoDetalhe"
             component={InstituiçoesDetalhes}
             options={{
                 headerShown:false,

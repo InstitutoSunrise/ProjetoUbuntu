@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import Backbutton from '../../components/Backbutton/index';
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function instituiçãoDestalhe({navigation}) {
+export default function InstituiçãoDestalhe({navigation}) {
  return (
    <View style={styles.container}>
         <Backbutton onClick={() => navigation.goBack()}/>

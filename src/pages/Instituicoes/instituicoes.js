@@ -11,10 +11,10 @@ export default function Instituicoes({navigation}) {
             <Text style={styles.titulo}>INSTITUIÇÕES</Text>
             <Text style={styles.subTitulo}>Clique no nome da instituição e saiba mais informações sobre ela</Text>
 
-            <PostInstituicao onClick={() => navigation.navigate('instituiçãoDetalhe')}/>
-            <PostInstituicao onClick={() => navigation.navigate('instituiçãoDetalhe')}/>
-            <PostInstituicao onClick={() => navigation.navigate('instituiçãoDetalhe')}/>
-            <PostInstituicao onClick={() => navigation.navigate('instituiçãoDetalhe')}/>
+            <PostInstituicao onClick={() => navigation.navigate('InstituiçãoDetalhe')}/>
+            <PostInstituicao onClick={() => navigation.navigate('InstituiçãoDetalhe')}/>
+            <PostInstituicao onClick={() => navigation.navigate('InstituiçãoDetalhe')}/>
+            <PostInstituicao onClick={() => navigation.navigate('InstituiçãoDetalhe')}/>
 
         </ScrollView>
         

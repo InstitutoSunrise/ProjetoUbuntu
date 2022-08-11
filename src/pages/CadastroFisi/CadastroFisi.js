@@ -1,8 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
-
+import db from '../../config/configFirebase';
 import Backbutton from '../../components/Backbutton';
 
 export default function Pagess({navigation}) {
@@ -14,6 +16,32 @@ export default function Pagess({navigation}) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
+  const Cadastrar = () => {
+
+    if(email === '' || senha === '' || nome === '' || sobrenome === '' || datanascimento === '' || telefone === ''){
+      alert('Preencha os campos');
+    }else{
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, email, senha)
+        .then(async(userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          await setDoc(doc(db, "users", user.uid), {
+            nome: nome,
+            sobrenome: sobrenome,
+            datanascimento: datanascimento,
+            telefone: telefone
+          });
+          navigation.navigate('AdicionarFoto')
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
+    }
+  }
+
   return (
 
 
@@ -24,23 +52,52 @@ export default function Pagess({navigation}) {
 
       <Text style={styles.titulo}>CADASTRE-SE</Text>
 
-        <TextInput placeholder="DIGITE SEU NOME" style={styles.TextInput} onChangeText={text => setNome(text)} />
+        <TextInput 
+        placeholder="DIGITE SEU NOME" 
+        style={styles.TextInput} 
+        value={nome}
+        onChangeText={text => setNome(text)} />
 
-        <TextInput placeholder="SOBRENOME" style={styles.TextInput} onChangeText={text => setSobrenome(text)} />
+        <TextInput 
+        placeholder="SOBRENOME" 
+        style={styles.TextInput} 
+        value={sobrenome}
+        onChangeText={text => setSobrenome(text)} />
 
         <View style={styles.containerInput}>
-          <TextInput placeholder="DATA DE NASCIMENTO" style={styles.Input} onChangeText={text => setDataNascimento(text)} />
+          <TextInput 
+          placeholder="DATA DE NASCIMENTO" 
+          style={styles.Input} 
+          value={datanascimento}
+          onChangeText={text => setDataNascimento(text)} />
           
-          <TextInput placeholder="TELEFONE" style={styles.Input} onChangeNumber={Number => setTelefone(Number)} keyboardType="numeric" />
+          <TextInput 
+          placeholder="TELEFONE" 
+          style={styles.Input} 
+          value={telefone}
+          onChangeText={text => setTelefone(text)}
+          />
         </View>
 
-        <TextInput placeholder="E-MAIL" style={styles.TextInput} onChangeText={text => setEmail(text)} />
+        <TextInput 
+        placeholder="E-MAIL" 
+        style={styles.TextInput} 
+        value={email}
+        onChangeText={text => setEmail(text)} />
 
-        <TextInput secureTextEntry={true} placeholder="DIGITE SUA SENHA" style={styles.TextInput} />
+        <TextInput 
+        secureTextEntry={true} 
+        placeholder="DIGITE SUA SENHA" 
+        style={styles.TextInput} />
 
-        <TextInput secureTextEntry={true} placeholder="CONFIRME SUA SENHA" style={styles.TextInput} onChangeText={text => setSenha(text)} />
+        <TextInput 
+        secureTextEntry={true} 
+        placeholder="CONFIRME SUA SENHA" 
+        style={styles.TextInput} 
+        value={senha}
+        onChangeText={text => setSenha(text)} />
 
-          <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('AdicionarFoto')}>
+          <TouchableOpacity style={styles.botao} onPress={Cadastrar}>
             <Text style={styles.textoBotao}>CONTINUAR</Text>
           </TouchableOpacity>
 

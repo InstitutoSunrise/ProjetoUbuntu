@@ -1,7 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
 
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+
 export default function LoginCadastro({navigation}) {
+
+    useEffect(()=>{
+        const auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+        if (user) {
+        const uid = user.uid;
+        navigation.navigate("Home", {idUser: uid})
+        // ...
+        }
+        });
+    }, {});
+
  return (
    <View style={styles.main}>
 

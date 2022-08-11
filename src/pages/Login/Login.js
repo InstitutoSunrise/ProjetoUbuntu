@@ -1,15 +1,66 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet} from 'react-native';
+
 import Backbutton from '../../components/Backbutton';
+
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import firebase from '../../config/configFirebase';
+
 
 
 export default function Login({navigation}) {
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorLogin, seterrorLogin] = useState("");
+
+    const Login = () => {
+
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            // ...
+            navigation.navigate('Home')
+        })
+        .catch((error) => {
+            seterrorLogin(true)
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        });
+    }
+
  return (
    <View style={styles.container}>
     <Backbutton onClick={() => navigation.goBack()}/>
         <Text style={styles.titulo}>LOGIN</Text>
-        <TextInput style={styles.input} placeholder='ENTRE COM O SEU EMAIL'></TextInput>
-        <TextInput style={styles.input} placeholder='ENTRE COM A SUA SENHA'></TextInput>
+
+        <TextInput 
+        style={styles.input} 
+        placeholder='ENTRE COM O SEU EMAIL'
+        type="text"
+        onChangeText={(text) => setEmail(text)}
+        value={email}
+        />
+
+        <TextInput
+        style={styles.input}
+        placeholder='ENTRE COM A SUA SENHA'
+        secureTextEntry={true}
+        type='text'
+        onChangeText={(text) => setPassword(text)}
+        value={password}
+        />
+
+        {errorLogin === true
+        ?
+            <View style={styles.containerAlert}>
+                <Text style={styles.textAlert}>Email ou senha invalido</Text>
+            </View>
+        :
+            <View/>
+        }
         
         <TouchableOpacity 
         style={styles.esqueceu}
@@ -20,7 +71,7 @@ export default function Login({navigation}) {
         
         <TouchableOpacity 
         style={styles.botao}
-        onPress={() => navigation.navigate('Home')}
+        onPress={Login}
         >
         <Text style={styles.textoBotao}>ENTRAR</Text>
         </TouchableOpacity>
@@ -89,4 +140,8 @@ const styles = StyleSheet.create({
         marginTop: 5,
         fontWeight:'bold'
     },
+    textAlert:{
+        color:'red',
+        marginTop:5
+    }
 });
