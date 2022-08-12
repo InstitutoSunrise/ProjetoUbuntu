@@ -16,7 +16,7 @@ import Home from '../pages/Home/index';
 import RecuperarSenha from '../pages/RecuperarSenha/index';
 import RecuperarSenha_codigo from '../pages/RecuperarSenha_codigo/index';
 import RedefinirSenha from '../pages/RedefinirSenha/index';
-import EscolherTipoLogin from '../pages/EscolherTipoLogin/index';
+import EscolherTipoCadastro from '../pages/EscolherTipoCadastro/';
 import Exemplo from '../pages/Exemplos/index';
 import MapaSolidariedade from '../pages/MapaSolidariedade';
 import DentroMapa from '../pages/DentroMapa';
@@ -181,8 +181,8 @@ export default function Routes({navigation}) {
             }}
             />
             <Stack.Screen 
-            name="EscolherTipoLogin" 
-            component={EscolherTipoLogin} 
+            name="EscolherTipoCadastro" 
+            component={EscolherTipoCadastro} 
             options={{
                 headerShown:false,
             }}

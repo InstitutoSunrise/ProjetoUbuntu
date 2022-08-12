@@ -60,6 +60,7 @@ btn:{
     justifyContent: 'center',
     textAlign: 'center',
     borderRadius: 60,
+    alignItems: 'center'
 },
 btnText:{
     fontWeight: '800',

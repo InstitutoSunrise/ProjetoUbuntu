@@ -29,9 +29,10 @@ export default function SobreApp({navigation}) {
         >
         <Text style={styles.textoBotao}>Conheça o nosso site</Text>
     </TouchableOpacity>
-    <Text style={styles.SubTitulo}>Nossa equipe</Text>
-    <CarouselCardsEquipe/>
-
+    <Text style={styles.SubTitulo}>Nossa Equipe</Text>
+    <View>
+      <CarouselCardsEquipe/>
+    </View>
     </ScrollView>
    </View>
   );
@@ -50,10 +51,11 @@ const styles = StyleSheet.create({
     textTransform:'uppercase'
   },
   SubTitulo:{
-    fontSize:50,
+    fontSize:40,
     fontWeight:'bold',
     color:'#38B6FF',
-    marginVertical:25,
+    marginTop: 60,
+    marginBottom: 15,
   },
   containerText:{
     width:'90%',
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
   },
   textoBotao:{
       textAlign:'center',
-      fontSize:20,
+      fontSize:15.5,
       fontWeight:'800',
       color:'#fff',
       letterSpacing:2,

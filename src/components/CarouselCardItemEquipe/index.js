@@ -30,11 +30,7 @@ const styles = StyleSheet.create({
   container: {
     width: ITEM_WIDTH,
     flexDirection: 'row',
-    // alignItems:'center',
     justifyContent:'center'
-    // marginTop: 500,
-    // marginRight: 50,
-    // marginBottom: -35,
   },
   containerImg:{
     width: 100,
@@ -44,16 +40,16 @@ const styles = StyleSheet.create({
    // backgroundColor: '#fff'
   },
   image: {
-    width: 80,
-    height: 80,
+    width: 83,
+    height: 82,
     borderRadius: 60,
   },
   textoData:{
     fontSize: 17,
     color: "blue",
-    marginLeft: 90,
-    marginTop: 25,
-    
+    marginTop: 17,
+    marginLeft: 80,
+    flexShrink: 1,
   },
   infosContainer:{
     width: 350,
@@ -62,6 +58,7 @@ const styles = StyleSheet.create({
     marginLeft: -100,
     borderRadius: 60,
     marginTop: 9,
+    alignItems: 'center',
   },
 })
 

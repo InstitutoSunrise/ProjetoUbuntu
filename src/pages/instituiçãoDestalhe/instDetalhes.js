@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         backgroundColor:'#fff',
-        alignItems:'center',
+        // alignItems:'center',
     },
     containerInst:{
         alignItems:'center',
@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
         marginVertical:15,
     },
     titulo:{
-        // color:'#0a52B2',
         textAlign:'center',
         color:'#38B6FF',
         fontSize:25,
@@ -108,15 +107,19 @@ const styles = StyleSheet.create({
         marginVertical:2
     },
     nomeInfo:{
-        marginRight:3,
+        marginRight:2,
         color:'#38B6FF',
         textTransform:'uppercase',
         fontWeight:'bold',
+        marginTop: 2,
     },
     info:{
-        fontSize:15,
+        fontSize:14,
+        width: '90%',
         color:'#0c4a86',
         textTransform:'uppercase',
+        marginTop: 2,
+        flexShrink: 1
     },
     texto:{
         width:'90%',

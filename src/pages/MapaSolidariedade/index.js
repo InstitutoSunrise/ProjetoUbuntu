@@ -10,7 +10,7 @@ export default function MapaSolidariedade({navigation}) {
     <Text style={styles.subTitulo}>Encontre instituições perto de você!</Text>
    
     <TouchableOpacity style={styles.imgMapaContainer}  onPress={() => navigation.navigate('DentroMapa')}>
-        <Image source={'https://cdn-icons-png.flaticon.com/512/854/854929.png'} style={styles.imgMapa}/>
+        <Image source={{uri: 'https://cdn-icons-png.flaticon.com/512/854/854929.png'}} style={styles.imgMapa}/>
     </TouchableOpacity>
 
     <View style={styles.descContainer}>

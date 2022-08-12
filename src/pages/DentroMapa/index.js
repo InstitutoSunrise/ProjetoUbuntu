@@ -11,7 +11,7 @@ export default function DentroMapa({navigation}) {
     <View style={styles.container}>
         <Backbutton onClick={() => navigation.goBack()}/>
         <View style={styles.imgContainer}>
-                <ImageBackground source={image} resizeMode="cover" style={styles.img}>
+                <ImageBackground source={{uri: image}} resizeMode="cover" style={styles.img}>
                 <TextInput 
                     style={styles.input}
                     onChangeText={setInput}

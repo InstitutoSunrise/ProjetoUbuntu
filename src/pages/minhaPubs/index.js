@@ -24,7 +24,7 @@ const DATA = [
       {
         id: '4',
         dataHora: '05/05/22 - 12:30',
-        descricao: 'Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum',
+        descricao: 'Lorem Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsuLorem ipsum Lorem ipsum Lorem ipsuLorem ipsum Lorem ipsum Lorem ipsum',
       },
   ];
 
@@ -34,23 +34,23 @@ export default function MinhaPubs({navigation}) {
  return (
     
    <View style={styles.container}> 
-   <Backbutton onClick={() => navigation.goBack()}/>
-    <Text style={styles.titulo}>
-        MINHAS PUBLICAÇÕES
-    </Text>
+    <Backbutton onClick={() => navigation.goBack()}/>
+      <Text style={styles.titulo}>
+          MINHAS PUBLICAÇÕES
+      </Text>
 
-    <FlatList 
-            vertical={true}
-            data={DATA}
-            keyExtractor = {(item)=> item.id}
-            renderItem = { ({item}) => (
+      <FlatList 
+              vertical={true}
+              data={DATA}
+              keyExtractor = {(item)=> item.id}
+              renderItem = { ({item}) => (
 
-              <MinhaPublicacao
-                  dataHora = {item.dataHora}
-                  descricao = {item.descricao}
-              />
-            )}
-      />
+                <MinhaPublicacao
+                    dataHora = {item.dataHora}
+                    descricao = {item.descricao}
+                />
+              )}
+        />
 
 
    </View>
@@ -61,11 +61,10 @@ export default function MinhaPubs({navigation}) {
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        width: '100%',
-        alignItems: 'center',
         backgroundColor:'#fff'
     },
     titulo:{
+        alignSelf: 'center',
         width: '90%',
         fontSize: 40,
         color: '#38b6ff',

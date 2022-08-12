@@ -13,7 +13,7 @@ export default function Entrar({navigation}) {
 
             <Image 
             style={styles.img}
-            source={require('../../assets/logo projeto sem fundo2.png')}/>
+            source={require('../../assets/logo_projeto.png')}/>
 
             <Text style={styles.texto}>"Gerando gestos de solidariedade"</Text>
 

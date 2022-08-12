@@ -77,7 +77,13 @@ export default function Login({navigation}) {
         </TouchableOpacity>
 
         <Text style={styles.texto}>AINDA NÃO CRIOU A SUA CONTA? 
-        <TouchableOpacity style={{alignItems:'center',justifyContent:'center'}}><Text style={styles.span}>CLIQUE AQUI</Text></TouchableOpacity> PARA SE CADASTRAR</Text>
+        <TouchableOpacity 
+        style={{alignItems:'center',justifyContent:'center'}} 
+        onPress={() => navigation.navigate('EscolherTipoCadastro')}>
+        
+            <Text style={styles.span}> CLIQUE AQUI</Text>
+        
+        </TouchableOpacity> PARA SE CADASTRAR</Text>
    </View>
   );
 }
@@ -138,7 +144,9 @@ const styles = StyleSheet.create({
     span:{
         color:'rgb(14, 82, 178)',
         marginTop: 5,
-        fontWeight:'bold'
+        marginBottom: -5,
+        fontWeight:'bold',
+        textAlign: 'right',
     },
     textAlert:{
         color:'red',

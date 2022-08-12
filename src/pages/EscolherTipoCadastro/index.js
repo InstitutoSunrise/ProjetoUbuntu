@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 import Backbutton from '../../components/Backbutton';
 
-export default function EscolherTipoLogin({navigation}) {
+export default function EscolherTipoCadastro({navigation}) {
  return (
     <View style={estilos.main}>
         <Backbutton onClick={() => navigation.goBack()}/>

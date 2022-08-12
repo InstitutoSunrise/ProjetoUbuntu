@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     },
     subTitulo:{
         fontSize:17,
+        width: '90%',
         color:'#0c4a86',
         textAlign:'center',
         textTransform:'uppercase'

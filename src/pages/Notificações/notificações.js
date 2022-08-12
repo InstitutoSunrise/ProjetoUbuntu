@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         flexDirection:'row'
     },
     text:{
-        fontSize:'15',
+        fontSize:15,
         textAlign:'left',
         justifyContent:'center',
         marginLeft: 5,

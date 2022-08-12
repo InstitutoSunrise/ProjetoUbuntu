@@ -40,7 +40,7 @@ export default function LoginCadastro({navigation}) {
             </TouchableOpacity>
             <TouchableOpacity 
         style={styles.botao}
-        onPress={() => navigation.navigate('EscolherTipoLogin')}
+        onPress={() => navigation.navigate('EscolherTipoCadastro')}
         >
             <Text style={styles.textoBotao}>CADASTRAR</Text>
             </TouchableOpacity>

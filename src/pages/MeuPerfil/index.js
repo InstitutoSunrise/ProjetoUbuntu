@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Image, Text, View, StyleSheet, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { Ionicons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 import Backbutton from '../../components/Backbutton';
 
@@ -10,37 +10,37 @@ export default function MeuPerfil({navigation}) {
    <View style={styles.container}>
 
     <StatusBar barStyle="dark-content" backgroundColor="#0e52b2"/>
-    <ScrollView contentContainerStyle={{alignItems:'center',width:'100%'}}>
+    <ScrollView contentContainerStyle={{width:'100%'}}>
 
             <Backbutton onClick={() => navigation.goBack()}/>
+    <View style={{alignItems:'center'}}>
+        <Text style={styles.titulo}>MEU PERFIL</Text>
 
-    <Text style={styles.titulo}>MEU PERFIL</Text>
-
-    <View style={styles.imgPerfilContainer}>
-        <TouchableOpacity style={styles.imgPerfilContainer}>
-            <Image
-                style={styles.fotoPerfil}
-                source={{
-                uri: 'https://cdn.icon-icons.com/icons2/2506/PNG/512/user_icon_150670.png',
-                }}
+        <View style={styles.imgPerfilContainer}>
+            <TouchableOpacity style={styles.imgPerfilContainer}>
+               <FontAwesome 
+                name="user-circle-o" 
+                size={120} 
+                color="#0e52b2"
             />
-        </TouchableOpacity>
-    </View>
+            </TouchableOpacity>
+        </View>
+    
 
-    <Text style={styles.nome}>Maria Aparecida</Text>
-    <Text style={styles.endereco}>Cidade Tiradentes, SP</Text>
-   
-    <View style={styles.descricaoContainer}>
-        <Text style={styles.descricao}>Meu nome é Maria, tenho 45 anos. Tinha algumas coisas guardadas em casa para doar, então entrei no Ubuntu.</Text>
+        <Text style={styles.nome}>Maria Aparecida</Text>
+        <Text style={styles.endereco}>Cidade Tiradentes, SP</Text>
+    
+        <View style={styles.descricaoContainer}>
+            <Text style={styles.descricao}>Meu nome é Maria, tenho 45 anos. Tinha algumas coisas guardadas em casa para doar, então entrei no Ubuntu.</Text>
+        </View>
     </View>
 
     <View style={styles.editPerfilContainer}>
         <TouchableOpacity style={styles.editPerfilContainer}>
-            <Image
-                style={styles.editPerfilIcon}
-                source={{
-                uri: 'https://icon-library.com/images/edit-icon-png/edit-icon-png-0.jpg',
-                }}
+            <FontAwesome5 
+            name="edit" 
+            size={16}
+            color="#0e52b2"
             />
             <Text style={styles.editPerfil}> EDITAR PERFIL</Text>
         </TouchableOpacity>
@@ -104,11 +104,11 @@ const styles = StyleSheet.create({
         marginTop: -15
     },
     imgPerfilContainer:{
-        width: 125,
-        height: 125,
+        width: 120,
+        height: 120,
         alignItems: 'center',
         borderStyle: 'solid',
-        borderWidth: 1,
+        // borderWidth: 1,
         borderRadius: 100,
         borderColor: '#0e52B2',
         marginBottom: 10
@@ -133,14 +133,14 @@ const styles = StyleSheet.create({
     descricaoContainer:{
         width: '85%',
         paddingHorizontal: 15,
-        paddingVertical: 45,
+        paddingVertical: 40,
         textAlignVertical:'center',
         backgroundColor: '#ebeff1',
         marginTop: 65,
         borderRadius: 20,
     },
     descricao:{
-        width: '90%',
+
         color: '#0e52B2',
         fontSize: 14,
     },
@@ -158,7 +158,8 @@ const styles = StyleSheet.create({
         fontSize: 13,
         color:'#0e52B2',
         fontWeight: '600',
-        marginRight: 10,
+        marginRight: 25,
+
     },
     funcoesContainer:{
         width: '100%',

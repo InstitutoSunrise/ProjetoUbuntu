@@ -12,6 +12,7 @@ const CarouselCardsEquipe = () => {
 
   return (
     <View>
+      <View>
       <Carousel
         layout="default"
         layoutCardOffset={10}
@@ -24,16 +25,17 @@ const CarouselCardsEquipe = () => {
         onSnapToItem={(index) => setIndex(index)}
         useScrollView={true}
       />
+      </View>
+
+      <View style={{marginTop: -40,width:'100%'}}>
       <Pagination
-        dotsLength={dataNossaEquipe.length}
+        dotsLength={7}
         activeDotIndex={index}
         carouselRef={isCarousel}
         dotStyle={{
           width: 18,
           height: 18,
           borderRadius: 20,
-          marginHorizontal: 0,
-          // marginVertical:-100,
           backgroundColor: 'rgba(0, 0, 0, 0.5)'
         }}
         inactiveDotOpacity={0.4}
@@ -41,6 +43,7 @@ const CarouselCardsEquipe = () => {
         
         tappableDots={true}
       />
+      </View>
     </View>
   )
 }

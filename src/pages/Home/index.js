@@ -11,8 +11,10 @@ export default function Home({navigation}) {
           <StatusBar barStyle="dark-content" backgroundColor="#fff" />
           
           <ScrollView contentContainerStyle={{alignItems:'center',width:'100%'}}>
-          
-            <CarouselCards/>
+
+            <View style={{height: 260}}>
+              <CarouselCards/>
+            </View>
 
             <View style={styles.containerFilter}>
                 <TouchableOpacity style={styles.filter} onPress={() => navigation.navigate('minhasPubs')}>

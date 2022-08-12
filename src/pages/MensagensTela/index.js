@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity} from 'react-native';
 
 const Messages = [
@@ -55,7 +55,7 @@ export default function MensagemTela({navigation}) {
 
     return (
         <View style={styles.container}>
-          <Text style={styles.titulo}> Mensagem</Text>
+          <Text style={styles.titulo}>Mensagem</Text>
             <FlatList
                 contentContainerStyle={{alignItems:'center'}}
                 vertical
@@ -63,8 +63,9 @@ export default function MensagemTela({navigation}) {
                 keyExtractor={item=>item.id}
                 renderItem={({item}) => (
                         <TouchableOpacity style={styles.containerFlatList} onPress={() => navigation.navigate('Mensagem', {userName:item.userName})}>
-
-                          <Image style={styles.img} source={require(`../../assets/${item.userImg}`)} />
+                          
+                          <Image style={styles.img} source={require(`../../assets/maos.jpg`)} /> 
+                          
 
                           <View style={styles.descricao}>
 
@@ -93,6 +94,7 @@ export default function MensagemTela({navigation}) {
         fontSize:40,
         fontWeight:'bold',
         color:'#38B6FF',
+        marginBottom: 10,
         marginTop: 35,
         textTransform:'uppercase',
         textAlign:'center'
@@ -131,7 +133,7 @@ export default function MensagemTela({navigation}) {
         textAlign:'right',
       },
       text:{
-        fontSize:'15',
+        fontSize:15,
         textAlign:'left',
         justifyContent:'center',
         // width:'70%',
