@@ -1,7 +1,23 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 
 export default function Entrar({navigation}) {
+
+    const Entrar = () => {
+        const auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+        if (user) {
+        const uid = user.uid;
+        navigation.navigate("Home", {idUser: uid})
+        // ...
+        }else{
+            navigation.navigate('LoginCadastro')
+        }
+        });
+    }
+
  return (
    <View style={styles.main}>
        <Image 
@@ -19,7 +35,7 @@ export default function Entrar({navigation}) {
 
             <TouchableOpacity 
             style={styles.botao}
-            onPress={() => navigation.navigate('LoginCadastro')}
+            onPress={Entrar}
             >
             <Text style={styles.textoBotao}>INICIAR</Text>
             </TouchableOpacity>

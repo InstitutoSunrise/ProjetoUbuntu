@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text, TouchableOpacity, TextInput, StyleSheet} from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Alert} from 'react-native';
 
 import Backbutton from '../../components/Backbutton';
 
@@ -16,19 +16,44 @@ export default function Login({navigation}) {
 
     const Login = () => {
 
-        const auth = getAuth();
-        signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            // ...
-            navigation.navigate('Home')
-        })
-        .catch((error) => {
-            seterrorLogin(true)
-            const errorCode = error.code;
-            const errorMessage = error.message;
-        });
+        if(email === '' || password === ''){
+            alert('Atenção!!! Digite email e senha.')
+            // Alert.alert(
+            //     "Atenção",
+            //     "Digite email e senha",
+            // );
+        }else{
+            const auth = getAuth();
+            signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+                // ...
+                navigation.navigate('Home')
+            })
+            .catch((error) => {
+                // seterrorLogin(true)
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode)
+                console.log(errorMessage)
+                switch (errorCode){
+                    case 'auth/user-not-found':
+                        alert('Usuario não cadastrado.');
+                    break;
+                    case 'auth/invalid-email':
+                        alert('email invalido.');
+                    break;
+                    case 'auth/wrong-password':
+                        alert('senha invalida.');
+                    break;
+                    case 'auth/user-disabled':
+                        alert('Usuario deasbilitado.');
+                    break;
+                }
+                
+            });
+        }
     }
 
  return (
@@ -56,7 +81,7 @@ export default function Login({navigation}) {
         {errorLogin === true
         ?
             <View style={styles.containerAlert}>
-                <Text style={styles.textAlert}>Email ou senha invalido</Text>
+                <Text style={styles.textAlert}>Digite email e senha</Text>
             </View>
         :
             <View/>
