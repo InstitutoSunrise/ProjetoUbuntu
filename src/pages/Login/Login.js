@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet, Alert} from 'react
 
 import Backbutton from '../../components/Backbutton';
 
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { fetchSignInMethodsForEmail, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import firebase from '../../config/configFirebase';
 
 
@@ -39,20 +39,48 @@ export default function Login({navigation}) {
                 console.log(errorMessage)
                 switch (errorCode){
                     case 'auth/user-not-found':
-                        alert('Usuario não cadastrado.');
+                        alert('Usuário não cadastrado.');
                     break;
                     case 'auth/invalid-email':
-                        alert('email invalido.');
+                        alert('Email inválido.');
                     break;
                     case 'auth/wrong-password':
-                        alert('senha invalida.');
+                        alert('Senha inválida.');
                     break;
                     case 'auth/user-disabled':
-                        alert('Usuario deasbilitado.');
+                        alert('Usuário deasbilitado.');
                     break;
                 }
                 
             });
+        }
+    }
+    const esqueceuSenha = () => {
+        if(email === ''){
+            alert('Digite seu email')
+        } else {
+            const auth = getAuth();
+            fetchSignInMethodsForEmail(auth, email)
+            .then((result) => {
+                console.log(result);
+                if(result.length == 0) {
+                    alert('Email não cadastrado')
+                } else {
+                    navigation.navigate('RecuperarSenha', {userEmail: email})
+                }
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode)
+                console.log(errorMessage)
+                switch (errorCode){
+                    case 'auth/invalid-email':
+                        alert('Digite seu email');
+                    break;
+                }
+            })
+            
         }
     }
 
@@ -89,7 +117,7 @@ export default function Login({navigation}) {
         
         <TouchableOpacity 
         style={styles.esqueceu}
-        onPress={() => navigation.navigate('RecuperarSenha')}
+        onPress={() => esqueceuSenha()}
         >
         <Text style={styles.textoEsqueceu}>ESQUECEU A SENHA?</Text>
         </TouchableOpacity>
@@ -107,6 +135,7 @@ export default function Login({navigation}) {
         onPress={() => navigation.navigate('EscolherTipoCadastro')}>
         
             <Text style={styles.span}> CLIQUE AQUI</Text>
+        
         
         </TouchableOpacity> PARA SE CADASTRAR</Text>
    </View>

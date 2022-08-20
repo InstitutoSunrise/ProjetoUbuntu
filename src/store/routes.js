@@ -14,8 +14,6 @@ import LoginCadastro from '../pages/LoginCadastro/loginCadastro';
 import Login from '../pages/Login/Login';
 import Home from '../pages/Home/index';
 import RecuperarSenha from '../pages/RecuperarSenha/index';
-import RecuperarSenha_codigo from '../pages/RecuperarSenha_codigo/index';
-import RedefinirSenha from '../pages/RedefinirSenha/index';
 import EscolherTipoCadastro from '../pages/EscolherTipoCadastro/';
 import Exemplo from '../pages/Exemplos/index';
 import MapaSolidariedade from '../pages/MapaSolidariedade';
@@ -162,20 +160,6 @@ export default function Routes({navigation}) {
             <Stack.Screen 
             name="RecuperarSenha" 
             component={RecuperarSenha} 
-            options={{
-                headerShown:false,
-            }}
-            />
-            <Stack.Screen 
-            name="RecuperarSenha_Codigo" 
-            component={RecuperarSenha_codigo} 
-            options={{
-                headerShown:false,
-            }}
-            />
-            <Stack.Screen 
-            name="RedefinirSenha" 
-            component={RedefinirSenha} 
             options={{
                 headerShown:false,
             }}

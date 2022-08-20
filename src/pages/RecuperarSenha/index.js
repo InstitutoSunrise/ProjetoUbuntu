@@ -1,26 +1,35 @@
 import React from 'react';
 import {StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import Backbutton from '../../components/Backbutton';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 
-export default function RecuperarSenha({navigation}) {
+export default function RecuperarSenha({route, navigation}) {
+
+  const redefinirSenha = () => {
+    const auth = getAuth();
+    sendPasswordResetEmail(auth, route.params.userEmail)
+    .then(() => {
+      alert('Enviamos um email para a recuperação da senha no endereço: ' + route.params.userEmail)
+      navigation.goBack()
+    })
+    .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+    });
+  }
     return (
       <View style={estilos.Container}>
             
         <Backbutton onClick={() => navigation.goBack()}/>
           <Text style={estilos.Titulo}>RECUPERAR SENHA</Text>
-          <Text style={estilos.SubTitulo}>ESCOLHA COMO VOCÊ QUER RECEBER O CÓDIGO PARA REDIFINIR SUA SENHA:</Text>
+          <Text style={estilos.SubTitulo}>CLIQUE NO BOTÃO E RECEBA UM EMAIL PARA RECUPERAÇÃO DE SENHA</Text>
 
           <TouchableOpacity 
             style={estilos.Botoes}
-            onPress={() => navigation.navigate('RecuperarSenha_Codigo')}
+            onPress={() => redefinirSenha()}
             >
-            <Text style={estilos.BotoesText}>RECEBER CODIGO PELO TELEFONE </Text>
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={estilos.Botoes}
-            onPress={() => navigation.navigate('RecuperarSenha_Codigo')}
-          >
-            <Text style={estilos.BotoesText}>RECEBER CODIGO PELO E-MAIL</Text>
+            <Text style={estilos.BotoesText}>RECEBER EMAIL </Text>
           </TouchableOpacity>
       </View>
      );
@@ -54,12 +63,12 @@ const estilos = StyleSheet.create({
         textAlign: 'center',
         alignContent: 'center',
         backgroundColor: '#e8eaea',
-        marginBottom: 25,
+        marginTop: 5,
         borderRadius: 60,
     },
     BotoesText:{
         textAlign: 'center',
-        fontSize: 16.5,
+        fontSize: 18,
         fontWeight: '700',
     }
 });
