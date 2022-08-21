@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import MaskInput from 'react-native-mask-input';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
@@ -82,17 +83,28 @@ export default function Pagess({navigation}) {
         onChangeText={text => setSobrenome(text)} />
 
         <View style={styles.containerInput}>
-          <TextInput 
+          <MaskInput 
           placeholder="DATA DE NASCIMENTO" 
+          keyboarType={'number-pad'}
           style={styles.Input} 
           value={datanascimento}
-          onChangeText={text => setDataNascimento(text)} />
+          onChangeText={(masked, unmasked) => {
+            setDataNascimento(masked);
           
-          <TextInput 
+          }}
+          mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
+          />
+          
+          <MaskInput 
           placeholder="TELEFONE" 
+          keyboarType={'number-pad'}
           style={styles.Input} 
           value={telefone}
-          onChangeText={text => setTelefone(text)}
+          onChangeText={(masked, unmasked) => {
+            setTelefone(masked);
+          
+          }}
+          mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
           />
         </View>
 

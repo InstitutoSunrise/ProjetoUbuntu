@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Form } from 'react-native';
+import MaskInput from 'react-native-mask-input';
 
 import Backbutton from '../../components/Backbutton';
 
-export default function App({navigation}) {
+export default function App({navigation, route}) {
 
   const [cep, setCep] = useState('');
   const [endereço, setEndereço] = useState('');
@@ -13,29 +14,70 @@ export default function App({navigation}) {
   const [nolocal, setNolocal] = useState('');
   const [horario, setHorario] = useState('');
 
+  const PassarValores = () => {
+
+    if(cep === '' || endereço === '' || numero === '' || complemento === '' || nolocal === '' || horario === ''){
+
+      alert('Preencha os campos');
+
+    }else{
+      navigation.navigate('AdicionarFoto', {cep:cep, endereço:endereço, numero: numero, complemento:complemento, nolocal:nolocal, horario:horario,  email:route.params.email, senha:route.params.senha, cnpj:route.params.cnpj, telefone:route.params.telefone, descricao:route.params.descricao, nome:route.params.nome})
+    }
+
+  }
+
   return (
-   
- 
     <View style={styles.container}>
 
       <Backbutton onClick={() => navigation.goBack()}/>
      
       <Text style={styles.titulo}>CADASTRE-SE</Text>
 
-      <TextInput placeholder="DIGITE SEU CEP" style={styles.TextInput} onChangeNumber={Number=>setCep(Number)} keyboardType="numeric"/>
+      <MaskInput
+      placeholder="DIGITE SEU CEP" 
+      keyboardType={'number-pad'}
+      style={styles.TextInput} 
+      value={cep}
+      onChangeText={(masked, unmasked) => {
+        setCep(masked);
+      
+      }}
+      mask={[/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+      />
 
-      <TextInput placeholder="ENDEREÇO" style={styles.TextInput} onChangeText={text=>setEndereço(text)} />
+      <TextInput 
+      placeholder="ENDEREÇO" 
+      style={styles.TextInput}
+      value={endereço} 
+      onChangeText={text=>setEndereço(text)} />
 
-      <TextInput placeholder="NUMERO" style={styles.TextInput} onChangeNumber={Number=>setNumero(Number)} keyboardType="numeric" />
+      <TextInput 
+      placeholder="NUMERO" 
+      style={styles.TextInput} 
+      value={numero}
+      onChangeText={text=>setNumero(text)} 
+      keyboardType={'number-pad'} />
 
-      <TextInput placeholder="COMPLEMENTO" style={styles.TextInput} onChangeText={text=>setComplemento(text)} />
+      <TextInput 
+      placeholder="COMPLEMENTO" 
+      style={styles.TextInput} 
+      value={complemento}
+      onChangeText={text=>setComplemento(text)} />
 
-      <TextInput placeholder="TEM LOCAL PARA BANHO/REFEIÇÃO" style={styles.TextInput} onChangeText={text=>setNolocal(text)} />
+      <TextInput 
+      placeholder="TEM LOCAL PARA BANHO/REFEIÇÃO" 
+      style={styles.TextInput} 
+      value={nolocal}
+      onChangeText={text=>setNolocal(text)} />
 
-      <TextInput placeholder="HORARIO DE FUNCIONAMENTO" style={styles.TextInput} onChangeText={text=>setHorario(text)} />
+      <TextInput 
+      placeholder="HORARIO DE FUNCIONAMENTO" 
+      style={styles.TextInput} 
+      value={horario}
+      onChangeText={text=>setHorario(text)} />
 
       
-      <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('AdicionarFoto')}>
+      <TouchableOpacity style={styles.botao} onPress={PassarValores}>
           <Text style={styles.textoBotao}>Cadastrar</Text>
       </TouchableOpacity>
 

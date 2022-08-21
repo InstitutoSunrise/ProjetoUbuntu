@@ -1,17 +1,35 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import MaskInput from 'react-native-mask-input';
 
 import Backbutton from '../../components/Backbutton';
 
 export default function App({navigation}) {
 
-
   const [nome, setNome] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [telefone, setTelefone] = useState('');
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [senha1, setSenha1] = useState('');
+  const [senha2, setSenha2] = useState('');
+  const [descricao, seDescricao] = useState('');
+
+  const PassarValores = () => {
+    if(email === '' || senha1 === '' || senha2 === '' || nome === '' || cnpj === '' || telefone === ''){
+
+      alert('Preencha os campos');
+  
+    }else if(senha1 === senha2){
+  
+      navigation.navigate('CadastroInst2', {nome:nome, cnpj:cnpj, telefone:telefone, email:email, senha:senha2, descricao:descricao})
+
+    }else{
+  
+      alert('Verifique se a senha está correta');
+  
+    }
+  }
 
   return (
    
@@ -22,20 +40,69 @@ export default function App({navigation}) {
      
       <Text style={styles.titulo}>CADASTRE-SE</Text>
 
-        <TextInput placeholder="NOME DA INSTITUIÇÃO" style={styles.TextInput} onChangeText={text=>setNome(text)} />
-        <TextInput placeholder="E-MAIL" style={styles.TextInput} onChangeText={text=>setEmail(text)} />
+        <TextInput 
+        placeholder="NOME DA INSTITUIÇÃO" 
+        style={styles.TextInput} 
+        value={nome}
+        onChangeText={text=>setNome(text)} />
+
+        <TextInput 
+        placeholder="E-MAIL" 
+        style={styles.TextInput}
+        value={email} 
+        onChangeText={text=>setEmail(text)} />
 
       <View style={styles.containerInput}>
-        <TextInput placeholder="CNPJ" style={styles.Input} onChangeNumber={Number=>setCnpj(Number)} keyboardType="numeric" />
-        <TextInput placeholder="TELEFONE" style={styles.Input} onChangeNumber={Number=>setTelefone(Number)} keyboardType="numeric" /> 
+        <MaskInput 
+        placeholder="CNPJ" 
+        keyboardType={'number-pad'}
+        style={styles.Input} 
+        value={cnpj}
+        onChangeText={(masked, unmasked) => {
+          setCnpj(masked);
+        
+        }}
+        mask={[/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/]}
+        />
+
+        <MaskInput
+        placeholder="TELEFONE" 
+        keyboardType={'number-pad'}
+        style={styles.Input} 
+        value={telefone}
+        onChangeText={(masked, unmasked) => {
+          setTelefone(masked);
+        
+        }}
+        mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]} 
+        /> 
       </View>
 
-        <TextInput secureTextEntry={true} placeholder="DIGITE SUA SENHA" style={styles.TextInput} />
-        <TextInput secureTextEntry={true} placeholder="CONFIRME SUA SENHA" style={styles.TextInput} onChangeText={text=>setSenha(text)} />
-        <TextInput placeholder="DESCRIÇÃO" style={styles.TextInputdescrição} onChangeText={text=>setNome(text)} />
+        <TextInput 
+        secureTextEntry={true} 
+        placeholder="DIGITE SUA SENHA" 
+        style={styles.TextInput} 
+        value={senha1}
+        onChangeText={text=>setSenha1(text)}
+        />
+
+        <TextInput 
+        secureTextEntry={true} 
+        placeholder="CONFIRME SUA SENHA" 
+        style={styles.TextInput}
+        value={senha2} 
+        onChangeText={text=>setSenha2(text)} 
+        />
+
+        <TextInput 
+        placeholder="DESCRIÇÃO" 
+        style={styles.TextInputdescrição} 
+        value={descricao}
+        onChangeText={text=>seDescricao(text)} 
+        />
       
 
-        <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('CadastroInst2')}>
+        <TouchableOpacity style={styles.botao} onPress={PassarValores}>
             <Text style={styles.textoBotao}>CONTINUAR</Text>
         </TouchableOpacity>
 
