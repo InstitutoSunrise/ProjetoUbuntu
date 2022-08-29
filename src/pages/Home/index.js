@@ -6,7 +6,7 @@ import CarouselCards from '../../components/CarouselCards';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function Home({navigation}) {
-    return (
+  return (
         <SafeAreaView style={styles.container}>
           <StatusBar barStyle="dark-content" backgroundColor="#fff" />
           

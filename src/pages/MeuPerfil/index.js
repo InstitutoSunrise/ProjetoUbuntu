@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
 import { Image, Text, View, StyleSheet, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
-import { Ionicons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 
 import firebase from '../../config/configFirebase';
-import { getAuth, updateProfile } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import db from '../../config/configFirebase';
 // import { upload } from '../../config/configStorage';
 
 
 import Backbutton from '../../components/Backbutton';
-import { uploadImageAsync } from '../../config/configStorage';
 
 export default function MeuPerfil({ navigation }) {
     const [nomeUser, setNomeUser] = useState()
@@ -19,22 +18,6 @@ export default function MeuPerfil({ navigation }) {
     const [nomeCompleto, setNomeCompleto] = useState([], [])
     const [descricao, setDescricao] = useState();
     const [photoURL, setPhotoURL] = useState();
-
-    const [image, setImage] = useState("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
-
-    const subirFotoPerfil = async () => {
-        const auth = getAuth();
-        const userId = auth.currentUser.uid;
-      
-        await uploadImageAsync(image, userId)
-        console.log(uploadedImageLink)
-        console.log("passou");
-        console.log(uploadedImageLink);
-        console.log(image);
-        setFotoStatus(true);
-        console.log(fotoStatus)
-        alert("Parabéns, cadastro realizado2!")
-      }
 
     //useEffect para fetch das infos do firestone, baseado no uid, atribui os states foto/nome/sobrenome/nomecompleto/descricao
     useEffect(() => {
@@ -45,20 +28,13 @@ export default function MeuPerfil({ navigation }) {
                 // The user object has basic properties such as display name, email, etc.
                 const uid = user.uid;
                 setPhotoURL(user.photoURL);
-                console.log(user.photoURL);
-                console.log(photoURL)
 
                 const docRef = doc(db, "Instituições", uid);
                 const docSnap = await getDoc(docRef);
 
                 try {
                     setNomeUser(docSnap.data().nome);
-                    console.log(nomeUser);
-                    setSobrenomeUser(docSnap.data().sobrenome);
-                    console.log(sobrenomeUser);
-                    setNomeCompleto(nomeUser);
                     setDescricao(docSnap.data().descrição);
-                    console.log(descricao);
                 } catch (e) {
                     console.log("Error getting data from doc users:", e);
                 }
@@ -79,12 +55,12 @@ export default function MeuPerfil({ navigation }) {
                     <Text style={styles.titulo}>MEU PERFIL</Text>
 
                     <View style={styles.imgPerfilContainer}>
-                        <TouchableOpacity style={styles.imgPerfilContainer} onPress={subirFotoPerfil}>
+                        <TouchableOpacity style={styles.imgPerfilContainer}>
                             <Image style={styles.fotoPerfil} source={{ uri: photoURL }} />
                         </TouchableOpacity>
                     </View>
 
-                    <Text style={styles.nome}>{nomeCompleto}</Text>
+                    <Text style={styles.nome}>{nomeUser}</Text>
                     <Text style={styles.endereco}>Cidade Tiradentes, SP</Text>
 
                     <View style={styles.descricaoContainer}>

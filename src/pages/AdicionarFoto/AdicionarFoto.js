@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import React, {useState} from 'react';
+import {  Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 import { uploadImageAsync } from '../../config/configStorage';
 import * as ImagePicker from 'expo-image-picker';
@@ -24,27 +24,15 @@ const pickImage = async () => {
     };
 };
 
-const [ fotoStatus, setFotoStatus ] = useState(false)
 const [image, setImage] = useState("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
-const [uploadedImageLink, setUploadedImageLink] = useState('');  
-const [status, setStatus] = useState();
 
-useEffect(() => {
   const subirFotoPerfil = async () => {
     const auth = getAuth();
     const userId = auth.currentUser.uid;
-
+    
     await uploadImageAsync(image, userId)
-    console.log(uploadedImageLink)
-    console.log("passou");
-    console.log(uploadedImageLink);
-    console.log(image);
-    setFotoStatus(true);
-    console.log(fotoStatus)
-    alert("Parabéns, cadastro realizado2!")
+    alert("Parabéns, cadastro realizado!")
   }
-  subirFotoPerfil()
-})
 
 const Cadastrar = () => {
   if(image === "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"){
@@ -66,12 +54,6 @@ const Cadastrar = () => {
         horário: route.params.horario,
         descrição:route.params.descricao
       });
-      setStatus(true);
-      alert("Parabéns, cadastro realizado1!")
-      const auth = getAuth();
-      console.log(auth.currentUser.uid);
-      const userId = auth.currentUser.uid;
-      console.log(userId)
       subirFotoPerfil();
     })
     .catch((error) => {
@@ -102,9 +84,6 @@ const Cadastrar = () => {
 
       <TouchableOpacity style={styles.botao} onPress={Cadastrar}>
         <Text style={styles.textoBotao}>SALVAR</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={{width: 100, height: 100}}>
-<Text> AAAAAAAAAAAAAA</Text>
       </TouchableOpacity>
     </View>
   );
