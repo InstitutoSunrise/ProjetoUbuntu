@@ -29,9 +29,10 @@ import Notificacao from '../pages/Notificações/notificações';
 import CadastroFisi from '../pages/CadastroFisi/CadastroFisi';
 import CadastroInst1 from '../pages/CadastroInst1/CadastroInst1';
 import CadastroInst2 from'../pages/CadastroInst2/CadastroInst2';
-import AdicionarFoto from '../pages/AdicionarFoto/AdiconarFoto';
+import AdicionarFoto from '../pages/AdicionarFoto/AdicionarFoto';
 import SobreApp  from '../pages/SobreApp/Index';
-import Configurações from '../pages/Configuracoes/index'
+import Configurações from '../pages/Configuracoes/index';
+import AdicionarFotoFis from '../pages/AdicionarFotoFis';
 
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
@@ -214,6 +215,13 @@ export default function Routes({navigation}) {
             <Stack.Screen
             name="CadastroFisi"
             component={CadastroFisi}
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen
+            name="AdicionarFotoFis"
+            component={AdicionarFotoFis}
             options={{
                 headerShown:false,
             }}

@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { getAuth, fetchSignInMethodsForEmail } from "firebase/auth";
 import MaskInput from 'react-native-mask-input';
 
 import Backbutton from '../../components/Backbutton';
@@ -16,18 +17,41 @@ export default function App({navigation}) {
   const [descricao, seDescricao] = useState('');
 
   const PassarValores = () => {
-    if(email === '' || senha1 === '' || senha2 === '' || nome === '' || cnpj === '' || telefone === ''){
-
+    if(email === '' || senha1 === '' || senha2 === '' || nome === '' || cnpj === '' || telefone === '' || descricao === ''){
       alert('Preencha os campos');
-  
-    }else if(senha1 === senha2){
-  
-      navigation.navigate('CadastroInst2', {nome:nome, cnpj:cnpj, telefone:telefone, email:email, senha:senha2, descricao:descricao})
+    }else if(senha1.length < 6 ) {
+      alert('Senha muito Curta (mínimo 6 dígitos)')
+    } else if(senha1 !== senha2) {
+      alert("Confirme sua senha")
+    } else {
+      const auth = getAuth();
+      fetchSignInMethodsForEmail(auth, email)
+      .then((result) => {
+        console.log(result);
+        if(result.length >= 1) {
+          alert('Email já cadastrado')
+        } else {
+          navigation.navigate('CadastroInst2', {
+            nome:nome,
+            cnpj:cnpj,
+            telefone:telefone,
+            email:email,
+            senha:senha2,
+            descricao:descricao})
+        }
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode)
+        console.log(errorMessage)
+        switch (errorCode){
+            case 'auth/invalid-email':
+                alert('Digite um email válido');
+            break;
+        }
+      })
 
-    }else{
-  
-      alert('Verifique se a senha está correta');
-  
     }
   }
 

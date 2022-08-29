@@ -1,100 +1,157 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Image, Text, View, StyleSheet, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import { Ionicons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
+import firebase from '../../config/configFirebase';
+import { getAuth, updateProfile } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import db from '../../config/configFirebase';
+// import { upload } from '../../config/configStorage';
+
+
 import Backbutton from '../../components/Backbutton';
+import { uploadImageAsync } from '../../config/configStorage';
 
-export default function MeuPerfil({navigation}) {
- return (
-   <View style={styles.container}>
+export default function MeuPerfil({ navigation }) {
+    const [nomeUser, setNomeUser] = useState()
+    const [sobrenomeUser, setSobrenomeUser] = useState()
+    const [nomeCompleto, setNomeCompleto] = useState([], [])
+    const [descricao, setDescricao] = useState();
+    const [photoURL, setPhotoURL] = useState();
 
-    <StatusBar barStyle="dark-content" backgroundColor="#0e52b2"/>
-    <ScrollView contentContainerStyle={{width:'100%'}}>
+    const [image, setImage] = useState("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
 
-            <Backbutton onClick={() => navigation.goBack()}/>
-    <View style={{alignItems:'center'}}>
-        <Text style={styles.titulo}>MEU PERFIL</Text>
+    const subirFotoPerfil = async () => {
+        const auth = getAuth();
+        const userId = auth.currentUser.uid;
+      
+        await uploadImageAsync(image, userId)
+        console.log(uploadedImageLink)
+        console.log("passou");
+        console.log(uploadedImageLink);
+        console.log(image);
+        setFotoStatus(true);
+        console.log(fotoStatus)
+        alert("Parabéns, cadastro realizado2!")
+      }
 
-        <View style={styles.imgPerfilContainer}>
-            <TouchableOpacity style={styles.imgPerfilContainer}>
-               <FontAwesome 
-                name="user-circle-o" 
-                size={120} 
-                color="#0e52b2"
-            />
-            </TouchableOpacity>
-        </View>
-    
+    //useEffect para fetch das infos do firestone, baseado no uid, atribui os states foto/nome/sobrenome/nomecompleto/descricao
+    useEffect(() => {
+        const showName = async () => {
+            const auth = getAuth();
+            const user = auth.currentUser;
+            if (user !== null) {
+                // The user object has basic properties such as display name, email, etc.
+                const uid = user.uid;
+                setPhotoURL(user.photoURL);
+                console.log(user.photoURL);
+                console.log(photoURL)
 
-        <Text style={styles.nome}>Maria Aparecida</Text>
-        <Text style={styles.endereco}>Cidade Tiradentes, SP</Text>
-    
-        <View style={styles.descricaoContainer}>
-            <Text style={styles.descricao}>Meu nome é Maria, tenho 45 anos. Tinha algumas coisas guardadas em casa para doar, então entrei no Ubuntu.</Text>
-        </View>
-    </View>
+                const docRef = doc(db, "Instituições", uid);
+                const docSnap = await getDoc(docRef);
 
-    <View style={styles.editPerfilContainer}>
-        <TouchableOpacity style={styles.editPerfilContainer}>
-            <FontAwesome5 
-            name="edit" 
-            size={16}
-            color="#0e52b2"
-            />
-            <Text style={styles.editPerfil}> EDITAR PERFIL</Text>
-        </TouchableOpacity>
-    </View>
+                try {
+                    setNomeUser(docSnap.data().nome);
+                    console.log(nomeUser);
+                    setSobrenomeUser(docSnap.data().sobrenome);
+                    console.log(sobrenomeUser);
+                    setNomeCompleto(nomeUser);
+                    setDescricao(docSnap.data().descrição);
+                    console.log(descricao);
+                } catch (e) {
+                    console.log("Error getting data from doc users:", e);
+                }
+            }
+        }
+        showName();
+    }, [nomeCompleto]);
 
-    <View style={styles.funcoesContainer}>
-            <View style={styles.funcoesGrid}>
-                <TouchableOpacity style={styles.btn}>
-                    <View style={styles.funcoesIconContainer}>
-                        <Ionicons name="trash" size={40} color="#fff" />
+    return (
+        <View style={styles.container}>
+
+            <StatusBar barStyle="dark-content" backgroundColor="#0e52b2" />
+            <ScrollView contentContainerStyle={{ width: '100%' }}>
+
+                <Backbutton onClick={() => navigation.goBack()} />
+
+                <View style={{ alignItems: 'center' }}>
+                    <Text style={styles.titulo}>MEU PERFIL</Text>
+
+                    <View style={styles.imgPerfilContainer}>
+                        <TouchableOpacity style={styles.imgPerfilContainer} onPress={subirFotoPerfil}>
+                            <Image style={styles.fotoPerfil} source={{ uri: photoURL }} />
+                        </TouchableOpacity>
                     </View>
-                    <Text style={styles.funcoesTitle}>EXCLUIR CONTA</Text>
-                </TouchableOpacity>
-            </View>
 
-            <View style={styles.funcoesGrid}>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('minhasPubs')}>
-                    <View style={styles.funcoesIconContainer}>
-                        <Ionicons name="create" size={40} color="#fff" />
+                    <Text style={styles.nome}>{nomeCompleto}</Text>
+                    <Text style={styles.endereco}>Cidade Tiradentes, SP</Text>
+
+                    <View style={styles.descricaoContainer}>
+                        <Text style={styles.descricao}>{descricao}</Text>
                     </View>
-                    <Text style={styles.funcoesTitle}>MINHAS PUBLICAÇÕES</Text>
+                </View>
+
+                <View style={styles.editPerfilContainer}>
+                    <TouchableOpacity style={styles.editPerfilContainer}>
+                        <FontAwesome5
+                            name="edit"
+                            size={16}
+                            color="#0e52b2"
+                        />
+                        <Text style={styles.editPerfil}> EDITAR PERFIL</Text>
                     </TouchableOpacity>
-            </View>
+                </View>
 
-            <View style={styles.funcoesGrid}>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Configurações')}>
-                    <View style={styles.funcoesIconContainer}>
-                        <Ionicons name="settings" size={40} color="#fff" />
+                <View style={styles.funcoesContainer}>
+                    <View style={styles.funcoesGrid}>
+                        <TouchableOpacity style={styles.btn}>
+                            <View style={styles.funcoesIconContainer}>
+                                <Ionicons name="trash" size={40} color="#fff" />
+                            </View>
+                            <Text style={styles.funcoesTitle}>EXCLUIR CONTA</Text>
+                        </TouchableOpacity>
                     </View>
-                    <Text style={styles.funcoesTitle}>CONFIGURAÇÕES</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={styles.funcoesGrid}>
-                <TouchableOpacity style={styles.btn}>
-                    <View style={styles.funcoesIconContainer}>
-                        <Ionicons name="ios-star" size={40} color="#fff" />
+
+                    <View style={styles.funcoesGrid}>
+                        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('minhasPubs')}>
+                            <View style={styles.funcoesIconContainer}>
+                                <Ionicons name="create" size={40} color="#fff" />
+                            </View>
+                            <Text style={styles.funcoesTitle}>MINHAS PUBLICAÇÕES</Text>
+                        </TouchableOpacity>
                     </View>
-                    <Text style={styles.funcoesTitle}>NOS AVALIE</Text>
-                </TouchableOpacity>
-            </View>
+
+                    <View style={styles.funcoesGrid}>
+                        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Configurações')}>
+                            <View style={styles.funcoesIconContainer}>
+                                <Ionicons name="settings" size={40} color="#fff" />
+                            </View>
+                            <Text style={styles.funcoesTitle}>CONFIGURAÇÕES</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.funcoesGrid}>
+                        <TouchableOpacity style={styles.btn}>
+                            <View style={styles.funcoesIconContainer}>
+                                <Ionicons name="ios-star" size={40} color="#fff" />
+                            </View>
+                            <Text style={styles.funcoesTitle}>NOS AVALIE</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </ScrollView>
         </View>
-    </ScrollView>
-   </View>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor:'#fff'
+        backgroundColor: '#fff'
     },
-    titulo:{
+    titulo: {
         width: '90%',
         fontSize: 35,
         color: '#38b6ff',
@@ -103,7 +160,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         marginTop: -15
     },
-    imgPerfilContainer:{
+    imgPerfilContainer: {
         width: 120,
         height: 120,
         alignItems: 'center',
@@ -113,84 +170,90 @@ const styles = StyleSheet.create({
         borderColor: '#0e52B2',
         marginBottom: 10
     },
-    fotoPerfil:{
-        height: '90%',
-        width: '90%',
+    fotoPerfil: {
+        height: '95%',
+        width: '95%',
+        padding: 10,
+        borderRadius: 60,
+        borderWidth: 1,
+        borderColor: '#0e52B2'
     },
-    nome:{
+    nome: {
         fontSize: 25,
         color: '#38b6ff',
         fontWeight: '700',
         textAlign: 'center',
         textTransform: 'uppercase',
+        width: '80%',
+        flexShrink: 1,
     },
-    endereco:{
+    endereco: {
         fontSize: 20,
         color: '#0e52B2',
         textAlign: 'center',
         fontWeight: 'bold',
     },
-    descricaoContainer:{
+    descricaoContainer: {
         width: '85%',
         paddingHorizontal: 15,
-        paddingVertical: 40,
-        textAlignVertical:'center',
+        paddingVertical: 35,
+        textAlignVertical: 'center',
         backgroundColor: '#ebeff1',
         marginTop: 65,
         borderRadius: 20,
     },
-    descricao:{
-
+    descricao: {
         color: '#0e52B2',
         fontSize: 14,
     },
-    editPerfilContainer:{
+    editPerfilContainer: {
         flexDirection: 'row',
         marginTop: 5,
         marginBottom: 30,
-        alignSelf:'flex-end'
-        },
-    editPerfilIcon:{
+        alignSelf: 'flex-end'
+    },
+    editPerfilIcon: {
         width: 17,
         height: 17,
     },
-    editPerfil:{
+    editPerfil: {
         fontSize: 13,
-        color:'#0e52B2',
+        color: '#0e52B2',
         fontWeight: '600',
         marginRight: 25,
 
     },
-    funcoesContainer:{
+    funcoesContainer: {
         width: '100%',
         flexDirection: 'row',
         marginTop: 65,
-        justifyContent:'space-between'
+        justifyContent: 'space-between',
+        bottom: 0
     },
-    funcoesGrid:{
+    funcoesGrid: {
         flexDirection: 'column',
-        alignContent:'space-between',
+        alignContent: 'space-between',
         textAlign: 'center',
         width: '23%',
     },
-    funcoesIconContainer:{
+    funcoesIconContainer: {
         width: 75,
         height: 75,
         alignItems: 'center',
-        justifyContent:'center',
+        justifyContent: 'center',
         borderRadius: 100,
         backgroundColor: '#0e52B2',
-        padding:5
+        padding: 5
     },
-    funcoesTitle:{
+    funcoesTitle: {
         fontSize: 11,
-        color:'#0c4a86',
+        color: '#0c4a86',
         fontWeight: '700',
         letterSpacing: -0.8,
         textAlign: 'center',
-        textTransform:'uppercase',
+        textTransform: 'uppercase',
     },
-    btn:{
-        alignItems:'center'
+    btn: {
+        alignItems: 'center'
     }
 })

@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import MaskInput from 'react-native-mask-input';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, fetchSignInMethodsForEmail } from "firebase/auth";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 import db from '../../config/configFirebase';
@@ -21,47 +21,45 @@ export default function Pagess({navigation}) {
   const Cadastrar = () => {
 
     if(email === '' || senha1 === '' || senha2 === '' || nome === '' || sobrenome === '' || datanascimento === '' || telefone === ''){
-
       alert('Preencha os campos');
-
-    }else if(senha1 === senha2){
-
+    } else if(senha1.length < 6 ) {
+      alert('Senha muito Curta (mínimo 6 dígitos)')
+    } else if(senha1 !== senha2) {
+      alert("Confirme sua senha")
+    } else {
+      console.log("passou do elseif")
       const auth = getAuth();
-      createUserWithEmailAndPassword(auth, email, senha2)
-        .then(async(userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          await setDoc(doc(db, "users", user.uid), {
-            nome: nome,
-            sobrenome: sobrenome,
-            datanascimento: datanascimento,
-            telefone: telefone
-          });
-          navigation.navigate('AdicionarFoto')
-          // ...
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorCode)
-          console.log(errorMessage)
-          switch (errorCode){
-            case 'auth/email-already-in-use':
-              alert('O endereço de e-mail já está em uso por outra conta.');
+
+      fetchSignInMethodsForEmail(auth, email)
+      .then((result) => {
+        console.log(result);
+        if(result.length >= 1) {
+          alert('Email já cadastrado')
+        } else {
+          navigation.navigate('AdicionarFotoFis', {
+            userEmail: email,
+            userSenha: senha2,
+            userNome: nome,
+            userSobrenome: sobrenome,
+            userDatanascimento: datanascimento,
+            userTelefone: telefone,
+            })
+        }
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode)
+        console.log(errorMessage)
+        switch (errorCode){
+            case 'auth/invalid-email':
+                alert('Digite um email válido');
             break;
-            case 'auth/weak-password':
-                alert('A senha deve ter 6 caracteres ou mais.');
-            break;  
-          }
-        });
-        
-    }else{
-      alert('Verifique se a senha está correta');
+        }
+      })
     }
   }
-
   return (
-
 
     <View style={styles.container}>
 
