@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
         fontSize:15,
         fontWeight:'bold',
         color:'#0e52b2',
+        marginLeft: -30,
     },
     description:{
         fontSize:16,

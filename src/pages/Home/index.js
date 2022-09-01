@@ -5,6 +5,11 @@ import Post from '../../components/post/post';
 import CarouselCards from '../../components/CarouselCards';
 import { Ionicons } from '@expo/vector-icons';
 
+import firebase from '../../config/configFirebase';
+import { getAuth } from "firebase/auth";
+import {doc, getDoc, docSnap } from "firebase/firestore";
+import db from '../../config/configFirebase';
+
 export default function Home({navigation}) {
   return (
         <SafeAreaView style={styles.container}>

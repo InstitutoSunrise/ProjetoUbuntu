@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
         width: '95%',
         padding: 10,
         borderRadius: 60,
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: '#0e52B2'
     },
     nome: {

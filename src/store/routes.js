@@ -1,5 +1,5 @@
-import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -34,10 +34,52 @@ import SobreApp  from '../pages/SobreApp/Index';
 import Configurações from '../pages/Configuracoes/index';
 import AdicionarFotoFis from '../pages/AdicionarFotoFis';
 
+
+
+import { getAuth } from "firebase/auth";
+import {doc, getDoc, docSnap } from "firebase/firestore";
+import db from '../../src/config/configFirebase';
+
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
 
 function TabBar({navigation}){
+
+    
+  
+  const [image, setImage] = useState("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
+
+  const [nomeUser, setNomeUser] = useState();
+  const [sobrenomeUser, setSobrenomeUser] = useState();
+  const [nomeCompleto, setNomeCompleto] = useState();
+  const [descricao, setDescricao] = useState();
+  
+  useEffect(() => {
+    //fetch infos sobre users
+    const showName = async () => {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        if (user !== null) {
+            setImage(user.photoURL);
+
+            const uid = user.uid;
+        
+            const docRef = doc(db, 'users', user.uid);
+            const docSnap = await getDoc(docRef);
+
+            try {
+                setNomeUser(docSnap.data().nome);
+                setSobrenomeUser(docSnap.data().sobrenome);
+                setDescricao(docSnap.data().descricao);
+                setNomeCompleto(nomeUser + sobrenomeUser)
+            } catch (e) {
+                console.log("Error getting data from doc users:", e);
+            }
+        }
+    }
+    showName();
+    }, [nomeCompleto]);
+
     return(
         <Tabs.Navigator
             screenOptions={{
@@ -66,18 +108,17 @@ function TabBar({navigation}){
                  <Ionicons name="home" size={size} color={color} />
                 ), 
                 title: 'HOME',
-                headerTitle:'Maria Aparecida',
+                headerTitle: nomeCompleto,
                 headerShown:true,
                 headerLeft: () =>(
-                    <TouchableOpacity onPress={() => navigation.navigate('MeuPerfil')}>
-                        <FontAwesome 
-                            name="user-circle-o" 
-                            size={40} 
-                            color="#fff"
-                            style={{marginLeft:25}}
-                        />
+                    <TouchableOpacity style={{marginLeft: 10, width: 60, height: 60, justifyContent: 'center'}} onPress={() => navigation.navigate('MeuPerfil')} >
+                       {image && <Image source={{uri: image}} style={styles.fotoPerfil} />}
                     </TouchableOpacity>
-              )
+                ),
+                headerTitleStyle:{
+                    fontWeight: '900',
+                    fontSize: 20
+                }
             }}
             />
             <Tabs.Screen 
@@ -266,3 +307,14 @@ export default function Routes({navigation}) {
     </NavigationContainer>
   );
 }
+
+
+const styles = StyleSheet.create({
+    fotoPerfil:{
+        height: '90%',
+        width: '90%',
+        borderRadius: 60,
+        borderWidth: 2,
+        borderColor: '#ffff', 
+    },
+})
