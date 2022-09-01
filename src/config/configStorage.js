@@ -21,13 +21,12 @@ const storage = getStorage();
       xhr.send(null);
     });
   
-    const fileRef = ref(getStorage(), userId);
+    const fileRef = ref(getStorage(), `photoPerfil/${userId}`);
     const result = await uploadBytes(fileRef, blob);
     const photoURL = await getDownloadURL(fileRef); 
-    
     const auth = getAuth();
     updateProfile(auth.currentUser, {
-    photoURL: photoURL
+      photoURL: photoURL
     })
     
     // We're done with the blob, close and release it

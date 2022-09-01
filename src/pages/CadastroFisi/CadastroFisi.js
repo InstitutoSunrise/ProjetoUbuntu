@@ -27,7 +27,6 @@ export default function Pagess({navigation}) {
     } else if(senha1 !== senha2) {
       alert("Confirme sua senha")
     } else {
-      console.log("passou do elseif")
       const auth = getAuth();
 
       fetchSignInMethodsForEmail(auth, email)

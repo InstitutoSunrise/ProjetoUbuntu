@@ -5,43 +5,46 @@ import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 
 import firebase from '../../config/configFirebase';
 import { getAuth } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import {doc, getDoc, docSnap } from "firebase/firestore";
 import db from '../../config/configFirebase';
-// import { upload } from '../../config/configStorage';
 
 
 import Backbutton from '../../components/Backbutton';
 
 export default function MeuPerfil({ navigation }) {
-    const [nomeUser, setNomeUser] = useState()
-    const [sobrenomeUser, setSobrenomeUser] = useState()
-    const [nomeCompleto, setNomeCompleto] = useState([], [])
-    const [descricao, setDescricao] = useState();
-    const [photoURL, setPhotoURL] = useState();
 
-    //useEffect para fetch das infos do firestone, baseado no uid, atribui os states foto/nome/sobrenome/nomecompleto/descricao
+    const [image, setImage] = useState("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
+
+    const [nomeUser, setNomeUser] = useState();
+    const [sobrenomeUser, setSobrenomeUser] = useState();
+    const [nomeCompleto, setNomeCompleto] = useState();
+    const [descricao, setDescricao] = useState();
+    
     useEffect(() => {
+        //fetch infos sobre users
         const showName = async () => {
             const auth = getAuth();
             const user = auth.currentUser;
             if (user !== null) {
-                // The user object has basic properties such as display name, email, etc.
-                const uid = user.uid;
-                setPhotoURL(user.photoURL);
+                setImage(user.photoURL);
 
-                const docRef = doc(db, "Instituições", uid);
+                const uid = user.uid;
+            
+                const docRef = doc(db, 'users', user.uid);
                 const docSnap = await getDoc(docRef);
 
                 try {
                     setNomeUser(docSnap.data().nome);
-                    setDescricao(docSnap.data().descrição);
+                    setSobrenomeUser(docSnap.data().sobrenome);
+                    setDescricao(docSnap.data().descricao);
+                    setNomeCompleto(nomeUser + sobrenomeUser)
                 } catch (e) {
                     console.log("Error getting data from doc users:", e);
                 }
             }
         }
         showName();
-    }, [nomeCompleto]);
+        }, [nomeCompleto]);
 
     return (
         <View style={styles.container}>
@@ -56,11 +59,11 @@ export default function MeuPerfil({ navigation }) {
 
                     <View style={styles.imgPerfilContainer}>
                         <TouchableOpacity style={styles.imgPerfilContainer}>
-                            <Image style={styles.fotoPerfil} source={{ uri: photoURL }} />
+                            {image && <Image source={{uri: image}} style={styles.fotoPerfil} />}
                         </TouchableOpacity>
                     </View>
 
-                    <Text style={styles.nome}>{nomeUser}</Text>
+                    <Text style={styles.nome}>{nomeCompleto}</Text>
                     <Text style={styles.endereco}>Cidade Tiradentes, SP</Text>
 
                     <View style={styles.descricaoContainer}>

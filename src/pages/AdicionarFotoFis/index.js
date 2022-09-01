@@ -1,42 +1,69 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import React, {useState, useEffect} from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
+import * as ImagePicker from 'expo-image-picker';
+
 import db from '../../config/configFirebase';
+import { uploadImageAsync } from '../../config/configStorage';
 
 import Backbutton from '../../components/Backbutton';
 
 export default function AdicionarFotoFis({navigation, route}) {
 
-  const Cadastrar = () => {
-    console.log(route.params.email)
+  const [image, setImage] = useState("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [20, 20],
+      quality: 1,
+    });
+    if (!result.cancelled) {
+      setImage(result.uri);
+    };
+  };
+
+  const subirFotoPerfil = async () => {
     const auth = getAuth();
-      
-    createUserWithEmailAndPassword(auth, email, senha2)
-      .then(async(userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        await setDoc(doc(db, "users", user.uid), {
-          nome: nome,
-          sobrenome: sobrenome,
-          datanascimento: datanascimento,
-          telefone: telefone
-        });
-          navigation.navigate('Login')
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorCode)
-          console.log(errorMessage)
-          switch (errorCode){
-            case 'auth/admin-restricted-operation':
-                alert('Esta operação é restrita apenas a administradores');
-            break;    
-          }
-        });
+    const userId = auth.currentUser.uid;
+    
+    await uploadImageAsync(image, userId)
+    alert("Parabéns, cadastro realizado!")
+  }
+
+  const Cadastrar = () => {
+    if(image === "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"){
+      alert("Adicione uma foto de perfil");
+    } else {
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, route.params.userEmail, route.params.userSenha)
+        .then(async(userCredential) => {
+          const user = userCredential.user;
+          await setDoc(doc(db, "users", user.uid), {
+            nome: route.params.userNome,
+            sobrenome: route.params.userSobrenome,
+            datanascimento: route.params.userDatanascimento,
+            telefone: route.params.userTelefone
+          });
+            subirFotoPerfil();
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode)
+            console.log(errorMessage)
+            switch (errorCode){
+              case 'auth/admin-restricted-operation':
+                  alert('Esta operação é restrita apenas a administradores');
+              break;    
+            }
+          });
+    }
   }
 
   return (
@@ -45,8 +72,8 @@ export default function AdicionarFotoFis({navigation, route}) {
 
       <Text style={styles.titulo}>CADASTRE-SE</Text>
 
-      <TouchableOpacity style={styles.foto}>
-        <Feather name="user" size={75} color="black" />
+      <TouchableOpacity style={styles.foto} onPress={pickImage}>
+        {image && <Image source={{uri: image}} style={styles.imagePicker} />}
       </TouchableOpacity>
 
       <Text style={styles.texto}>PARA FINALIZAR, ADICIONE UMA FOTO DE PERFIL</Text>
@@ -78,6 +105,11 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     backgroundColor:'#e8eaea',
+  },
+  imagePicker:{
+    width: '100%', 
+    height: '100%',
+    borderRadius: 80
   },
   texto:{
     fontSize:15,
