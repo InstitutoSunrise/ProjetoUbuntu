@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import Backbutton from '../../components/Backbutton';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 
@@ -19,23 +19,41 @@ export default function RecuperarSenha({route, navigation}) {
     });
   }
     return (
-      <View style={estilos.Container}>
-            
-        <Backbutton onClick={() => navigation.goBack()}/>
-          <Text style={estilos.Titulo}>RECUPERAR SENHA</Text>
-          <Text style={estilos.SubTitulo}>CLIQUE NO BOTÃO E RECEBA UM EMAIL PARA RECUPERAÇÃO DE SENHA</Text>
+      <View style={estilos.main}>
+          <View style={estilos.Container}>
+                
+            <Backbutton onClick={() => navigation.goBack()}/>
+              <Text style={estilos.Titulo}>RECUPERAR SENHA</Text>
+              <Text style={estilos.SubTitulo}>CLIQUE NO BOTÃO E RECEBA UM EMAIL PARA RECUPERAÇÃO DE SENHA</Text>
 
-          <TouchableOpacity 
-            style={estilos.Botoes}
-            onPress={() => redefinirSenha()}
-            >
-            <Text style={estilos.BotoesText}>RECEBER EMAIL </Text>
-          </TouchableOpacity>
+              <TouchableOpacity 
+                style={estilos.Botoes}
+                onPress={() => redefinirSenha()}
+                >
+                <Text style={estilos.BotoesText}>RECEBER EMAIL </Text>
+              </TouchableOpacity>
+
+              
+          </View>
+          <Image 
+                style={estilos.imggeo2}
+                source={require('../../assets/figuraGeometrica2.png')}/>
       </View>
      );
    }
 
 const estilos = StyleSheet.create({
+    main:{
+        flex: 1,
+        backgroundColor:'#fff',
+        flexDirection:'column', 
+        overflow:'hidden',
+    },
+    // container:{
+    //     flex:1,
+    //     justifyContent:'center',
+    //     alignItems:'center'
+    // },
     Container:{
         flex: 1,
         width: '100%',
@@ -70,5 +88,12 @@ const estilos = StyleSheet.create({
         textAlign: 'center',
         fontSize: 18,
         fontWeight: '700',
-    }
+    },
+    imggeo2:{
+      width: 250,
+      height: 250,
+      bottom:-70,
+      right:-70,
+      alignSelf:'flex-end',
+   },
 });
