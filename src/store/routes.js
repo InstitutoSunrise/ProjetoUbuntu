@@ -33,7 +33,7 @@ import AdicionarFoto from '../pages/AdicionarFoto/AdicionarFoto';
 import SobreApp  from '../pages/SobreApp/Index';
 import Configurações from '../pages/Configuracoes/index';
 import AdicionarFotoFis from '../pages/AdicionarFotoFis';
-
+import Noticias from '../pages/Noticias';
 
 
 import { getAuth } from "firebase/auth";
@@ -44,8 +44,6 @@ const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
 
 function TabBar({navigation}){
-
-    
   
   const [image, setImage] = useState("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
 
@@ -71,7 +69,7 @@ function TabBar({navigation}){
                 setNomeUser(docSnap.data().nome);
                 setSobrenomeUser(docSnap.data().sobrenome);
                 setDescricao(docSnap.data().descricao);
-                setNomeCompleto(nomeUser + sobrenomeUser)
+                setNomeCompleto(nomeUser +" "+ sobrenomeUser)
             } catch (e) {
                 console.log("Error getting data from doc users:", e);
             }
@@ -161,7 +159,6 @@ function TabBar({navigation}){
                 headerShown:false
             }}
             />
-            
         </Tabs.Navigator>
     )
 }
@@ -230,6 +227,13 @@ export default function Routes({navigation}) {
             component={MeuPerfil}
             options={{
                 headerShown:false,
+            }}
+            />
+            <Stack.Screen
+            name='Noticias'
+            component={Noticias}
+            options={{
+                headerShown: false,
             }}
             />
             <Stack.Screen
