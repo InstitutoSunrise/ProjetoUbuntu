@@ -17,9 +17,25 @@ export default function post() {
                 <Text style={styles.cidade}>Itaquera, SP</Text>
             </View>
        </View>
+       <Text style={styles.status}>recebendo</Text>
+       <Text style={styles.assunto}>Estou recebendo roupas e alimentos</Text>
        <Text style={styles.description}>
                 Estou precisando de cobertores quentes para o frio, quem estiver doando pode me chamar.
         </Text>
+        <View style={styles.boxImages}>
+            <Image
+                style={styles.img}
+                source={require('../../assets/carrosel-img1.jpg')}
+            />
+            <Image
+                style={styles.img}
+                source={require('../../assets/carrosel-img1.jpg')}
+            />
+            <Image
+                style={styles.img}
+                source={require('../../assets/carrosel-img1.jpg')}
+            />
+        </View>
         <TouchableOpacity style={styles.button}>
             <Text style={styles.text}>ENTRAR EM CONTATO</Text>
         </TouchableOpacity>
@@ -31,7 +47,7 @@ const styles = StyleSheet.create({
     card:{
         backgroundColor:'#e8eaea',
         width:'90%',
-        height:240,
+        height:'auto',
         borderRadius:8,
         padding:15,
         alignItems:'center',
@@ -62,6 +78,13 @@ const styles = StyleSheet.create({
         color:'#0e52b2',
         marginLeft: -30,
     },
+    assunto:{
+        fontSize:17,
+        fontWeight:'bold',
+        textAlign:'justify',
+        marginBottom:3,
+        color:'#0e52b2',
+    },
     description:{
         fontSize:16,
         textAlign:'justify',
@@ -78,4 +101,21 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         letterSpacing:2,
     },
+    status:{
+        color:'#38B6FF',
+        fontWeight:'bold',
+        fontSize:18,
+        textDecorationLine:'underline',
+        textTransform:'uppercase',
+        marginBottom:5
+    },
+    boxImages:{
+        padding:5,
+        flexDirection:'row',
+    },
+    img:{
+        width:70,
+        height:70,
+        margin:10
+    }
 });
