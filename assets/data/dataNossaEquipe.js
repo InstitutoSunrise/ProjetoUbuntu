@@ -1,38 +1,38 @@
 const dataNossaEquipe = [
     {
-        imgPessoa: "https://pps.whatsapp.net/v/t61.24694-24/220781284_1416454532146725_791008408609063017_n.jpg?ccb=11-4&oh=01_AVx78yfCd7kSy--Zj5ly5IdyBXG8ryLMKIHj8nUf8rQ4Rw&oe=62F747FA",
+        imgPessoa: "https://firebasestorage.googleapis.com/v0/b/projeto-ubuntu-c5640.appspot.com/o/OurTeam%2FWhatsApp%20Image%202022-08-31%20at%2014.05.06.jpeg?alt=media&token=82000c44-6462-45aa-94d3-f41ed0155c52https://pps.whatsapp.net/v/t61.24694-24/220781284_1416454532146725_791008408609063017_n.jpg?ccb=11-4&oh=01_AVx78yfCd7kSy--Zj5ly5IdyBXG8ryLMKIHj8nUf8rQ4Rw&oe=62F747FA",
         nome: "Inácio Oliveira",
-        cargo: "Scrum Master",
+        cargo: "CEO | Desenvolvedor",
     },
     {
-        imgPessoa: "https://pps.whatsapp.net/v/t61.24694-24/257165026_158266146489476_7359881021903190099_n.jpg?ccb=11-4&oh=01_AVwRg58Ur2r9-WINcQzm2uW-M7t77pJ4Ogw9NQlIKY--vQ&oe=62F587D6",
-        nome: "Raphaelly Oliveira",
-        cargo: "Analista / Secretária",
+        imgPessoa: "https://firebasestorage.googleapis.com/v0/b/projeto-ubuntu-c5640.appspot.com/o/OurTeam%2FWhatsApp%20Image%202022-08-31%20at%2014.20.40.jpeg?alt=media&token=ae014f8f-a94b-4dac-b31e-75cfc85228a7",
+        nome: "  Raphaelly Oliveira",
+        cargo: "Documentação | Designer",
     },
     {
-        imgPessoa: "https://pps.whatsapp.net/v/t61.24694-24/254379270_471604824752232_7019344389113415551_n.jpg?ccb=11-4&oh=01_AVwNRwgeQMLpa5BB3EHYWlksuxwD7Vh0Xa42u7WWr375mw&oe=62F581AA",
+        imgPessoa: "https://firebasestorage.googleapis.com/v0/b/projeto-ubuntu-c5640.appspot.com/o/OurTeam%2Fdavi.jpg?alt=media&token=e94e7605-2ece-4c17-938c-a3d93adf3cc7",
         nome: "Davi Rodrigues",
-        cargo: "Analista / Secretário",
+        cargo: "Analista | Documentação",
     },
     {
-        imgPessoa: "https://pps.whatsapp.net/v/t61.24694-24/292947376_1030074440977556_3246496747395344137_n.jpg?ccb=11-4&oh=01_AVwuz0wa9AkVip4gi_1Wx0n06o5hmplCNXjRUzNDTThXwQ&oe=62F4F48B",
-        nome: "Gustavo Carvalho",
-        cargo: "Secretário / Designer",
+        imgPessoa: "https://firebasestorage.googleapis.com/v0/b/projeto-ubuntu-c5640.appspot.com/o/OurTeam%2F297753769_785734715887857_6695054160574836561_n.jpg?alt=media&token=ba8bc780-7ac9-40e9-9e53-0470b81f08db",
+        nome: "Gustavo de Carvalho",
+        cargo: "Designer | Documentação",
     },
     {
-        imgPessoa: "https://pps.whatsapp.net/v/t61.24694-24/291051246_1076652119932468_3105335550077452840_n.jpg?ccb=11-4&oh=01_AVw0hi5cxGtKC6ym6EBgzNsxc5pOQlZYrhw5UNPi_Ml7CQ&oe=62F7004F",
+        imgPessoa: "https://firebasestorage.googleapis.com/v0/b/projeto-ubuntu-c5640.appspot.com/o/OurTeam%2FWhatsApp%20Image%202022-08-31%20at%2013.27.08.jpeg?alt=media&token=8087e48f-a221-4711-b68b-2852f608498a",
         nome: "Caroline Pollito",
-        cargo: "Desenvolvedora Front-end",
+        cargo: "Coordenadora Social",
     },
     {
-        imgPessoa: "https://pps.whatsapp.net/v/t61.24694-24/221941341_697520274850350_8212072884826599378_n.jpg?ccb=11-4&oh=01_AVyeRJbbvRBg-Vfs0AaFGm8X0w1nIRqFIxhgTHXzlSFOlw&oe=62F6DC71",
+        imgPessoa: "https://firebasestorage.googleapis.com/v0/b/projeto-ubuntu-c5640.appspot.com/o/OurTeam%2FWhatsApp%20Image%202022-08-31%20at%2013.20.33.jpeg?alt=media&token=dc6badcd-b8ec-447a-bb83-d0706f1e85cf",
         nome: "Wellington Silva",
-        cargo: "Programador Fullstack",
+        cargo: "Desenvolvedor | DBA",
     },
     {
-        imgPessoa: "https://pps.whatsapp.net/v/t61.24694-24/293260740_707364540336697_2682637645626509339_n.jpg?ccb=11-4&oh=01_AVyRufusvGmVgREp6SQ7jfFyeWQ1eByjTatP5JjXDY8fbg&oe=62F5C34B",
+        imgPessoa: "https://firebasestorage.googleapis.com/v0/b/projeto-ubuntu-c5640.appspot.com/o/OurTeam%2FWhatsApp%20Image%202022-08-31%20at%2013.12.08.jpeg?alt=media&token=d266aec9-ea36-4bfb-84f0-d0232fb64708",
         nome: "Júlia Alice",
-        cargo: "Programadora Fullstack",
+        cargo: "Desenvolvedora Front-end | Social Media",
     },
 ];
 

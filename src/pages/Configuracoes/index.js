@@ -1,8 +1,9 @@
-import React from 'react';
-import { View, StyleSheet, TouchableOpacity,Text, StatusBar } from 'react-native';
+import React, {useCallback} from 'react';
+import { View, StyleSheet, TouchableOpacity,Text, StatusBar, Alert, Linking } from 'react-native';
 
 import Backbutton from '../../components/Backbutton';
 import { getAuth, signOut } from "firebase/auth";
+
 
 export default function Configuracoes({navigation}) {
 
@@ -16,6 +17,25 @@ export default function Configuracoes({navigation}) {
         });
       }
 
+    const siteUbuntu = "https://projetoubuntu.netlify.app/index.html#projeto";
+
+    const OpenURLButton = ({ url, children }) => {
+    const handlePress = useCallback(async () => {
+        // Checking if the link is supported for links with custom URL scheme.
+        const supported = await Linking.canOpenURL(url);
+
+        if (supported) {
+        // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+        // by some browser in the mobile
+        await Linking.openURL(url);
+        } else {
+        Alert.alert(`Don't know how to open this URL: ${url}`);
+        }
+    }, [url]);
+
+    return <TouchableOpacity style={styles.btn} onPress={handlePress}><Text style={styles.btnText}>{children}</Text></TouchableOpacity>;
+    };
+
  return (
    <View style={styles.container}>
     <StatusBar barStyle="dark-content" backgroundColor="#0e52b2"/>
@@ -28,8 +48,10 @@ export default function Configuracoes({navigation}) {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.btn}>
-            <Text style={styles.btnText}>PERMISSÕES</Text>
+            <Text style={styles.btnText}>EXCLUIR CONTA</Text>
         </TouchableOpacity>
+
+        <OpenURLButton url={siteUbuntu}>AJUDA</OpenURLButton>
 
         <TouchableOpacity style={styles.btn} onPress={() => {Logout()}}>
             <Text style={styles.btnText}>SAIR</Text>

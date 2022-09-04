@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { Image, Text, View, StyleSheet, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
-import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import firebase from '../../config/configFirebase';
 import { getAuth } from "firebase/auth";
@@ -37,7 +37,7 @@ export default function MeuPerfil({ navigation }) {
                     setNomeUser(docSnap.data().nome);
                     setSobrenomeUser(docSnap.data().sobrenome);
                     setDescricao(docSnap.data().descricao);
-                    setNomeCompleto(nomeUser +" "+ sobrenomeUser)
+                    setNomeCompleto(nomeUser + sobrenomeUser)
                 } catch (e) {
                     console.log("Error getting data from doc users:", e);
                 }
@@ -72,13 +72,13 @@ export default function MeuPerfil({ navigation }) {
                 </View>
 
                 <View style={styles.editPerfilContainer}>
-                    <TouchableOpacity style={styles.editPerfilContainer}>
+                    <TouchableOpacity style={styles.editPerfilContainer} onPress={(()=> navigation.navigate('EditarDescUserFis'))}>
                         <FontAwesome5
                             name="edit"
                             size={16}
                             color="#0e52b2"
                         />
-                        <Text style={styles.editPerfil}> EDITAR PERFIL</Text>
+                        <Text style={styles.editPerfil}> EDITAR TEXTO</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -86,16 +86,20 @@ export default function MeuPerfil({ navigation }) {
                     <View style={styles.funcoesGrid}>
                         <TouchableOpacity style={styles.btn}>
                             <View style={styles.funcoesIconContainer}>
-                                <Ionicons name="trash" size={40} color="#fff" />
+                                <FontAwesome5
+                                name="edit"
+                                size={40}
+                                color="#fff"
+                                />
                             </View>
-                            <Text style={styles.funcoesTitle}>EXCLUIR CONTA</Text>
+                            <Text style={styles.funcoesTitle}>EDITAR PERFIL</Text>
                         </TouchableOpacity>
                     </View>
 
                     <View style={styles.funcoesGrid}>
                         <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('minhasPubs')}>
                             <View style={styles.funcoesIconContainer}>
-                                <Ionicons name="create" size={40} color="#fff" />
+                                <AntDesign name="star" size={40} color="#fff" />
                             </View>
                             <Text style={styles.funcoesTitle}>MINHAS PUBLICAÇÕES</Text>
                         </TouchableOpacity>
@@ -113,7 +117,7 @@ export default function MeuPerfil({ navigation }) {
                     <View style={styles.funcoesGrid}>
                         <TouchableOpacity style={styles.btn}>
                             <View style={styles.funcoesIconContainer}>
-                                <Ionicons name="ios-star" size={40} color="#fff" />
+                                <MaterialCommunityIcons name="hand-heart" size={40} color="#fff" />
                             </View>
                             <Text style={styles.funcoesTitle}>NOS AVALIE</Text>
                         </TouchableOpacity>
@@ -144,7 +148,6 @@ const styles = StyleSheet.create({
         height: 120,
         alignItems: 'center',
         borderStyle: 'solid',
-        // borderWidth: 1,
         borderRadius: 100,
         borderColor: '#0e52B2',
         marginBottom: 10
