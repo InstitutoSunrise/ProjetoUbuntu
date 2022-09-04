@@ -37,7 +37,7 @@ export default function MeuPerfil({ navigation }) {
                     setNomeUser(docSnap.data().nome);
                     setSobrenomeUser(docSnap.data().sobrenome);
                     setDescricao(docSnap.data().descricao);
-                    setNomeCompleto(nomeUser + sobrenomeUser)
+                    setNomeCompleto(nomeUser +" "+ sobrenomeUser)
                 } catch (e) {
                     console.log("Error getting data from doc users:", e);
                 }
