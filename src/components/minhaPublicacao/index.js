@@ -1,14 +1,29 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 
 export default function MinhaPublicacao({dataHora, descricao}) {
  return (
     <View style={styles.container}>
-        <View style={styles.containerPub}>       
-            <Text style={styles.dataHora}>{dataHora}</Text>
+        <View style={styles.containerPub}>
+            <View style={styles.boxData}>
+                <Text style={styles.dataHora}>{dataHora}</Text>
+            </View>       
             <Text style={styles.descricao}>{descricao}</Text>
 
-
+            <View style={styles.boxImages}>
+                <Image
+                    style={styles.img}
+                    source={require('../../assets/carrosel-img1.jpg')}
+                />
+                <Image
+                    style={styles.img}
+                    source={require('../../assets/carrosel-img1.jpg')}
+                />
+                <Image
+                    style={styles.img}
+                    source={require('../../assets/carrosel-img1.jpg')}
+                />
+            </View>
             <View style={styles.btnView}>
                 <TouchableOpacity style={styles.botoes}>
                     <Text style={styles.botoesText}>EDITAR</Text>
@@ -38,6 +53,10 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         borderRadius: 10,
         padding: 10,
+        alignItems:'center',
+    },
+    boxData:{
+        width:'100%'
     },
     dataHora:{
         fontSize: 13,
@@ -53,22 +72,18 @@ const styles = StyleSheet.create({
         marginVertical: 5
     },
     btnView:{
-        flex: 1,
+        width:'100%',
         flexDirection: 'row',
-        width: '100%',
-        marginLeft: 20,
-        alignItems: 'center',
-        padding: 15,
-        marginTop: 25
+        padding:5
     },
     botoes:{
         alignItems: 'center',
-        alignSelf: 'center',
+        justifyContent:"center",
         backgroundColor: '#0e52b2',
-        paddingVertical: 5,
+        paddingVertical: 10,
         borderRadius: 60,
-        width: '35%',
-        height: 40,
+        width: '40%',
+        height: 50,
         margin: 10,
     },
     botoesText:{
@@ -77,4 +92,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         padding: 5
     },
+    boxImages:{
+        padding:5,
+        flexDirection:'row',
+    },
+    img:{
+        width:70,
+        height:70,
+        margin:10
+    }
 })

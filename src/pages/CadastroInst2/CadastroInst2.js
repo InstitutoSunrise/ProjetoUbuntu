@@ -13,6 +13,7 @@ export default function App({navigation, route}) {
   const [complemento, setComplemento] = useState('');
   const [nolocal, setNolocal] = useState('');
   const [horario, setHorario] = useState('');
+  const [voluntario, setVoluntario] = useState('');
 
   const PassarValores = () => {
 
@@ -21,7 +22,7 @@ export default function App({navigation, route}) {
       alert('Preencha os campos');
 
     }else{
-      navigation.navigate('AdicionarFoto', {cep:cep, endereço:endereço, numero: numero, complemento:complemento, nolocal:nolocal, horario:horario,  email:route.params.email, senha:route.params.senha, cnpj:route.params.cnpj, telefone:route.params.telefone, descricao:route.params.descricao, nome:route.params.nome})
+      navigation.navigate('AdicionarFoto', {cep:cep, endereço:endereço, numero: numero, complemento:complemento, nolocal:nolocal, horario:horario, voluntario:voluntario,  email:route.params.email, senha:route.params.senha, cnpj:route.params.cnpj, telefone:route.params.telefone, descricao:route.params.descricao, nome:route.params.nome})
     }
 
   }
@@ -75,6 +76,12 @@ export default function App({navigation, route}) {
       style={styles.TextInput} 
       value={horario}
       onChangeText={text=>setHorario(text)} />
+
+      <TextInput 
+      placeholder="ACEITA VOLUNTÁRIOS" 
+      style={styles.TextInput} 
+      value={voluntario}
+      onChangeText={text=>setVoluntario(text)} />
 
       
       <TouchableOpacity style={styles.botao} onPress={PassarValores}>

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import MaskInput from 'react-native-mask-input';
 import { getAuth, fetchSignInMethodsForEmail } from "firebase/auth";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
@@ -17,6 +17,8 @@ export default function Pagess({navigation}) {
   const [email, setEmail] = useState('');
   const [senha1, setSenha1] = useState('');
   const [senha2, setSenha2] = useState('');
+  const [descricao, seDescricao] = useState('');
+
 
   const Cadastrar = () => {
 
@@ -42,6 +44,7 @@ export default function Pagess({navigation}) {
             userSobrenome: sobrenome,
             userDatanascimento: datanascimento,
             userTelefone: telefone,
+            userDescricao:descricao
             })
         }
       })
@@ -61,6 +64,7 @@ export default function Pagess({navigation}) {
   return (
 
     <View style={styles.container}>
+    <ScrollView contentContainerStyle={{alignItems:'center',width:'100%'}}>
 
       <Backbutton onClick={() => navigation.goBack()}/>
       <StatusBar barStyle="dark-content" backgroundColor="#0e52b2"/>
@@ -126,10 +130,17 @@ export default function Pagess({navigation}) {
         value={senha2}
         onChangeText={text => setSenha2(text)} />
 
+        <TextInput 
+        placeholder="DESCRIÇÃO" 
+        style={styles.TextInputdescrição} 
+        value={descricao}
+        onChangeText={text=>seDescricao(text)} 
+        />
+
           <TouchableOpacity style={styles.botao} onPress={Cadastrar}>
             <Text style={styles.textoBotao}>CONTINUAR</Text>
           </TouchableOpacity>
-
+      </ScrollView>
     </View>
    
   );
@@ -170,8 +181,17 @@ const styles = StyleSheet.create({
     borderRadius:30,
     fontSize:14,
   },
+  TextInputdescrição:{
+    width: '80%',
+    height: 100,
+    marginTop:15,
+    backgroundColor: `#e8eaea`,
+    borderRadius: 30,
+    paddingVertical: 16,
+    paddingHorizontal: 25,
+  },
   botao:{
-    marginTop:30,
+    marginVertical:30,
     width:200,
     backgroundColor:'#0e52b2',
     padding:12,
