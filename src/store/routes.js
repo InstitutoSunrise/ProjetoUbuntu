@@ -35,6 +35,7 @@ import Configurações from '../pages/Configuracoes/index';
 import AdicionarFotoFis from '../pages/AdicionarFotoFis';
 import Noticias from '../pages/Noticias';
 import EditarDescUserFis from '../pages/EditarDescUserFis';
+import EditarPerfilUserFis from '../pages/EditarPerfilUserFis';
 
 
 import { getAuth } from "firebase/auth";
@@ -70,7 +71,7 @@ function TabBar({navigation}){
                 setNomeUser(docSnap.data().nome);
                 setSobrenomeUser(docSnap.data().sobrenome);
                 setDescricao(docSnap.data().descricao);
-                setNomeCompleto(nomeUser + sobrenomeUser)
+                setNomeCompleto(nomeUser +" "+  sobrenomeUser)
             } catch (e) {
                 console.log("Error getting data from doc users:", e);
             }
@@ -310,6 +311,13 @@ export default function Routes({navigation}) {
             <Stack.Screen
             name="EditarDescUserFis"
             component={EditarDescUserFis}
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen
+            name="EditarPerfilUserFis"
+            component={EditarPerfilUserFis}
             options={{
                 headerShown:false,
             }}
