@@ -8,13 +8,13 @@ export default function Entrar({navigation}) {
     const Entrar = () => {
         const auth = getAuth();
         onAuthStateChanged(auth, (user) => {
-        if (user) {
-        const uid = user.uid;
-        navigation.navigate("Home", {idUser: uid})
-        // ...
-        }else{
-            navigation.navigate('LoginCadastro')
-        }
+            if (user) {
+                const uid = user.uid;
+                navigation.navigate("Home", {idUser: uid})
+                // ...
+            }else{
+                navigation.navigate('LoginCadastro')
+            }
         });
     }
 
@@ -66,7 +66,7 @@ export default function Entrar({navigation}) {
             marginTop:50
         },
         texto:{
-            fontSize:18,
+            fontSize:21,
             fontStyle:'italic',
             paddingVertical:10,
         },

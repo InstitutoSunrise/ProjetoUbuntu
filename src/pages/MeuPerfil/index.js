@@ -84,7 +84,7 @@ export default function MeuPerfil({ navigation }) {
 
                 <View style={styles.funcoesContainer}>
                     <View style={styles.funcoesGrid}>
-                        <TouchableOpacity style={styles.btn} onPress={(() => navigation.navigate('EditarPerfilUserFis'))}>
+                        <TouchableOpacity style={styles.btn} onPress={(() => navigation.navigate('EditarPerfilUserInst1'))}>
                             <View style={styles.funcoesIconContainer}>
                                 <FontAwesome5
                                 name="edit"

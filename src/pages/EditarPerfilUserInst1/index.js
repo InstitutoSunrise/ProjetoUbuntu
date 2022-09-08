@@ -10,7 +10,7 @@ import Backbutton from '../../components/Backbutton';
 import firebase from '../../config/configFirebase';
 import { getAuth } from "firebase/auth";
 
-export default function EditarPerfilUserFis({ navigation }) {
+export default function EditarPerfilUserInst1({ navigation }) {
 
     const auth = getAuth();
     const user = auth.currentUser;
@@ -21,8 +21,7 @@ export default function EditarPerfilUserFis({ navigation }) {
 
     
     const [nome, setNome] = useState('');
-    const [sobrenome, setSobrenome] = useState('');
-    const [datanascimento, setDataNascimento] = useState('');
+    const [cnpj, setCnpj] = useState('');
     const [telefone, setTelefone] = useState('');
     const [email, setEmail] = useState('');
     const [senha1, setSenha1] = useState('');
@@ -59,29 +58,29 @@ return (
 
         <View style={styles.inputsView}>
             <TextInput 
-            placeholder="NOME" 
+            placeholder="NOME DA INSTITUIÇÃO" 
             style={styles.TextInput} 
             value={nome}
             onChangeText={text => setNome(text)} />
 
             <TextInput 
-            placeholder="SOBRENOME" 
+            placeholder="E-MAIL" 
             style={styles.TextInput} 
-            value={sobrenome}
-            onChangeText={text => setSobrenome(text)} />
+            value={email}
+            onChangeText={text => setEmail(text)} />
             
 
             <View style={styles.containerInput}>
             <MaskInput 
-            placeholder="DATA DE NASCIMENTO" 
-            keyboarType={'number-pad'}
+            placeholder="CNPJ" 
+            keyboardType={'number-pad'}
             style={styles.Input} 
-            value={datanascimento}
+            value={cnpj}
             onChangeText={(masked, unmasked) => {
-                setDataNascimento(masked);
+            setCnpj(masked);
             
             }}
-            mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
+            mask={[/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/]}
             />
             
             <MaskInput 
@@ -96,12 +95,7 @@ return (
             mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
             />
             </View>
-            <TextInput 
-            placeholder="E-MAIL" 
-            style={styles.TextInput} 
-            value={email}
-            onChangeText={text => setEmail(text)} />
-
+            
             <TextInput 
             secureTextEntry={true} 
             placeholder="DIGITE SUA SENHA" 
@@ -118,8 +112,7 @@ return (
             onChangeText={text => setSenha2(text)}
             />
         </View>
-
-        <TouchableOpacity style={styles.botao}>
+        <TouchableOpacity style={styles.botao} onPress={(() => navigation.navigate('EditarPerfilUserInst2'))}>
             <Text style={styles.textoBotao}>SALVAR</Text>
         </TouchableOpacity>
     </View>

@@ -36,7 +36,8 @@ import AdicionarFotoFis from '../pages/AdicionarFotoFis';
 import Noticias from '../pages/Noticias';
 import EditarDescUserFis from '../pages/EditarDescUserFis';
 import EditarPerfilUserFis from '../pages/EditarPerfilUserFis';
-
+import EditarPerfilUserInst1 from '../pages/EditarPerfilUserInst1';
+import EditarPerfilUserInst2 from '../pages/EditarPerfilUserInst2';
 
 import { getAuth } from "firebase/auth";
 import {doc, getDoc, docSnap } from "firebase/firestore";
@@ -322,7 +323,20 @@ export default function Routes({navigation}) {
                 headerShown:false,
             }}
             />
-            
+            <Stack.Screen
+            name="EditarPerfilUserInst1"
+            component={EditarPerfilUserInst1}
+            options={{
+                headerShown:false,
+            }}
+            />
+            <Stack.Screen
+            name="EditarPerfilUserInst2"
+            component={EditarPerfilUserInst2}
+            options={{
+                headerShown:false,
+            }}
+            />
         </Stack.Navigator>
     </NavigationContainer>
   );
