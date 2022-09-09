@@ -129,15 +129,14 @@ export default function Login({navigation}) {
         <Text style={styles.textoBotao}>ENTRAR</Text>
         </TouchableOpacity>
 
-        <Text style={styles.texto}>AINDA NÃO CRIOU A SUA CONTA? 
-        <TouchableOpacity 
-        style={{alignItems:'center',justifyContent:'center'}} 
-        onPress={() => navigation.navigate('EscolherTipoCadastro')}>
-        
-            <Text style={styles.span}> CLIQUE AQUI</Text>
-        
-        
-        </TouchableOpacity> PARA SE CADASTRAR</Text>
+        <View style={styles.spanView}>
+            <Text style={styles.texto}>AINDA NÃO CRIOU A SUA CONTA? 
+            <TouchableOpacity 
+            style={{alignItems:'center',justifyContent:'center'}} 
+            onPress={() => navigation.navigate('EscolherTipoCadastro')}>
+                <Text style={styles.span}> CLIQUE AQUI</Text>
+            </TouchableOpacity> PARA SE CADASTRAR</Text>
+        </View>
    </View>
   );
 }
@@ -152,7 +151,7 @@ const styles = StyleSheet.create({
         fontSize:50,
         fontWeight:'bold',
         color:'#38B6FF',
-        marginTop: 30,
+        marginTop: 85,
     },
     input:{
         width:'80%',
@@ -192,8 +191,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: "#0c4a86",
         textDecorationLine: "underline",
-
-
     },
     span:{
         color:'rgb(14, 82, 178)',

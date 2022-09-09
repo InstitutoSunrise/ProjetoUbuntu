@@ -6,9 +6,6 @@ export default function EscolherTipoCadastro({navigation}) {
  return (
     <View style={estilos.main}>
         <Backbutton onClick={() => navigation.goBack()}/>
-        {/* <Image 
-            style={estilos.imggeo}
-            source={require('../../assets/figuraGeometrica.png')}/> */}
 
         <View style={estilos.container}>
 
@@ -55,7 +52,6 @@ const estilos = StyleSheet.create({
     imagem:{
         height: 300,
         width: 300,
-        marginTop:30
     },
     descricao:{
         width: '85%',

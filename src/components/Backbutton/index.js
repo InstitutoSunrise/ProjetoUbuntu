@@ -22,7 +22,7 @@ export default function backbutton({onClick}) {
 const styles = StyleSheet.create({
     container:{
         width:'100%',
-        top:0,
+        top:10,
         left:0,
         padding:20,
     },

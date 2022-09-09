@@ -4,9 +4,17 @@ import { View, StyleSheet, TouchableOpacity, Image, Text, TextInput,  ScrollView
 import Checkbox from 'expo-checkbox';
 import * as ImagePicker from 'expo-image-picker';
 
+import firebase from '../../config/configFirebase';
+import { getAuth } from "firebase/auth";
+
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function Publicar({navigation}) {
+
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    const [imagePerfil, setImagePerfil] = useState(user.photoURL);
 
     const [isDoando, setDoando] = useState(false);
     const [isRecebendo, setRecebendo] = useState(false);
@@ -14,7 +22,6 @@ export default function Publicar({navigation}) {
     const [tipoAjuda, setTipoAjuda] = useState('');
     const [sobreVoce, setSobreVoce] = useState('');
 
-    const [count, setCount] = useState(0)
     const imagesArr = [];
 
     const [image, setImage] = useState(imagesArr);
@@ -23,14 +30,12 @@ export default function Publicar({navigation}) {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
+        allowsEditing: false,
         aspect: [4, 3],
         quality: 1,
         });
 
         if (!result.cancelled) {
-            setCount(() => (count + 1))
-            
             setImage(oldArray => [...oldArray, result.uri]);
     };
 }
@@ -41,12 +46,8 @@ export default function Publicar({navigation}) {
 
     <ScrollView contentContainerStyle={{alignItems:'center',width:'100%'}}>
 
-        <TouchableOpacity style={styles.containerFoto}>
-            <FontAwesome 
-                name="user-circle-o" 
-                size={65} 
-                color="#0e52b2"
-            />
+        <TouchableOpacity style={styles.containerFoto} onPress={(() =>  navigation.navigate('MeuPerfil'))}>
+            <Image style={styles.fotoPerfil} source={{uri: imagePerfil}}/>
         </TouchableOpacity>
 
     <View style={styles.checkBoxesContainer}>
@@ -135,14 +136,18 @@ const styles = StyleSheet.create({
         height: 65,
         alignItems: 'center',
         alignSelf: 'flex-end',
+        borderWidth: 2,
+        borderRadius: 60,
+        borderColor: '#0e52B2',
         borderStyle: 'solid',
         marginBottom: 10,
         marginTop: 15,  
-        marginRight:30
+        marginRight:30,
     },
     fotoPerfil:{
-        height: '90%',
-        width: '90%',
+        height: '100%',
+        width: '100%',
+        borderRadius: 60,
     },
     checkBoxesContainer:{
         width: '85%',

@@ -40,7 +40,7 @@ import EditarPerfilUserInst1 from '../pages/EditarPerfilUserInst1';
 import EditarPerfilUserInst2 from '../pages/EditarPerfilUserInst2';
 
 import { getAuth } from "firebase/auth";
-import {doc, getDoc, docSnap } from "firebase/firestore";
+import { getDocs, query, collection, where } from "firebase/firestore";
 import db from '../../src/config/configFirebase';
 
 const Stack = createNativeStackNavigator();
@@ -50,36 +50,35 @@ function TabBar({navigation}){
   
   const [image, setImage] = useState("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
 
-  const [nomeUser, setNomeUser] = useState();
-  const [sobrenomeUser, setSobrenomeUser] = useState();
   const [nomeCompleto, setNomeCompleto] = useState();
-  const [descricao, setDescricao] = useState();
   
-  useEffect(() => {
-    //fetch infos sobre users
-    const showName = async () => {
-        const auth = getAuth();
-        const user = auth.currentUser;
-        if (user !== null) {
-            setImage(user.photoURL);
+  async function ShowUserInfos(){
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user !== null) {
+        setImage(user.photoURL);
 
-            const uid = user.uid;
-        
-            const docRef = doc(db, 'users', user.uid);
-            const docSnap = await getDoc(docRef);
+        const uid = user.uid;
 
-            try {
-                setNomeUser(docSnap.data().nome);
-                setSobrenomeUser(docSnap.data().sobrenome);
-                setDescricao(docSnap.data().descricao);
-                setNomeCompleto(nomeUser +" "+  sobrenomeUser)
-            } catch (e) {
-                console.log("Error getting data from doc users:", e);
+        const q = query(collection(db, 'Usuários'), where("userId", "==", uid));
+        const querySnapshot = await getDocs(q);
+
+        const getInfos = querySnapshot.forEach(doc => {
+            if(doc.data().tipoUser == "userFisico"){
+                setNomeCompleto(doc.data().nome +" "+ doc.data().sobrenome)
+                console.log(doc.data().userId, " => ", doc.data()); 
+            } else {
+                console.log(doc.data().userId, " => ", doc.data()); 
+                setNomeCompleto(doc.data().nome)
             }
-        }
+        })
+        return getInfos;    
     }
-    showName();
-    }, [nomeCompleto]);
+}
+    useEffect(() => {
+        //fetch infos sobre users
+        ShowUserInfos();  
+    });
 
     return(
         <Tabs.Navigator

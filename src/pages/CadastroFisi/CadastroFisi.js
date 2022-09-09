@@ -150,13 +150,12 @@ const styles = StyleSheet.create({
   container:{
     backgroundColor:'#fff',
     flex:1,
-    alignItems:'center',
   },
   titulo:{
     fontSize:50,
     fontWeight:'bold',
     color:'#38B6FF',
-    marginTop: 30,
+    marginTop: 30
   },
   containerInput:{
     justifyContent: "space-between",

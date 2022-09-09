@@ -5,7 +5,7 @@ import { Ionicons, FontAwesome5, AntDesign, MaterialCommunityIcons } from '@expo
 
 import firebase from '../../config/configFirebase';
 import { getAuth } from "firebase/auth";
-import {doc, getDoc, docSnap } from "firebase/firestore";
+import {doc, getDocs, docSnap, query, collection, where } from "firebase/firestore";
 import db from '../../config/configFirebase';
 
 
@@ -15,36 +15,39 @@ export default function MeuPerfil({ navigation }) {
 
     const [image, setImage] = useState("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
 
-    const [nomeUser, setNomeUser] = useState();
-    const [sobrenomeUser, setSobrenomeUser] = useState();
     const [nomeCompleto, setNomeCompleto] = useState();
-    const [descricao, setDescricao] = useState();
+    const [descricao, setDescricao] = useState();    
     
+    async function ShowUserInfos(){
+        const auth = getAuth();
+        const user = auth.currentUser;
+        if (user !== null) {
+            setImage(user.photoURL);
+
+            const uid = user.uid;
+
+            const q = query(collection(db, 'Usuários'), where("userId", "==", uid));
+            const querySnapshot = await getDocs(q);
+
+            const getInfos = querySnapshot.forEach(doc => {
+                if(doc.data().tipoUser == "userFisico"){
+                    setNomeCompleto(doc.data().nome +" "+ doc.data().sobrenome)
+                    setDescricao(doc.data().descricao);
+                    console.log(doc.data().userId, " => ", doc.data()); 
+                } else {
+                    console.log(doc.data().userId, " => ", doc.data()); 
+                    setNomeCompleto(doc.data().nome)
+                    setDescricao(doc.data().descricao);
+                }
+            })
+            return getInfos;    
+        }
+    }
+
     useEffect(() => {
         //fetch infos sobre users
-        const showName = async () => {
-            const auth = getAuth();
-            const user = auth.currentUser;
-            if (user !== null) {
-                setImage(user.photoURL);
-
-                const uid = user.uid;
-            
-                const docRef = doc(db, 'users', user.uid);
-                const docSnap = await getDoc(docRef);
-
-                try {
-                    setNomeUser(docSnap.data().nome);
-                    setSobrenomeUser(docSnap.data().sobrenome);
-                    setDescricao(docSnap.data().descricao);
-                    setNomeCompleto(nomeUser +" "+ sobrenomeUser)
-                } catch (e) {
-                    console.log("Error getting data from doc users:", e);
-                }
-            }
-        }
-        showName();
-        }, [nomeCompleto]);
+        ShowUserInfos();  
+    });
 
     return (
         <View style={styles.container}>
