@@ -5,6 +5,8 @@ import MaskInput from 'react-native-mask-input';
 import { getAuth, fetchSignInMethodsForEmail } from "firebase/auth";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
+import telefone_validation from '../../config/inputsValidations/telNumberValidation';
+
 import db from '../../config/configFirebase';
 import Backbutton from '../../components/Backbutton';
 
@@ -18,6 +20,8 @@ export default function Pagess({navigation}) {
   const [senha1, setSenha1] = useState('');
   const [senha2, setSenha2] = useState('');
   const [descricao, seDescricao] = useState('');
+
+  const [errorTel, setErrorTel] = useState();
 
 
   const Cadastrar = () => {
@@ -98,13 +102,13 @@ export default function Pagess({navigation}) {
           
           <MaskInput 
           placeholder="TELEFONE" 
-          keyboarType={'number-pad'}
-          style={styles.Input} 
+          keyboarType={'number-pad'} 
+          style={errorTel ? styles.InputError : styles.Input} 
           value={telefone}
           onChangeText={(masked, unmasked) => {
             setTelefone(masked);
-          
           }}
+          onBlur={() => telefone_validation(telefone) ? setErrorTel(false) : setErrorTel(true)}
           mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
           />
         </View>
@@ -165,6 +169,17 @@ const styles = StyleSheet.create({
   },
   Input:{
     backgroundColor:'#e8eaea',
+    paddingVertical: 16,
+    paddingHorizontal: 25,
+    borderRadius:30,
+    fontSize:14,
+    width:'49%'
+  },
+  InputError:{
+    backgroundColor:'#e8eaea',
+    borderColor:'#ff4040',
+    borderWidth: 1,
+    color: '#ff4040',
     paddingVertical: 16,
     paddingHorizontal: 25,
     borderRadius:30,

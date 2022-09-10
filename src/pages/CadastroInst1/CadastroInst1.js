@@ -5,6 +5,8 @@ import { getAuth, fetchSignInMethodsForEmail } from "firebase/auth";
 import MaskInput from 'react-native-mask-input';
 
 import Backbutton from '../../components/Backbutton';
+import validarCNPJ from '../../config/inputsValidations/cnpjValidation';
+import telefone_validation from '../../config/inputsValidations/telNumberValidation';
 
 export default function App({navigation}) {
 
@@ -15,6 +17,9 @@ export default function App({navigation}) {
   const [senha1, setSenha1] = useState('');
   const [senha2, setSenha2] = useState('');
   const [descricao, seDescricao] = useState('');
+
+  const [errorTel, setErrorTel] = useState();
+  const [errorCnpj, setErrorCnpj] = useState();
 
   const PassarValores = () => {
     if(email === '' || senha1 === '' || senha2 === '' || nome === '' || cnpj === '' || telefone === '' || descricao === ''){
@@ -80,24 +85,24 @@ export default function App({navigation}) {
         <MaskInput 
         placeholder="CNPJ" 
         keyboardType={'number-pad'}
-        style={styles.Input} 
+        style={errorCnpj ? styles.InputError : styles.Input} 
         value={cnpj}
         onChangeText={(masked, unmasked) => {
           setCnpj(masked);
-        
         }}
-        mask={[/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/]}
+        onBlur={() => validarCNPJ(cnpj) ? setErrorCnpj(false) : setErrorCnpj(true)}
+        mask={[/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/]}
         />
 
         <MaskInput
         placeholder="TELEFONE" 
         keyboardType={'number-pad'}
-        style={styles.Input} 
+        style={errorTel ? styles.InputError : styles.Input} 
         value={telefone}
         onChangeText={(masked, unmasked) => {
           setTelefone(masked);
-        
         }}
+        onBlur={() => telefone_validation(telefone) ? setErrorTel(false) : setErrorTel(true)}
         mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]} 
         /> 
       </View>
@@ -156,6 +161,17 @@ const styles = StyleSheet.create({
   },
   Input:{
     backgroundColor:'#e8eaea',
+    paddingVertical: 16,
+    paddingHorizontal: 25,
+    borderRadius:30,
+    fontSize:14,
+    width:'49%'
+  },
+  InputError:{
+    backgroundColor:'#e8eaea',
+    borderColor:'#ff4040',
+    borderWidth: 1,
+    color: '#ff4040',
     paddingVertical: 16,
     paddingHorizontal: 25,
     borderRadius:30,

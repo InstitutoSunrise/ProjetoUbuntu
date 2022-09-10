@@ -6,13 +6,16 @@ import Backbutton from '../../components/Backbutton';
 import { fetchSignInMethodsForEmail, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import firebase from '../../config/configFirebase';
 
+import {Ionicons} from '@expo/vector-icons'
+
 
 
 export default function Login({navigation}) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [errorLogin, seterrorLogin] = useState("");
+    
+    const [revealSenha, setRevealSenha] = useState(true);
 
     const Login = () => {
 
@@ -89,31 +92,34 @@ export default function Login({navigation}) {
     <Backbutton onClick={() => navigation.goBack()}/>
         <Text style={styles.titulo}>LOGIN</Text>
 
-        <TextInput 
-        style={styles.input} 
-        placeholder='ENTRE COM O SEU EMAIL'
-        type="text"
-        onChangeText={(text) => setEmail(text)}
-        value={email}
-        />
+        <View style={styles.inputView}>
+            <TextInput 
+            style={styles.input} 
+            autoCapitalize={false}
+            autoCorrect={false}
+            placeholder='ENTRE COM O SEU EMAIL'
+            type="text"
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+            />
+        </View>
 
-        <TextInput
-        style={styles.input}
-        placeholder='ENTRE COM A SUA SENHA'
-        secureTextEntry={true}
-        type='text'
-        onChangeText={(text) => setPassword(text)}
-        value={password}
-        />
-
-        {errorLogin === true
-        ?
-            <View style={styles.containerAlert}>
-                <Text style={styles.textAlert}>Digite email e senha</Text>
+        <View style={styles.inputView}>
+            <View style={{width: '95%'}}>
+                <TextInput
+                style={styles.input}
+                placeholder='ENTRE COM A SUA SENHA'
+                secureTextEntry={revealSenha}
+                type='text'
+                onChangeText={(text) => setPassword(text)}
+                value={password}
+                />
             </View>
-        :
-            <View/>
-        }
+            <TouchableOpacity style={styles.iconView} onPress={(() => setRevealSenha(!revealSenha))}>
+                {revealSenha ? <Ionicons style={{marginRight:5}} name="eye" size={25} color="grey" /> : <Ionicons style={{marginRight:5}} name="eye-off" size={25} color="grey" />}
+            </TouchableOpacity>
+        </View>
+
         
         <TouchableOpacity 
         style={styles.esqueceu}
@@ -153,14 +159,24 @@ const styles = StyleSheet.create({
         color:'#38B6FF',
         marginTop: 85,
     },
-    input:{
-        width:'80%',
-        marginTop:15,
+    inputView:{
+        width: '80%',
+        height: 65,
+        alignItems: 'center',
         backgroundColor:'#e8eaea',
-        paddingVertical: 16,
-        paddingHorizontal: 25,
         borderRadius:30,
+        marginTop: 15,
+        flexDirection: 'row'
+    },
+    input:{
+        marginLeft: 25,
+        width: '70%',
         fontSize:14,
+    },
+    iconView:{
+        position: 'absolute',
+        right: 0,
+        width: '20%'
     },
     botao:{
         marginTop:'30%',
@@ -202,5 +218,5 @@ const styles = StyleSheet.create({
     textAlert:{
         color:'red',
         marginTop:5
-    }
+    },
 });
