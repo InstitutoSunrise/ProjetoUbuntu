@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, TouchableOpacity, Image, Text, TextInput,  ScrollView  } from 'react-native';
 
 import Checkbox from 'expo-checkbox';
 import * as ImagePicker from 'expo-image-picker';
 
-import firebase from '../../config/configFirebase';
+import db from '../../config/configFirebase';
 import { getAuth } from "firebase/auth";
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -21,10 +22,50 @@ export default function Publicar({navigation}) {
     
     const [tipoAjuda, setTipoAjuda] = useState('');
     const [sobreVoce, setSobreVoce] = useState('');
+    const [nomeCompleto, setNomeCompleto] = useState('');
+    const [status, setStatus] = useState('');
 
     const imagesArr = [];
-
     const [image, setImage] = useState(imagesArr);
+
+    useEffect( async () => {
+        if(isDoando == true){
+            setStatus('Doando')
+            console.log(status)
+        }else if(isRecebendo == true){
+            setStatus('Recebendo')
+            console.log(status)
+        }
+        const q = query(collection(db, 'Usuários'), where("userId", "==", user.uid));
+            const querySnapshot = await getDocs(q);
+
+            const getInfos = querySnapshot.forEach(doc => {
+                if(doc.data().tipoUser == "userFisico"){
+                    setNomeCompleto(doc.data().nome +" "+ doc.data().sobrenome)
+                    console.log(doc.data().userId, " => ", doc.data()); 
+                } else {
+                    console.log(doc.data().userId, " => ", doc.data()); 
+                    setNomeCompleto(doc.data().nome)
+                }
+            })
+            return getInfos;
+    });
+
+    const Publicar = async () =>{
+        try {
+            const docRef = await addDoc(collection(db, "posts"), {
+              tipoAjuda: tipoAjuda,
+              sobreVoce: sobreVoce,
+              status: status,
+              nomeUser: nomeCompleto,
+              userId: user.uid,
+              imgUser: imagePerfil
+            });
+            console.log("Document written with ID: ", docRef.id);
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+    }
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -117,7 +158,7 @@ export default function Publicar({navigation}) {
         {image && <Image source={{ uri: image[2] }} style={styles.imgPicker} />}
     </View>
 
-    <TouchableOpacity style={styles.btnPublicar}>
+    <TouchableOpacity style={styles.btnPublicar} onPress={Publicar}>
         <Text style={styles.btnPublicarTexto}>PUBLICAR</Text>
     </TouchableOpacity>
 

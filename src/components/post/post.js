@@ -3,25 +3,19 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 
-export default function post() {
+export default function post({sobreVoce, tipoAjuda, status, nomeUser, imgUser}) {
  return (
    <View style={styles.card}>
        <View style={styles.userDatail}>
-            <FontAwesome 
-                name="user-circle-o" 
-                size={45} 
-                color="#0e52b2"
-            />
+            <Image source={{uri: imgUser}} style={styles.fotoPerfil} />
             <View style={styles.userText}>
-                <Text style={styles.name}>Danillo Main</Text>
+                <Text style={styles.name}>{nomeUser}</Text>
                 <Text style={styles.cidade}>Itaquera, SP</Text>
             </View>
        </View>
-       <Text style={styles.status}>recebendo</Text>
-       <Text style={styles.assunto}>Estou recebendo roupas e alimentos</Text>
-       <Text style={styles.description}>
-                Estou precisando de cobertores quentes para o frio, quem estiver doando pode me chamar.
-        </Text>
+       <Text style={styles.status}>{status}</Text>
+       <Text style={styles.assunto}>{tipoAjuda}</Text>
+       <Text style={styles.description}>{sobreVoce}</Text>
         <View style={styles.boxImages}>
             <Image
                 style={styles.img}
@@ -46,7 +40,7 @@ export default function post() {
 const styles = StyleSheet.create({
     card:{
         backgroundColor:'#e8eaea',
-        width:'90%',
+        width:'100%',
         height:'auto',
         borderRadius:8,
         padding:15,
@@ -76,7 +70,7 @@ const styles = StyleSheet.create({
         fontSize:15,
         fontWeight:'bold',
         color:'#0e52b2',
-        marginLeft: -30,
+        marginLeft: 15,
     },
     assunto:{
         fontSize:17,
@@ -87,7 +81,7 @@ const styles = StyleSheet.create({
     },
     description:{
         fontSize:16,
-        textAlign:'justify',
+        textAlign:'left',
     },
     button:{
         backgroundColor:'#38B6FF',
@@ -116,6 +110,13 @@ const styles = StyleSheet.create({
     img:{
         width:70,
         height:70,
-        margin:10
-    }
+        margin:10,
+    },
+    fotoPerfil: {
+        width:50,
+        height:50,
+        borderRadius: 60,
+        borderWidth: 2,
+        borderColor: '#0e52B2'
+    },
 });

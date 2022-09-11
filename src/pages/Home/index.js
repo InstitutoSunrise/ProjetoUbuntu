@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image, ScrollView, StatusBar, Modal, Alert, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, StatusBar, Modal, Alert, Dimensions, FlatList} from 'react-native';
 import Post from '../../components/post/post';
 
 import CarouselCards from '../../components/CarouselCards';
 import { Ionicons, AntDesign} from '@expo/vector-icons';
 
-
-import firebase from '../../config/configFirebase';
-import { getAuth } from "firebase/auth";
-import {doc, getDoc, docSnap } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import db from '../../config/configFirebase';
 
 import Checkbox from 'expo-checkbox';
@@ -21,7 +18,21 @@ export default function Home({navigation}) {
   const [ moveisFiltro, setMoveisFiltro ] = useState(false);
   const [ outrosFiltro, setOutrosFiltro ] = useState(false);
   const [ mostrarTudoFiltro, setMostrarTudoFiltro] = useState(false);
+  const [post, setPost] = useState([]);
   const windowWidth = Dimensions.get('window').width;
+
+  
+
+  useEffect(async()=>{
+      const querySnapshot = await getDocs(collection(db, "posts"));
+      const List = []
+      querySnapshot.forEach((doc) => {
+        List.push({...doc.data(), id: doc.id, })
+        console.log(doc.id, "=>" ,doc.data());
+      });
+      setPost(List)
+      console.log(post)
+  }, []);
 
   return (
         <View style={styles.container}>
@@ -143,8 +154,21 @@ export default function Home({navigation}) {
               <Text style={styles.titulo}>PUBLICAÇÕES</Text>
             </View>
 
-            <Post/>
-            <Post/>
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={post}
+              renderItem={( { item } ) => {
+                return(
+                  <Post
+                    tipoAjuda={item.tipoAjuda}
+                    sobreVoce={item.sobreVoce}
+                    status={item.status}
+                    nomeUser={item.nomeUser}
+                    imgUser={item.imgUser}
+                  />
+                )
+              }}
+            />
 
 
           </ScrollView>

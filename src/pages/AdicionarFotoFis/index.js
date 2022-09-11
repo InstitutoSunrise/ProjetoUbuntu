@@ -30,9 +30,9 @@ export default function AdicionarFotoFis({navigation, route}) {
 
   const subirFotoPerfil = async () => {
     const auth = getAuth();
-    const userId = auth.currentUser.uid;
+    const user = auth.currentUser;
     
-    await uploadImageAsync(image, userId)
+    await uploadImageAsync(image, user.uid)
     alert("Parabéns, cadastro realizado!")
   }
 
@@ -44,12 +44,13 @@ export default function AdicionarFotoFis({navigation, route}) {
       createUserWithEmailAndPassword(auth, route.params.userEmail, route.params.userSenha)
         .then(async(userCredential) => {
           const user = userCredential.user;
-          await setDoc(doc(db, "users", user.uid), {
+          await setDoc(doc(db, "Usuários", user.uid), {
             nome: route.params.userNome,
             sobrenome: route.params.userSobrenome,
             datanascimento: route.params.userDatanascimento,
             telefone: route.params.userTelefone,
-            descricao: route.params.userDescricao
+            descricao: route.params.userDescricao,
+            userId: user.uid
           });
             subirFotoPerfil();
           })
