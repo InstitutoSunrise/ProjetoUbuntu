@@ -53,7 +53,8 @@ const Cadastrar = () => {
         noLocal: route.params.nolocal,
         horário: route.params.horario,
         voluntario: route.params.voluntario,
-        descrição:route.params.descricao
+        descrição:route.params.descricao,
+        tipoUser: "userInst",
       });
       subirFotoPerfil();
     })

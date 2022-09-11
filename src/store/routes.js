@@ -64,7 +64,7 @@ function TabBar({navigation}){
         const querySnapshot = await getDocs(q);
 
         const getInfos = querySnapshot.forEach(doc => {
-            if(doc.data().tipoUser == "userFisico"){
+            if(doc.data().tipoUser = "userFisico"){
                 setNomeCompleto(doc.data().nome +" "+ doc.data().sobrenome)
                 console.log(doc.data().userId, " => ", doc.data()); 
             } else {

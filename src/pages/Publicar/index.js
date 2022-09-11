@@ -28,30 +28,36 @@ export default function Publicar({navigation}) {
     const imagesArr = [];
     const [image, setImage] = useState(imagesArr);
 
-    useEffect( async () => {
+    useEffect(() => {
         if(isDoando == true){
             setStatus('Doando')
             console.log(status)
-        }else if(isRecebendo == true){
+        } else if(isRecebendo == true) {
             setStatus('Recebendo')
             console.log(status)
         }
-        const q = query(collection(db, 'Usuários'), where("userId", "==", user.uid));
-            const querySnapshot = await getDocs(q);
-
-            const getInfos = querySnapshot.forEach(doc => {
-                if(doc.data().tipoUser == "userFisico"){
-                    setNomeCompleto(doc.data().nome +" "+ doc.data().sobrenome)
-                    console.log(doc.data().userId, " => ", doc.data()); 
-                } else {
-                    console.log(doc.data().userId, " => ", doc.data()); 
-                    setNomeCompleto(doc.data().nome)
-                }
-            })
-            return getInfos;
     });
 
+    const fetchUserName = async () => {
+        const q = query(collection(db, 'Usuários'), where("userId", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+
+        const getInfos = querySnapshot.forEach(doc => {
+            if(doc.data().tipoUser = "userFisico") {
+                setNomeCompleto(doc.data().nome +" "+ doc.data().sobrenome)
+                console.log(doc.data().userId, " => ", doc.data()); 
+            } else {
+                console.log(doc.data().userId, " => ", doc.data()); 
+                setNomeCompleto(doc.data().nome)
+            }
+            })
+            return nomeCompleto;
+        }
+
     const Publicar = async () =>{
+
+        fetchUserName();
+        
         try {
             const docRef = await addDoc(collection(db, "posts"), {
               tipoAjuda: tipoAjuda,

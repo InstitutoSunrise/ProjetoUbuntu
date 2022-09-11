@@ -50,7 +50,8 @@ export default function AdicionarFotoFis({navigation, route}) {
             datanascimento: route.params.userDatanascimento,
             telefone: route.params.userTelefone,
             descricao: route.params.userDescricao,
-            userId: user.uid
+            userId: user.uid,
+            tipoUser: "userFisico",
           });
             subirFotoPerfil();
           })

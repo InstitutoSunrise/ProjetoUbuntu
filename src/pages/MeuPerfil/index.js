@@ -30,13 +30,14 @@ export default function MeuPerfil({ navigation }) {
             const querySnapshot = await getDocs(q);
 
             const getInfos = querySnapshot.forEach(doc => {
-                if(doc.data().tipoUser == "userFisico"){
+                if(doc.data().tipoUser = "userFisico"){
+                    console.log(doc.data().sobrenome)
                     setNomeCompleto(doc.data().nome +" "+ doc.data().sobrenome)
                     setDescricao(doc.data().descricao);
                     console.log(doc.data().userId, " => ", doc.data()); 
                 } else {
                     console.log(doc.data().userId, " => ", doc.data()); 
-                    setNomeCompleto(doc.data().nome)
+                    setNomeCompleto(doc.data().nome )
                     setDescricao(doc.data().descricao);
                 }
             })

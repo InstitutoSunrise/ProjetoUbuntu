@@ -22,16 +22,19 @@ export default function Home({navigation}) {
   const windowWidth = Dimensions.get('window').width;
 
   
+  const fetchPublicacoes = async () => {
+    const querySnapshot = await getDocs(collection(db, "posts"));
+    const List = []
+    querySnapshot.forEach((doc) => {
+      List.push({...doc.data(), id: doc.id, })
+      console.log(doc.id, "=>" ,doc.data());
+    });
+    console.log(post)
+    return setPost(List)
+  }
 
-  useEffect(async()=>{
-      const querySnapshot = await getDocs(collection(db, "posts"));
-      const List = []
-      querySnapshot.forEach((doc) => {
-        List.push({...doc.data(), id: doc.id, })
-        console.log(doc.id, "=>" ,doc.data());
-      });
-      setPost(List)
-      console.log(post)
+  useEffect(()=>{
+    fetchPublicacoes();
   }, []);
 
   return (
