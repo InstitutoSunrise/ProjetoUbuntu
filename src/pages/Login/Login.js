@@ -95,7 +95,7 @@ export default function Login({navigation}) {
         <View style={styles.inputView}>
             <TextInput 
             style={styles.input} 
-            autoCapitalize={false}
+            autoCapitalize={'none'}
             autoCorrect={false}
             placeholder='ENTRE COM O SEU EMAIL'
             type="text"

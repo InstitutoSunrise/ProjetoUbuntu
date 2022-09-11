@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Form } from 'react-native';
 import MaskInput from 'react-native-mask-input';
 
@@ -15,13 +15,39 @@ export default function App({navigation, route}) {
   const [horario, setHorario] = useState('');
   const [voluntario, setVoluntario] = useState('');
 
+  const [cepValido, setCepValido] = useState(true);
+
+  const fetchCpf = (cep) => {
+
+    cep = cep.replace(/[^\d]+/g,'');
+    console.log(cep.length);
+    if (cep.length !== 8){
+      setCepValido(false);
+    } else {
+      fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        .then(res => res.json()).then(data => { 
+
+          if (data.erro === "true") {
+            setCepValido(false);
+          } else {
+            setCepValido(true)
+            setEndereço(data.logradouro);
+          }
+
+        })
+        .catch((err) => console.log(err));
+    }
+  }
+
   const PassarValores = () => {
 
     if(cep === '' || endereço === '' || numero === '' || complemento === '' || nolocal === '' || horario === ''){
 
       alert('Preencha os campos');
 
-    }else{
+    } else if(cepValido === false){
+      alert('CEP Inválido')
+    } else {
       navigation.navigate('AdicionarFoto', {cep:cep, endereço:endereço, numero: numero, complemento:complemento, nolocal:nolocal, horario:horario, voluntario:voluntario,  email:route.params.email, senha:route.params.senha, cnpj:route.params.cnpj, telefone:route.params.telefone, descricao:route.params.descricao, nome:route.params.nome})
     }
 
@@ -37,12 +63,13 @@ export default function App({navigation, route}) {
       <MaskInput
       placeholder="DIGITE SEU CEP" 
       keyboardType={'number-pad'}
-      style={styles.TextInput} 
+      style={cepValido ? styles.TextInput : styles.TextInputError} 
       value={cep}
       onChangeText={(masked, unmasked) => {
         setCep(masked);
       
       }}
+      onBlur={(() => fetchCpf(cep))}
       mask={[/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
       />
 
@@ -114,6 +141,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     borderRadius:30,
     fontSize:14,
+  },
+  TextInputError:{
+    backgroundColor:'#e8eaea',
+    borderColor:'#ff4040',
+    borderWidth: 1,
+    color: '#ff4040',
+    paddingVertical: 16,
+    paddingHorizontal: 25,
+    borderRadius:30,
+    fontSize:14,
+    width:'80%',
+    marginTop:15,
   },
   botao:{
     marginTop:30,
