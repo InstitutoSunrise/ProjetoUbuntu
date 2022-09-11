@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import { getAuth, fetchSignInMethodsForEmail } from "firebase/auth";
 import MaskInput from 'react-native-mask-input';
 
+import {Ionicons} from '@expo/vector-icons';
+
 import Backbutton from '../../components/Backbutton';
 import validarCNPJ from '../../config/inputsValidations/cnpjValidation';
 import telefone_validation from '../../config/inputsValidations/telNumberValidation';
@@ -21,6 +23,9 @@ export default function App({navigation}) {
   const [errorTel, setErrorTel] = useState();
   const [errorCnpj, setErrorCnpj] = useState();
 
+  const [revealSenha, setRevealSenha] = useState(true);
+  const [revealSenha2, setRevealSenha2] = useState(true);
+
   const PassarValores = () => {
     if(email === '' || senha1 === '' || senha2 === '' || nome === '' || cnpj === '' || telefone === '' || descricao === ''){
       alert('Preencha os campos');
@@ -28,11 +33,14 @@ export default function App({navigation}) {
       alert('Senha muito Curta (mínimo 6 dígitos)')
     } else if(senha1 !== senha2) {
       alert("Confirme sua senha")
+    } else if (errorTel === true) {
+      alert('Número de telefone inválido')
+    } else if (errorCnpj === true){
+      alert('CNPJ inválido')
     } else {
       const auth = getAuth();
       fetchSignInMethodsForEmail(auth, email)
       .then((result) => {
-        console.log(result);
         if(result.length >= 1) {
           alert('Email já cadastrado')
         } else {
@@ -107,22 +115,38 @@ export default function App({navigation}) {
         /> 
       </View>
 
-        <TextInput 
-        secureTextEntry={true} 
-        placeholder="DIGITE SUA SENHA" 
-        style={styles.TextInput} 
-        value={senha1}
-        onChangeText={text=>setSenha1(text)}
-        />
+      <View style={styles.inputSenhaView}>
+            <View style={{width: '95%'}}>
+                <TextInput
+                style={styles.inputSenha}
+                placeholder='DIGITE SUA SENHA'
+                secureTextEntry={revealSenha}
+                type='text'
+                onChangeText={(text) => setSenha1(text)}
+                value={senha1}
+                />
+            </View>
+            <TouchableOpacity style={styles.iconView} onPress={(() => setRevealSenha(!revealSenha))}>
+                {revealSenha ? <Ionicons style={{marginRight:5}} name="eye" size={25} color="grey" /> : <Ionicons style={{marginRight:5}} name="eye-off" size={25} color="grey" />}
+            </TouchableOpacity>
+        </View>
 
-        <TextInput 
-        secureTextEntry={true} 
-        placeholder="CONFIRME SUA SENHA" 
-        style={styles.TextInput}
-        value={senha2} 
-        onChangeText={text=>setSenha2(text)} 
-        />
-
+        <View style={styles.inputSenhaView}>
+            <View style={{width: '95%'}}>
+                <TextInput
+                style={styles.inputSenha}
+                placeholder='CONFIRME SUA SENHA'
+                secureTextEntry={revealSenha2}
+                type='text'
+                onChangeText={(text) => setSenha2(text)}
+                value={senha2}
+                />
+            </View>
+            <TouchableOpacity style={styles.iconView} onPress={(() => setRevealSenha2(!revealSenha2))}>
+                {revealSenha2 ? <Ionicons style={{marginRight:5}} name="eye" size={25} color="grey" /> : <Ionicons style={{marginRight:5}} name="eye-off" size={25} color="grey" />}
+            </TouchableOpacity>
+        </View>
+        
         <TextInput 
         placeholder="DESCRIÇÃO" 
         style={styles.TextInputdescrição} 
@@ -166,6 +190,25 @@ const styles = StyleSheet.create({
     borderRadius:30,
     fontSize:14,
     width:'49%'
+  },
+  inputSenhaView:{
+    width: '80%',
+    height: 65,
+    alignItems: 'center',
+    backgroundColor:'#e8eaea',
+    borderRadius:30,
+    marginTop: 15,
+    flexDirection: 'row'
+  },
+  inputSenha:{
+      marginLeft: 25,
+      width: '70%',
+      fontSize:14,
+  },
+  iconView:{
+      position: 'absolute',
+      right: 0,
+      width: '20%'
   },
   InputError:{
     backgroundColor:'#e8eaea',

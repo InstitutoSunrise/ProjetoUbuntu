@@ -5,6 +5,8 @@ import MaskInput from 'react-native-mask-input';
 import { getAuth, fetchSignInMethodsForEmail } from "firebase/auth";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
+import {Ionicons} from '@expo/vector-icons'
+
 import telefone_validation from '../../config/inputsValidations/telNumberValidation';
 
 import db from '../../config/configFirebase';
@@ -21,6 +23,9 @@ export default function Pagess({navigation}) {
   const [senha2, setSenha2] = useState('');
   const [descricao, seDescricao] = useState('');
 
+  const [revealSenha, setRevealSenha] = useState(true);
+  const [revealSenha2, setRevealSenha2] = useState(true);
+
   const [errorTel, setErrorTel] = useState();
 
 
@@ -32,6 +37,8 @@ export default function Pagess({navigation}) {
       alert('Senha muito Curta (mínimo 6 dígitos)')
     } else if(senha1 !== senha2) {
       alert("Confirme sua senha")
+    } else if(errorTel === true){
+      alert('Número de telefone inválido')
     } else {
       const auth = getAuth();
 
@@ -90,7 +97,7 @@ export default function Pagess({navigation}) {
         <View style={styles.containerInput}>
           <MaskInput 
           placeholder="DATA DE NASCIMENTO" 
-          keyboarType={'number-pad'}
+          keyboarType={'numeric'}
           style={styles.Input} 
           value={datanascimento}
           onChangeText={(masked, unmasked) => {
@@ -119,20 +126,37 @@ export default function Pagess({navigation}) {
         value={email}
         onChangeText={text => setEmail(text)} />
 
-        <TextInput 
-        secureTextEntry={true} 
-        placeholder="DIGITE SUA SENHA" 
-        style={styles.TextInput} 
-        value={senha1}
-        onChangeText={text => setSenha1(text)} 
-        />
+        <View style={styles.inputSenhaView}>
+            <View style={{width: '95%'}}>
+                <TextInput
+                style={styles.inputSenha}
+                placeholder='DIGITE SUA SENHA'
+                secureTextEntry={revealSenha}
+                type='text'
+                onChangeText={(text) => setSenha1(text)}
+                value={senha1}
+                />
+            </View>
+            <TouchableOpacity style={styles.iconView} onPress={(() => setRevealSenha(!revealSenha))}>
+                {revealSenha ? <Ionicons style={{marginRight:5}} name="eye" size={25} color="grey" /> : <Ionicons style={{marginRight:5}} name="eye-off" size={25} color="grey" />}
+            </TouchableOpacity>
+        </View>
 
-        <TextInput 
-        secureTextEntry={true} 
-        placeholder="CONFIRME SUA SENHA" 
-        style={styles.TextInput} 
-        value={senha2}
-        onChangeText={text => setSenha2(text)} />
+        <View style={styles.inputSenhaView}>
+            <View style={{width: '95%'}}>
+                <TextInput
+                style={styles.inputSenha}
+                placeholder='CONFIRME SUA SENHA'
+                secureTextEntry={revealSenha2}
+                type='text'
+                onChangeText={(text) => setSenha2(text)}
+                value={senha2}
+                />
+            </View>
+            <TouchableOpacity style={styles.iconView} onPress={(() => setRevealSenha2(!revealSenha2))}>
+                {revealSenha2 ? <Ionicons style={{marginRight:5}} name="eye" size={25} color="grey" /> : <Ionicons style={{marginRight:5}} name="eye-off" size={25} color="grey" />}
+            </TouchableOpacity>
+        </View>
 
         <TextInput 
         placeholder="DESCRIÇÃO" 
@@ -174,6 +198,25 @@ const styles = StyleSheet.create({
     borderRadius:30,
     fontSize:14,
     width:'49%'
+  },
+  inputSenhaView:{
+    width: '80%',
+    height: 65,
+    alignItems: 'center',
+    backgroundColor:'#e8eaea',
+    borderRadius:30,
+    marginTop: 15,
+    flexDirection: 'row'
+  },
+  inputSenha:{
+      marginLeft: 25,
+      width: '70%',
+      fontSize:14,
+  },
+  iconView:{
+      position: 'absolute',
+      right: 0,
+      width: '20%'
   },
   InputError:{
     backgroundColor:'#e8eaea',

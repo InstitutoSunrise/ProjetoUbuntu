@@ -1,8 +1,6 @@
 export default function validarCNPJ(cnpj) {
 
-    console.log(cnpj)
     cnpj = cnpj.replace(/[^\d]+/g,'');
-    console.log(cnpj)
 
     if(cnpj == '') return false;
     
