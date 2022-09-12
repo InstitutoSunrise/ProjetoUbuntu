@@ -160,6 +160,8 @@ export default function Home({navigation}) {
             <FlatList
               showsVerticalScrollIndicator={false}
               data={post}
+              style={{maxWidth: '100%'}}
+              contentContainerStyle={{alignItems:'center'}}
               renderItem={( { item } ) => {
                 return(
                   <Post

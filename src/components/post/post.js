@@ -81,13 +81,14 @@ const styles = StyleSheet.create({
     },
     description:{
         fontSize:16,
-        textAlign:'left',
+        width: '100%',
+        padding: 10,
+        flexShrink: 1
     },
     button:{
         backgroundColor:'#38B6FF',
         borderRadius:25,
         padding: 15,
-        // marginTop:15,
     },
     text:{
         fontSize: 18,

@@ -24,11 +24,13 @@ export default function Publicar({navigation}) {
     const [sobreVoce, setSobreVoce] = useState('');
     const [nomeCompleto, setNomeCompleto] = useState('');
     const [status, setStatus] = useState('');
+    const [teste, setTeste] = useState(false);
 
     const imagesArr = [];
     const [image, setImage] = useState(imagesArr);
 
     useEffect(() => {
+        
         if(isDoando == true){
             setStatus('Doando')
             console.log(status)
@@ -38,25 +40,28 @@ export default function Publicar({navigation}) {
         }
     });
 
+    useEffect(() => {
+        fetchUserName();
+    },[teste])
+
     const fetchUserName = async () => {
+     
         const q = query(collection(db, 'Usuários'), where("userId", "==", user.uid));
         const querySnapshot = await getDocs(q);
 
         const getInfos = querySnapshot.forEach(doc => {
             if(doc.data().tipoUser = "userFisico") {
                 setNomeCompleto(doc.data().nome +" "+ doc.data().sobrenome)
-                console.log(doc.data().userId, " => ", doc.data()); 
             } else {
                 console.log(doc.data().userId, " => ", doc.data()); 
-                setNomeCompleto(doc.data().nome)
             }
             })
-            return nomeCompleto;
+            return getInfos;
         }
 
     const Publicar = async () =>{
 
-        fetchUserName();
+        setTeste(true)
         
         try {
             const docRef = await addDoc(collection(db, "posts"), {
