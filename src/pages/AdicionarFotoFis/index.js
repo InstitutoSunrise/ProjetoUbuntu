@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
@@ -43,7 +43,13 @@ export default function AdicionarFotoFis({navigation, route}) {
       const auth = getAuth();
       createUserWithEmailAndPassword(auth, route.params.userEmail, route.params.userSenha)
         .then(async(userCredential) => {
+         
           const user = userCredential.user;
+          
+          updateProfile(auth.currentUser, {
+            displayName:  route.params.userNome + " " + route.params.userSobrenome
+          })
+
           await setDoc(doc(db, "Usuários", user.uid), {
             nome: route.params.userNome,
             sobrenome: route.params.userSobrenome,

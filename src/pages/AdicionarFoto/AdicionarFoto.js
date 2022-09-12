@@ -38,7 +38,13 @@ const Cadastrar = () => {
   if(image === "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"){
     alert("Adicione uma foto de perfil");
   } else {
+
     const auth = getAuth();
+
+    updateProfile(auth.currentUser, {
+      displayName:  route.params.nome
+    })
+
     createUserWithEmailAndPassword(auth, route.params.email, route.params.senha)
     .then(async(userCredential) => {
       const user = userCredential.user;

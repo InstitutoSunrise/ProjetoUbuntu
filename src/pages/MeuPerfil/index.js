@@ -17,6 +17,12 @@ export default function MeuPerfil({ navigation }) {
 
     const [nomeCompleto, setNomeCompleto] = useState();
     const [descricao, setDescricao] = useState();    
+
+    const testes = () => {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        console.log(user.displayName)
+    }
     
     async function ShowUserInfos(){
         const auth = getAuth();
@@ -32,7 +38,7 @@ export default function MeuPerfil({ navigation }) {
             const getInfos = querySnapshot.forEach(doc => {
                 if(doc.data().tipoUser = "userFisico"){
                     console.log(doc.data().sobrenome)
-                    setNomeCompleto(doc.data().nome +" "+ doc.data().sobrenome)
+                    setNomeCompleto(user.displayName)
                     setDescricao(doc.data().descricao);
                     console.log(doc.data().userId, " => ", doc.data()); 
                 } else {
@@ -62,7 +68,7 @@ export default function MeuPerfil({ navigation }) {
                     <Text style={styles.titulo}>MEU PERFIL</Text>
 
                     <View style={styles.imgPerfilContainer}>
-                        <TouchableOpacity style={styles.imgPerfilContainer}>
+                        <TouchableOpacity style={styles.imgPerfilContainer} onPress={testes}>
                             {image && <Image source={{uri: image}} style={styles.fotoPerfil} />}
                         </TouchableOpacity>
                     </View>
