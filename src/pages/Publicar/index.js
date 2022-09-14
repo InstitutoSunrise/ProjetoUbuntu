@@ -50,11 +50,8 @@ export default function Publicar({navigation}) {
         const querySnapshot = await getDocs(q);
 
         const getInfos = querySnapshot.forEach(doc => {
-            if(doc.data().tipoUser = "userFisico") {
-                setNomeCompleto(doc.data().nome +" "+ doc.data().sobrenome)
-            } else {
+                setNomeCompleto(user.displayName)
                 console.log(doc.data().userId, " => ", doc.data()); 
-            }
             })
             return getInfos;
         }
@@ -72,7 +69,8 @@ export default function Publicar({navigation}) {
               userId: user.uid,
               imgUser: imagePerfil
             });
-            console.log("Document written with ID: ", docRef.id);
+            alert('Post publicado com sucesso!');
+            // console.log("Document written with ID: ", docRef.id);
           } catch (e) {
             console.error("Error adding document: ", e);
           }

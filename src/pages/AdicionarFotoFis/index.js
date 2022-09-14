@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection} from "firebase/firestore";
 
 import * as ImagePicker from 'expo-image-picker';
 
@@ -50,28 +50,32 @@ export default function AdicionarFotoFis({navigation, route}) {
             displayName:  route.params.userNome + " " + route.params.userSobrenome
           })
 
-          await setDoc(doc(db, "Usuários", user.uid), {
-            nome: route.params.userNome,
-            sobrenome: route.params.userSobrenome,
-            datanascimento: route.params.userDatanascimento,
-            telefone: route.params.userTelefone,
-            descricao: route.params.userDescricao,
-            userId: user.uid,
-            tipoUser: "userFisico",
-          });
+          try {
+            const docRef = await addDoc(collection(db, "Usuários"), {
+              nome: route.params.userNome,
+              sobrenome: route.params.userSobrenome,
+              datanascimento: route.params.userDatanascimento,
+              telefone: route.params.userTelefone,
+              descricao: route.params.userDescricao,
+              userId: user.uid,
+              tipoUser: "userFisico",
+            });
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
             subirFotoPerfil();
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode)
-            console.log(errorMessage)
-            switch (errorCode){
-              case 'auth/admin-restricted-operation':
-                  alert('Esta operação é restrita apenas a administradores');
-              break;    
-            }
-          });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode)
+          console.log(errorMessage)
+          switch (errorCode){
+            case 'auth/admin-restricted-operation':                  
+              alert('Esta operação é restrita apenas a administradores');
+            break;    
+          }
+        });
     }
   }
 

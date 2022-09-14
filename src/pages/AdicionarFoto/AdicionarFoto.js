@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {  Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {addDoc, collection } from "firebase/firestore";
 
 import { uploadImageAsync } from '../../config/configStorage';
 import * as ImagePicker from 'expo-image-picker';
@@ -38,30 +38,36 @@ const Cadastrar = () => {
   if(image === "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"){
     alert("Adicione uma foto de perfil");
   } else {
-
     const auth = getAuth();
-
-    updateProfile(auth.currentUser, {
-      displayName:  route.params.nome
-    })
-
     createUserWithEmailAndPassword(auth, route.params.email, route.params.senha)
     .then(async(userCredential) => {
+
       const user = userCredential.user;
-      await setDoc(doc(db, "Instituições", user.uid), {
-        nome: route.params.nome,
-        cnpj: route.params.cnpj,
-        telefone: route.params.telefone,
-        cep: route.params.cep,
-        endereço: route.params.endereço,
-        numero: route.params.numero,
-        complemento: route.params.complemento,
-        noLocal: route.params.nolocal,
-        horário: route.params.horario,
-        voluntario: route.params.voluntario,
-        descrição:route.params.descricao,
-        tipoUser: "userInst",
+
+      updateProfile(auth.currentUser, {
+        displayName:  route.params.nome 
+      })
+      try {
+        const docRef = await addDoc(collection(db, "Usuários"), {
+          nome: route.params.nome,
+          cnpj: route.params.cnpj,
+          telefone: route.params.telefone,
+          cep: route.params.cep,
+          endereço: route.params.endereço,
+          numero: route.params.numero,
+          complemento: route.params.complemento,
+          noLocal: route.params.nolocal,
+          horário: route.params.horario,
+          voluntario: route.params.voluntario,
+          descricao:route.params.descricao,
+          userId: user.uid,
+          tipoUser: "userInst",
       });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+      
       subirFotoPerfil();
     })
     .catch((error) => {

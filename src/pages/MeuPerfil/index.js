@@ -17,6 +17,8 @@ export default function MeuPerfil({ navigation }) {
 
     const [nomeCompleto, setNomeCompleto] = useState();
     const [descricao, setDescricao] = useState();    
+    const [endereco, setEndereco] = useState();
+    const [numero, setNumero] = useState();
 
     const testes = () => {
         const auth = getAuth();
@@ -34,17 +36,20 @@ export default function MeuPerfil({ navigation }) {
 
             const q = query(collection(db, 'Usuários'), where("userId", "==", uid));
             const querySnapshot = await getDocs(q);
-
             const getInfos = querySnapshot.forEach(doc => {
                 if(doc.data().tipoUser = "userFisico"){
                     console.log(doc.data().sobrenome)
                     setNomeCompleto(user.displayName)
                     setDescricao(doc.data().descricao);
+                    setEndereco(doc.data().endereço);
+                    setNumero(doc.data().numero);
                     console.log(doc.data().userId, " => ", doc.data()); 
                 } else {
                     console.log(doc.data().userId, " => ", doc.data()); 
                     setNomeCompleto(doc.data().nome )
                     setDescricao(doc.data().descricao);
+                    setEndereco(doc.data().endereço);
+                    setNumero(doc.data().numero);
                 }
             })
             return getInfos;    
@@ -74,7 +79,7 @@ export default function MeuPerfil({ navigation }) {
                     </View>
 
                     <Text style={styles.nome}>{nomeCompleto}</Text>
-                    <Text style={styles.endereco}>Cidade Tiradentes, SP</Text>
+                    <Text style={styles.endereco}>{endereco}, {numero}</Text>
 
                     <View style={styles.descricaoContainer}>
                         <Text style={styles.descricao}>{descricao}</Text>
