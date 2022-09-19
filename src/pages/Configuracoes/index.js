@@ -17,7 +17,7 @@ export default function Configuracoes({navigation}) {
         });
       }
 
-    const siteUbuntu = "https://projetoubuntu.netlify.app/index.html#projeto";
+    const siteUbuntu = "https://projetoubuntu.netlify.app/app.html";
 
     const OpenURLButton = ({ url, children }) => {
     const handlePress = useCallback(async () => {

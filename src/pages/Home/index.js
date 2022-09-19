@@ -47,8 +47,7 @@ export default function Home({navigation}) {
               <CarouselCards/>
             </View>
 
-          <View style={{flex: 1, paddingVertical: 15}}>
-            <ScrollView horizontal={true}>
+          <View style={{paddingVertical: 15, width:'100%', justifyContent:'center', flexDirection:'row'}}>
               <TouchableOpacity style={styles.filter} onPress={() => setModalVisible(!modalVisible)}>
                 <Ionicons style={{marginRight:5}} name="filter" size={25} color="#fff" />
                 <Text style={styles.text}>FILTRO</Text>
@@ -59,10 +58,6 @@ export default function Home({navigation}) {
               <TouchableOpacity style={styles.filter} onPress={() => navigation.navigate('Noticias')}>
                 <Text style={styles.text}>NOTÍCIAS</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.filter} onPress={() => navigation.navigate('minhasPubs')}>
-                <Text style={styles.text}>MINHAS PUBLICAÇÕES</Text>
-              </TouchableOpacity>
-            </ScrollView>
 
           </View>
     

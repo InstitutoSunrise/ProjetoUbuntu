@@ -10,6 +10,8 @@ import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+
 export default function Publicar({navigation}) {
 
     const auth = getAuth();
@@ -26,8 +28,23 @@ export default function Publicar({navigation}) {
     const [status, setStatus] = useState('');
     const [teste, setTeste] = useState(false);
 
-    const imagesArr = [];
-    const [image, setImage] = useState(imagesArr);
+    const [image, setImage] = useState([]);
+
+    const ola = async () => {
+
+        // const storage = getStorage();
+        
+        // const auth = getAuth();
+        // const user = auth.currentUser;
+        // console.log(user.uid)
+
+        // const fileRef = ref(getStorage(), `photoPerfil/${user.uid}`);
+        // const photoURL = await getDownloadURL(fileRef); 
+        // console.log(photoURL)
+
+
+        console.log(image)
+    }
 
     useEffect(() => {
         
@@ -86,7 +103,19 @@ export default function Publicar({navigation}) {
         });
 
         if (!result.cancelled) {
-            setImage(oldArray => [...oldArray, result.uri]);
+            if(image.length < 3){
+                setImage(oldArray => [...oldArray, result.uri]);
+            } else {
+                image[2] = result.uri
+                setImage(image)
+                console.log(image)
+               
+                // const some_array = [result.uri]
+                // some_array[3] = some_array
+                // console.log(some_array)
+                // this.setImage({image:some_array})
+                // console.log(image)
+            }
     };
 }
 
@@ -164,10 +193,10 @@ export default function Publicar({navigation}) {
     </TouchableOpacity>
         {image && <Image source={{ uri: image[0] }} style={styles.imgPicker} />}
         {image && <Image source={{ uri: image[1] }} style={styles.imgPicker} />}
-        {image && <Image source={{ uri: image[2] }} style={styles.imgPicker} />}
+        <Image source={{ uri: image[2] }} style={styles.imgPicker} />
     </View>
 
-    <TouchableOpacity style={styles.btnPublicar} onPress={Publicar}>
+    <TouchableOpacity style={styles.btnPublicar} onPress={ola}>
         <Text style={styles.btnPublicarTexto}>PUBLICAR</Text>
     </TouchableOpacity>
 

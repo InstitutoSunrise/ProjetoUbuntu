@@ -19,12 +19,6 @@ export default function MeuPerfil({ navigation }) {
     const [descricao, setDescricao] = useState();    
     const [endereco, setEndereco] = useState();
     const [numero, setNumero] = useState();
-
-    const testes = () => {
-        const auth = getAuth();
-        const user = auth.currentUser;
-        console.log(user.displayName)
-    }
     
     async function ShowUserInfos(){
         const auth = getAuth();
@@ -73,7 +67,7 @@ export default function MeuPerfil({ navigation }) {
                     <Text style={styles.titulo}>MEU PERFIL</Text>
 
                     <View style={styles.imgPerfilContainer}>
-                        <TouchableOpacity style={styles.imgPerfilContainer} onPress={testes}>
+                        <TouchableOpacity style={styles.imgPerfilContainer}>
                             {image && <Image source={{uri: image}} style={styles.fotoPerfil} />}
                         </TouchableOpacity>
                     </View>
