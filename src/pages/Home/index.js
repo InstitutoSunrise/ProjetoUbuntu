@@ -152,11 +152,15 @@ export default function Home({navigation}) {
               <Text style={styles.titulo}>PUBLICAÇÕES</Text>
             </View>
 
+              <View
+              style={{alignItems: "center", flexDirection: "row", justifyContent: "center", flex: 1, justifyContent: "center"}}
+              >
             <FlatList
               showsVerticalScrollIndicator={false}
               data={post}
-              style={{maxWidth: '100%'}}
-              contentContainerStyle={{alignItems:'center'}}
+              // style={{maxWidth: '100%'}}
+             
+              contentContainerStyle={{}}
               renderItem={( { item } ) => {
                 return(
                   <Post
@@ -169,8 +173,7 @@ export default function Home({navigation}) {
                 )
               }}
             />
-
-
+            </View>
           </ScrollView>
         </View>
       );

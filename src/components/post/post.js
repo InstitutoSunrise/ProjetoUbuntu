@@ -40,7 +40,7 @@ export default function post({sobreVoce, tipoAjuda, status, nomeUser, imgUser}) 
 const styles = StyleSheet.create({
     card:{
         backgroundColor:'#e8eaea',
-        width:'100%',
+        width: '100%',
         height:'auto',
         borderRadius:8,
         padding:15,

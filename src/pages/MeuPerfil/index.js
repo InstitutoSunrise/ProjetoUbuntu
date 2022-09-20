@@ -32,7 +32,6 @@ export default function MeuPerfil({ navigation }) {
             const querySnapshot = await getDocs(q);
             const getInfos = querySnapshot.forEach(doc => {
                 if(doc.data().tipoUser = "userFisico"){
-                    console.log(doc.data().sobrenome)
                     setNomeCompleto(user.displayName)
                     setDescricao(doc.data().descricao);
                     setEndereco(doc.data().endereço);
@@ -150,7 +149,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: '700',
         marginBottom: 20,
-        marginTop: -15
     },
     imgPerfilContainer: {
         width: 120,

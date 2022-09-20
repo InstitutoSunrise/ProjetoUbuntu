@@ -34,12 +34,14 @@ const Mensagem = () => {
         wrapperStyle={{
           right: {
             backgroundColor: '#38B6FF',
-            padding:10
+            padding:10,
+            maxWidth: '55%'
           }
         }}
         textStyle={{
           right: {
-            color:'#fff'
+            color:'#fff',
+            fontSize: 14,
           }
         }}
       />

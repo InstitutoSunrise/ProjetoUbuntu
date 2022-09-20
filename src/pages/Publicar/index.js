@@ -30,7 +30,7 @@ export default function Publicar({navigation}) {
 
     const [image, setImage] = useState([]);
 
-    const ola = async () => {
+    const postImage = async () => {
 
         // const storage = getStorage();
         
@@ -43,7 +43,7 @@ export default function Publicar({navigation}) {
         // console.log(photoURL)
 
 
-        console.log(image)
+        // console.log(image)
     }
 
     useEffect(() => {
@@ -59,7 +59,8 @@ export default function Publicar({navigation}) {
 
     useEffect(() => {
         fetchUserName();
-    },[teste])
+
+    },[teste, image])
 
     const fetchUserName = async () => {
      
@@ -101,24 +102,25 @@ export default function Publicar({navigation}) {
         aspect: [4, 3],
         quality: 1,
         });
-
+        
+        
         if (!result.cancelled) {
-            if(image.length < 3){
-                setImage(oldArray => [...oldArray, result.uri]);
-            } else {
-                image[2] = result.uri
-                setImage(image)
-                console.log(image)
-               
-                // const some_array = [result.uri]
-                // some_array[3] = some_array
-                // console.log(some_array)
-                // this.setImage({image:some_array})
-                // console.log(image)
-            }
-    };
-}
 
+            if(image.length < 3){
+                let newArray = image
+                newArray[newArray.length] = result.uri
+                setImage( newArray)            
+            } else {
+                let newArray = image
+                newArray[2] = result.uri
+                setImage(newArray)
+                console.log(image[0])
+                console.log(image[1])
+                console.log(image[2])
+            }
+
+    };    
+}
 
  return (
    <View style={styles.container}>
@@ -167,6 +169,7 @@ export default function Publicar({navigation}) {
             
         />
     </View>
+    
     <View style={styles.containerInput2}>
         <TextInput
             style={styles.placeholderText}
@@ -183,7 +186,6 @@ export default function Publicar({navigation}) {
     
     <View style={styles.imgPickerContainer}>
     <TouchableOpacity style={styles.touchable} onPress={pickImage}>
-       {/* <Image source={{uri: 'https://static.thenounproject.com/png/3322766-200.png'}} style={styles.imgPickerImage}/> */}
        <MaterialCommunityIcons 
         name="file-image-plus" 
         size={55} 
@@ -191,12 +193,12 @@ export default function Publicar({navigation}) {
          />
        <Text style={styles.imgPickerTitle}>ADICIONAR IMAGENS</Text> 
     </TouchableOpacity>
-        {image && <Image source={{ uri: image[0] }} style={styles.imgPicker} />}
+        {image && <Image source={{uri: image[0]}} style={styles.imgPicker} />}
         {image && <Image source={{ uri: image[1] }} style={styles.imgPicker} />}
         <Image source={{ uri: image[2] }} style={styles.imgPicker} />
     </View>
 
-    <TouchableOpacity style={styles.btnPublicar} onPress={ola}>
+    <TouchableOpacity style={styles.btnPublicar} onPress={Publicar}>
         <Text style={styles.btnPublicarTexto}>PUBLICAR</Text>
     </TouchableOpacity>
 

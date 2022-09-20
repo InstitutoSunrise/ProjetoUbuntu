@@ -121,7 +121,8 @@ export default function MensagemTela({navigation}) {
       },
       box:{
         flexDirection:'row',
-        justifyContent:'space-between'
+        justifyContent:'space-between',
+        alignItems: 'center'
       },
       userName:{
         fontSize:20,

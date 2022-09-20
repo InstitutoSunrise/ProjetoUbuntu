@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
         width:'100%',
         top:10,
         left:0,
-        padding:20,
+        paddingVertical:20,
+        paddingHorizontal: 0,
     },
     btn:{
         flexDirection:'row',
