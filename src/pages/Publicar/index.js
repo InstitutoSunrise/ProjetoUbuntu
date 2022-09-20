@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { View, StyleSheet, TouchableOpacity, Image, Text, TextInput,  ScrollView  } from 'react-native';
 
 import Checkbox from 'expo-checkbox';
@@ -26,8 +26,10 @@ export default function Publicar({navigation}) {
     const [sobreVoce, setSobreVoce] = useState('');
     const [nomeCompleto, setNomeCompleto] = useState('');
     const [status, setStatus] = useState('');
-    const [teste, setTeste] = useState(false);
-
+    
+    const [executePublicar, setExecutePublicar] = useState(false);
+    const [newImg, setNewImg] = useState(false)
+    
     const [image, setImage] = useState([]);
 
     const postImage = async () => {
@@ -47,20 +49,14 @@ export default function Publicar({navigation}) {
     }
 
     useEffect(() => {
-        
-        if(isDoando == true){
-            setStatus('Doando')
-            console.log(status)
-        } else if(isRecebendo == true) {
-            setStatus('Recebendo')
-            console.log(status)
-        }
-    });
+
+    },[newImg]);
 
     useEffect(() => {
+        
         fetchUserName();
 
-    },[teste, image])
+    },[executePublicar])
 
     const fetchUserName = async () => {
      
@@ -68,15 +64,17 @@ export default function Publicar({navigation}) {
         const querySnapshot = await getDocs(q);
 
         const getInfos = querySnapshot.forEach(doc => {
-                setNomeCompleto(user.displayName)
-                console.log(doc.data().userId, " => ", doc.data()); 
-            })
-            return getInfos;
-        }
+            setNomeCompleto(user.displayName)
+            console.log(doc.data().userId, " => ", doc.data()); 
+        })
+    
+        return getInfos;
+    
+    }
 
-    const Publicar = async () =>{
+    const Publicar = async () => {
 
-        setTeste(true)
+        setExecutePublicar(!executePublicar)
         
         try {
             const docRef = await addDoc(collection(db, "posts"), {
@@ -92,6 +90,23 @@ export default function Publicar({navigation}) {
           } catch (e) {
             console.error("Error adding document: ", e);
           }
+
+    }
+
+    function addImgIndex(imgUri){
+
+        if(image.length < 3){
+            let newArray = image
+            newArray[newArray.length] = imgUri
+            setImage( newArray ) 
+            setNewImg(!newImg)   
+        } else {
+            let newArray = image
+            newArray[2] = imgUri
+            setImage(newArray)
+            setNewImg(!newImg)
+        }
+
     }
 
     const pickImage = async () => {
@@ -103,24 +118,10 @@ export default function Publicar({navigation}) {
         quality: 1,
         });
         
-        
         if (!result.cancelled) {
-
-            if(image.length < 3){
-                let newArray = image
-                newArray[newArray.length] = result.uri
-                setImage( newArray)            
-            } else {
-                let newArray = image
-                newArray[2] = result.uri
-                setImage(newArray)
-                console.log(image[0])
-                console.log(image[1])
-                console.log(image[2])
-            }
-
-    };    
-}
+            addImgIndex(result.uri)
+        };    
+    }
 
  return (
    <View style={styles.container}>
@@ -138,7 +139,7 @@ export default function Publicar({navigation}) {
             <Checkbox
                 style={styles.checkBox}
                 value={isDoando}
-                onValueChange={() => setDoando(!isDoando) & setRecebendo(false)}
+                onValueChange={() => setDoando(true) & setRecebendo(false)}
                 color={isDoando ? '#4630EB' : undefined}
                 />  
         </View>
@@ -148,7 +149,7 @@ export default function Publicar({navigation}) {
             <Checkbox
                 style={styles.checkBox}
                 value={isRecebendo}
-                onValueChange={() => setRecebendo(!isRecebendo) & setDoando(false)}
+                onValueChange={() => setRecebendo(true) & setDoando(false)}
                 color={isRecebendo ? '#4630EB' : undefined}
                 />  
         </View>
@@ -195,7 +196,7 @@ export default function Publicar({navigation}) {
     </TouchableOpacity>
         {image && <Image source={{uri: image[0]}} style={styles.imgPicker} />}
         {image && <Image source={{ uri: image[1] }} style={styles.imgPicker} />}
-        <Image source={{ uri: image[2] }} style={styles.imgPicker} />
+        {image && <Image source={{ uri: image[2] }} style={styles.imgPicker} />}
     </View>
 
     <TouchableOpacity style={styles.btnPublicar} onPress={Publicar}>
