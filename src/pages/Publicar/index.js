@@ -7,10 +7,10 @@ import * as ImagePicker from 'expo-image-picker';
 import db from '../../config/configFirebase';
 import { getAuth } from "firebase/auth";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
+import { uploadImagePost, uploadImagePost2, uploadImagePost3 } from '../../config/configStorage';
 
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
-
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { DATE_FORMAT } from 'react-native-gifted-chat';
 
 export default function Publicar({navigation}) {
 
@@ -31,22 +31,6 @@ export default function Publicar({navigation}) {
     const [newImg, setNewImg] = useState(false)
     
     const [image, setImage] = useState([]);
-
-    const postImage = async () => {
-
-        // const storage = getStorage();
-        
-        // const auth = getAuth();
-        // const user = auth.currentUser;
-        // console.log(user.uid)
-
-        // const fileRef = ref(getStorage(), `photoPerfil/${user.uid}`);
-        // const photoURL = await getDownloadURL(fileRef); 
-        // console.log(photoURL)
-
-
-        // console.log(image)
-    }
 
     useEffect(() => {
 
@@ -75,16 +59,29 @@ export default function Publicar({navigation}) {
     const Publicar = async () => {
 
         setExecutePublicar(!executePublicar)
+
+        const auth = getAuth();
+        const userId = auth.currentUser.uid;
+        const urlImg1 = await uploadImagePost(image[0], userId);
+        const urlImg2 = await uploadImagePost2(image[1], userId);
+        const urlImg3 = await uploadImagePost3(image[2], userId);
+
         
         try {
+            
             const docRef = await addDoc(collection(db, "posts"), {
               tipoAjuda: tipoAjuda,
               sobreVoce: sobreVoce,
               status: status,
               nomeUser: nomeCompleto,
               userId: user.uid,
-              imgUser: imagePerfil
+              imgUser: imagePerfil,
+              imgPost1: urlImg1,
+              imgPost2: urlImg2,
+              imgPost3: urlImg3
             });
+            
+            
             alert('Post publicado com sucesso!');
             // console.log("Document written with ID: ", docRef.id);
           } catch (e) {

@@ -169,6 +169,9 @@ export default function Home({navigation}) {
                     status={item.status}
                     nomeUser={item.nomeUser}
                     imgUser={item.imgUser}
+                    imgPost1={item.imgPost1}
+                    imgPost2={item.imgPost2}
+                    imgPost3={item.imgPost3}
                   />
                 )
               }}

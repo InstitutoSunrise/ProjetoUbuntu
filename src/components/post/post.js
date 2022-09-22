@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 
-export default function post({sobreVoce, tipoAjuda, status, nomeUser, imgUser}) {
+export default function post({sobreVoce, tipoAjuda, status, nomeUser, imgUser, imgPost1, imgPost2, imgPost3}) {
  return (
    <View style={styles.card}>
        <View style={styles.userDatail}>
@@ -19,15 +19,15 @@ export default function post({sobreVoce, tipoAjuda, status, nomeUser, imgUser}) 
         <View style={styles.boxImages}>
             <Image
                 style={styles.img}
-                source={require('../../assets/carrosel-img1.jpg')}
+                source={imgPost1}
             />
             <Image
                 style={styles.img}
-                source={require('../../assets/carrosel-img1.jpg')}
+                source={imgPost2}
             />
             <Image
                 style={styles.img}
-                source={require('../../assets/carrosel-img1.jpg')}
+                source={imgPost3}
             />
         </View>
         <TouchableOpacity style={styles.button}>
