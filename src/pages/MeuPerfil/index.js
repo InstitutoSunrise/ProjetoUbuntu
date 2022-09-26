@@ -5,7 +5,7 @@ import { Ionicons, FontAwesome5, AntDesign, MaterialCommunityIcons } from '@expo
 
 import firebase from '../../config/configFirebase';
 import { getAuth } from "firebase/auth";
-import {doc, getDocs, docSnap, query, collection, where } from "firebase/firestore";
+import { doc, getDocs, docSnap, query, collection, where } from "firebase/firestore";
 import db from '../../config/configFirebase';
 
 
@@ -16,11 +16,11 @@ export default function MeuPerfil({ navigation }) {
     const [image, setImage] = useState("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
 
     const [nomeCompleto, setNomeCompleto] = useState();
-    const [descricao, setDescricao] = useState();    
+    const [descricao, setDescricao] = useState();
     const [endereco, setEndereco] = useState();
     const [numero, setNumero] = useState();
-    
-    async function ShowUserInfos(){
+
+    async function ShowUserInfos() {
         const auth = getAuth();
         const user = auth.currentUser;
         if (user !== null) {
@@ -31,27 +31,27 @@ export default function MeuPerfil({ navigation }) {
             const q = query(collection(db, 'Usuários'), where("userId", "==", uid));
             const querySnapshot = await getDocs(q);
             const getInfos = querySnapshot.forEach(doc => {
-                if(doc.data().tipoUser = "userFisico"){
+                if (doc.data().tipoUser = "userFisico") {
                     setNomeCompleto(user.displayName)
                     setDescricao(doc.data().descricao);
                     setEndereco(doc.data().endereço);
                     setNumero(doc.data().numero);
-                    console.log(doc.data().userId, " => ", doc.data()); 
+                    console.log(doc.data().userId, " => ", doc.data());
                 } else {
-                    console.log(doc.data().userId, " => ", doc.data()); 
-                    setNomeCompleto(doc.data().nome )
+                    console.log(doc.data().userId, " => ", doc.data());
+                    setNomeCompleto(doc.data().nome)
                     setDescricao(doc.data().descricao);
                     setEndereco(doc.data().endereço);
                     setNumero(doc.data().numero);
                 }
             })
-            return getInfos;    
+            return getInfos;
         }
     }
 
     useEffect(() => {
         //fetch infos sobre users
-        ShowUserInfos();  
+        ShowUserInfos();
     });
 
     return (
@@ -67,7 +67,7 @@ export default function MeuPerfil({ navigation }) {
 
                     <View style={styles.imgPerfilContainer}>
                         <TouchableOpacity style={styles.imgPerfilContainer}>
-                            {image && <Image source={{uri: image}} style={styles.fotoPerfil} />}
+                            {image && <Image source={{ uri: image }} style={styles.fotoPerfil} />}
                         </TouchableOpacity>
                     </View>
 
@@ -80,7 +80,7 @@ export default function MeuPerfil({ navigation }) {
                 </View>
 
                 <View style={styles.editPerfilContainer}>
-                    <TouchableOpacity style={styles.editPerfilContainer} onPress={(()=> navigation.navigate('EditarDescUserFis'))}>
+                    <TouchableOpacity style={styles.editPerfilContainer} onPress={(() => navigation.navigate('EditarDescUserFis'))}>
                         <FontAwesome5
                             name="edit"
                             size={16}
@@ -95,9 +95,9 @@ export default function MeuPerfil({ navigation }) {
                         <TouchableOpacity style={styles.btn} onPress={(() => navigation.navigate('EditarPerfilUserInst1'))}>
                             <View style={styles.funcoesIconContainer}>
                                 <FontAwesome5
-                                name="edit"
-                                size={40}
-                                color="#fff"
+                                    name="edit"
+                                    size={40}
+                                    color="#fff"
                                 />
                             </View>
                             <Text style={styles.funcoesTitle}>EDITAR PERFIL</Text>

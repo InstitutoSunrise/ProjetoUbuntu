@@ -1,49 +1,49 @@
 import React from 'react';
-import {View, TextInput, StyleSheet} from 'react-native';
+import { View, TextInput, StyleSheet } from 'react-native';
 
 export default function InputCodigos() {
-    return (
-       <View style={estilos.container}>
-          <TextInput 
-            style={estilos.inputsEstilo}
-            keyboardType="numeric"
-            maxLength={1}
-          />
-          <TextInput 
-            style={estilos.inputsEstilo}
-            keyboardType="numeric"
-            maxLength={1}
-          />
-          <TextInput
-            style={estilos.inputsEstilo}
-            keyboardType="numeric"
-            maxLength={1}
-          />
-          <TextInput 
-            style={estilos.inputsEstilo}
-            keyboardType="numeric"
-            maxLength={1}
-          />
-          <TextInput
-            style={estilos.inputsEstilo}
-            keyboardType="numeric"
-            maxLength={1}
-          />
-          <TextInput 
-            style={estilos.inputsEstilo}
-            keyboardType="numeric"
-            maxLength={1}
-          />
-       </View>
-      );
+  return (
+    <View style={estilos.container}>
+      <TextInput
+        style={estilos.inputsEstilo}
+        keyboardType="numeric"
+        maxLength={1}
+      />
+      <TextInput
+        style={estilos.inputsEstilo}
+        keyboardType="numeric"
+        maxLength={1}
+      />
+      <TextInput
+        style={estilos.inputsEstilo}
+        keyboardType="numeric"
+        maxLength={1}
+      />
+      <TextInput
+        style={estilos.inputsEstilo}
+        keyboardType="numeric"
+        maxLength={1}
+      />
+      <TextInput
+        style={estilos.inputsEstilo}
+        keyboardType="numeric"
+        maxLength={1}
+      />
+      <TextInput
+        style={estilos.inputsEstilo}
+        keyboardType="numeric"
+        maxLength={1}
+      />
+    </View>
+  );
 }
-  
+
 const estilos = StyleSheet.create({
-  container:{
+  container: {
     flexDirection: "row",
     justifyContent: "space-between"
   },
-  inputsEstilo:{
+  inputsEstilo: {
     backgroundColor: "#e8eaea",
     width: 38,
     height: 60,
