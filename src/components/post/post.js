@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 
-export default function post({sobreVoce, tipoAjuda, status, nomeUser, imgUser, imgPost1, imgPost2, imgPost3}) {
+export default function post({sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1, imgPost2, imgPost3}) {
+
+    const [dataHoraPost, setDataHoraPost] = useState(new Date().toLocaleString())
+
  return (
    <View style={styles.card}>
+       <Text style={styles.dataPost}>{dataHoraPost}</Text>
        <View style={styles.userDatail}>
             <Image source={{uri: imgUser}} style={styles.fotoPerfil} />
             <View style={styles.userText}>
@@ -13,8 +17,7 @@ export default function post({sobreVoce, tipoAjuda, status, nomeUser, imgUser, i
                 <Text style={styles.cidade}>Itaquera, SP</Text>
             </View>
        </View>
-       <Text style={styles.status}>{status}</Text>
-       <Text style={styles.assunto}>{tipoAjuda}</Text>
+       <Text style={styles.titulo}>{tipoAjuda}</Text>
        <Text style={styles.description}>{sobreVoce}</Text>
         <View style={styles.boxImages}>
             <Image
@@ -30,9 +33,12 @@ export default function post({sobreVoce, tipoAjuda, status, nomeUser, imgUser, i
                 source={imgPost3}
             />
         </View>
-        <TouchableOpacity style={styles.button}>
-            <Text style={styles.text}>ENTRAR EM CONTATO</Text>
-        </TouchableOpacity>
+        <View style={styles.ViewBtn}>
+            <TouchableOpacity style={styles.button}>
+                <Text style={styles.text}>ENTRAR EM CONTATO</Text>
+            </TouchableOpacity>
+        </View>
+        
    </View>
   );
 }
@@ -40,15 +46,18 @@ export default function post({sobreVoce, tipoAjuda, status, nomeUser, imgUser, i
 const styles = StyleSheet.create({
     card:{
         backgroundColor:'#e8eaea',
-        width: '100%',
         height:'auto',
         borderRadius:8,
         padding:15,
-        alignItems:'center',
         justifyContent:'space-between',
         marginVertical:10,
-        // borderColor:'#38B6FF',
-        // borderWidth:2
+        marginHorizontal:10
+    },
+    dataPost:{
+        fontSize: 13,
+        fontWeight: '300',
+        textAlign:'right',
+        marginVertical: 2,
     },
     userDatail:{
         width:'100%',
@@ -56,45 +65,53 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     userText:{
-        alignItems:'center',
-        textAlign:'left',
-        marginLeft: 5,
-        justifyContent:'center'
+        marginLeft: 10,
+        justifyContent: 'center'
     },
-    name:{
-        fontSize: 20,
-        fontWeight: 'bold',
-        color:'#0e52b2'
+    name:{ 
+        textTransform: 'uppercase',
+        color: '#0e52b2',
+        fontSize: 16,
+        fontWeight: '800'
     },
     cidade:{
-        fontSize:15,
-        fontWeight:'bold',
-        color:'#0e52b2',
-        marginLeft: 15,
+        textTransform: 'capitalize',
+        color: '#0e52b2',
+        fontSize: 16,
+        fontWeight: '700'
     },
-    assunto:{
-        fontSize:17,
-        fontWeight:'bold',
-        textAlign:'justify',
-        marginBottom:3,
-        color:'#0e52b2',
+    titulo:{
+        fontSize: 18,
+        fontWeight: '700',
+        textTransform: 'uppercase',
+        marginVertical: 5
     },
     description:{
-        fontSize:16,
-        width: '100%',
-        padding: 10,
-        flexShrink: 1
+        width:'100%'
+    },
+    fotoPerfil: {
+        width:50,
+        height:50,
+        borderRadius: 60,
+        borderWidth: 2,
+        borderColor: '#0e52B2'
+    },
+    ViewBtn:{
+        width:'100%',
+        alignItems:'center'
     },
     button:{
+        width:'70%',
         backgroundColor:'#38B6FF',
         borderRadius:25,
         padding: 15,
+        alignItems:'center'
     },
     text:{
         fontSize: 18,
         color:'#fff',
         fontWeight:'bold',
-        letterSpacing:2,
+        letterSpacing:1,
     },
     status:{
         color:'#38B6FF',
@@ -113,11 +130,5 @@ const styles = StyleSheet.create({
         height:70,
         margin:10,
     },
-    fotoPerfil: {
-        width:50,
-        height:50,
-        borderRadius: 60,
-        borderWidth: 2,
-        borderColor: '#0e52B2'
-    },
+    
 });

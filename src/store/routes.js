@@ -168,7 +168,7 @@ function TabBar({navigation}){
 export default function Routes({navigation}) {
  return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName='Entrar'>
+        <Stack.Navigator initialRouteName='Home'>
             <Stack.Screen 
             name="Home" 
             component={TabBar} 

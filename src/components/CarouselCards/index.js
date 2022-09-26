@@ -8,7 +8,7 @@ const CarouselCards = () => {
   const isCarousel = React.useRef(null)
 
   return (
-    <View>
+    <View style={{width:'100%'}}>
       <Carousel
         layout="default"
         layoutCardOffset={10}

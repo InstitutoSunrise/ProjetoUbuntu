@@ -41,7 +41,7 @@ export default function Home({navigation}) {
         <View style={styles.container}>
           <StatusBar barStyle="dark-content" backgroundColor="#fff" />
           
-          <ScrollView contentContainerStyle={{alignItems:'center',width:'100%'}}>
+          <ScrollView >
 
             <View style={{height: 260}}>
               <CarouselCards/>
@@ -158,15 +158,11 @@ export default function Home({navigation}) {
             <FlatList
               showsVerticalScrollIndicator={false}
               data={post}
-              // style={{maxWidth: '100%'}}
-             
-              contentContainerStyle={{}}
               renderItem={( { item } ) => {
                 return(
                   <Post
                     tipoAjuda={item.tipoAjuda}
                     sobreVoce={item.sobreVoce}
-                    status={item.status}
                     nomeUser={item.nomeUser}
                     imgUser={item.imgUser}
                     imgPost1={item.imgPost1}
@@ -191,6 +187,7 @@ const styles = StyleSheet.create({
     marginVertical:5
   },
   titulo:{
+    textAlign:'center',
     fontSize:30,
     fontWeight:'bold',
     color:'#38B6FF',
@@ -239,6 +236,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: -25,
+    marginLeft: 17
   },
   tituloModalFiltro:{
     color: '#0e52b2',
@@ -258,7 +256,7 @@ const styles = StyleSheet.create({
   optionTextModalFiltro:{
     fontWeight: '900',
     fontSize: 16,
-    marginLeft: 30,
+    marginLeft: 20,
     marginTop: 15,
   },
   optionCheckBox:{

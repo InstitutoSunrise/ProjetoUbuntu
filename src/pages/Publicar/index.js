@@ -63,8 +63,8 @@ export default function Publicar({navigation}) {
         const auth = getAuth();
         const userId = auth.currentUser.uid;
         const urlImg1 = await uploadImagePost(image[0], userId);
-        const urlImg2 = await uploadImagePost2(image[1], userId);
-        const urlImg3 = await uploadImagePost3(image[2], userId);
+        const urlImg2 = await uploadImagePost(image[1], userId);
+        const urlImg3 = await uploadImagePost(image[2], userId);
 
         
         try {
@@ -79,6 +79,7 @@ export default function Publicar({navigation}) {
               imgPost1: urlImg1,
               imgPost2: urlImg2,
               imgPost3: urlImg3
+
             });
             
             
@@ -152,21 +153,23 @@ export default function Publicar({navigation}) {
         </View>
     </View>
 
-    <View style={styles.containerInput1}>
-        <TextInput
-            style={styles.placeholderText}
-            onChangeText={setTipoAjuda}
-            value={tipoAjuda}
-            placeholder="Que tipo de ajuda você precisa no momento?"
-            multiline
-            numberOfLines={5}
-            autoCapitalize={'sentences'}
-            autoCorrect
-            maxLength={200}
-            textBreakStrategy={'highQuality'}
-            
-        />
-    </View>
+    {isRecebendo ?
+        <View style={styles.containerInput1}>
+            <TextInput
+                style={styles.placeholderText}
+                onChangeText={setTipoAjuda}
+                value={tipoAjuda}
+                placeholder="Que tipo de ajuda você precisa no momento?"
+                multiline
+                numberOfLines={5}
+                autoCapitalize={'sentences'}
+                autoCorrect
+                maxLength={200}
+                textBreakStrategy={'highQuality'}
+                
+            />
+        </View>
+    : undefined}
     
     <View style={styles.containerInput2}>
         <TextInput
@@ -182,19 +185,21 @@ export default function Publicar({navigation}) {
         />
     </View>
     
-    <View style={styles.imgPickerContainer}>
-    <TouchableOpacity style={styles.touchable} onPress={pickImage}>
-       <MaterialCommunityIcons 
-        name="file-image-plus" 
-        size={55} 
-        color='#0e52b2'
-         />
-       <Text style={styles.imgPickerTitle}>ADICIONAR IMAGENS</Text> 
-    </TouchableOpacity>
-        {image && <Image source={{uri: image[0]}} style={styles.imgPicker} />}
-        {image && <Image source={{ uri: image[1] }} style={styles.imgPicker} />}
-        {image && <Image source={{ uri: image[2] }} style={styles.imgPicker} />}
-    </View>
+    {isDoando ?
+        <View style={styles.imgPickerContainer}>
+        <TouchableOpacity style={styles.touchable} onPress={pickImage}>
+        <MaterialCommunityIcons 
+            name="file-image-plus" 
+            size={55} 
+            color='#0e52b2'
+            />
+        <Text style={styles.imgPickerTitle}>ADICIONAR IMAGENS</Text> 
+        </TouchableOpacity>
+            {image && <Image source={{uri: image[0]}} style={styles.imgPicker} />}
+            {image && <Image source={{ uri: image[1] }} style={styles.imgPicker} />}
+            {image && <Image source={{ uri: image[2] }} style={styles.imgPicker} />}
+        </View>
+    : undefined }
 
     <TouchableOpacity style={styles.btnPublicar} onPress={Publicar}>
         <Text style={styles.btnPublicarTexto}>PUBLICAR</Text>
@@ -202,7 +207,7 @@ export default function Publicar({navigation}) {
 
     </ScrollView>
    </View>
-  );
+   );
 }
 const styles = StyleSheet.create({
     container:{
