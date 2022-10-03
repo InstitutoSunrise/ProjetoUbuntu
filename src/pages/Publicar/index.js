@@ -78,8 +78,7 @@ export default function Publicar({ navigation }) {
                 imgUser: imagePerfil,
                 imgPost1: urlImg1,
                 imgPost2: urlImg2,
-                imgPost3: urlImg3
-
+                imgPost3: urlImg3,
             });
 
 

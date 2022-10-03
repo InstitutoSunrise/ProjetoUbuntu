@@ -5,9 +5,7 @@ import CarouselPost from '../CarouselPost';
 import { useEffect } from 'react';
 
 
-export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1, imgPost2, imgPost3, tipoUser, userId, navigation}) {
-
-    
+export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1, imgPost2, imgPost3, onClick }) {
 
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
@@ -31,24 +29,16 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
         getImages()
     }, [imgPost3])
 
-    const showInfoPost = () => {
-        if(tipoUser == "Fisico"){
-            navigation.navigate('InfoPostFisi', {nome:nomeUser, imgUser:imgUser, sobreVoce:sobreVoce, tipoAjuda:tipoAjuda, imgPost1:imgPost1, imgPost2:imgPost2, imgPost3:imgPost3, userId:userId});
-        }else{
-            navigation.navigate('InfoPostInst' , {nome:nomeUser, imgUser:imgUser, sobreVoce:sobreVoce, tipoAjuda:tipoAjuda, imgPost1:imgPost1, imgPost2:imgPost2, imgPost3:imgPost3, userId:userId});
-        }
-    }
-
     return (
-        <TouchableOpacity onPress={showInfoPost} style={styles.card}>
+        <View onPress={onClick} style={styles.card}>
             <Text style={styles.dataPost}>{dataHoraPost}</Text>
-            <View style={styles.userDatail}>
+            {/* <View style={styles.userDatail}>
                 <Image source={{ uri: imgUser }} style={styles.fotoPerfil} />
                 <View style={styles.userText}>
                     <Text style={styles.name}>{nomeUser}</Text>
                     <Text style={styles.cidade}>Itaquera, SP</Text>
                 </View>
-            </View>
+            </View> */}
             <Text style={styles.titulo}>{tipoAjuda}</Text>
             <Text style={styles.description}>{sobreVoce}</Text>
             <View style={styles.boxImages}>
@@ -62,7 +52,7 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
                 </TouchableOpacity>
             </View>
 
-        </TouchableOpacity>
+        </View>
     );
 }
 
@@ -82,27 +72,27 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         marginVertical: 2,
     },
-    userDatail: {
-        width: '100%',
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    userText: {
-        marginLeft: 10,
-        justifyContent: 'center'
-    },
-    name: {
-        textTransform: 'uppercase',
-        color: '#0e52b2',
-        fontSize: 16,
-        fontWeight: '800'
-    },
-    cidade: {
-        textTransform: 'capitalize',
-        color: '#0e52b2',
-        fontSize: 16,
-        fontWeight: '700'
-    },
+    // userDatail: {
+    //     width: '100%',
+    //     flexDirection: 'row',
+    //     alignItems: 'center',
+    // },
+    // userText: {
+    //     marginLeft: 10,
+    //     justifyContent: 'center'
+    // },
+    // name: {
+    //     textTransform: 'uppercase',
+    //     color: '#0e52b2',
+    //     fontSize: 16,
+    //     fontWeight: '800'
+    // },
+    // cidade: {
+    //     textTransform: 'capitalize',
+    //     color: '#0e52b2',
+    //     fontSize: 16,
+    //     fontWeight: '700'
+    // },
     titulo: {
         fontSize: 18,
         fontWeight: '700',

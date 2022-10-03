@@ -1,36 +1,35 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 
+import { getAuth } from "firebase/auth";
+import { getDocs, query, collection, where } from "firebase/firestore";
+import db from '../../config/configFirebase';
 
 import MinhaPublicacao from '../../components/minhaPublicacao';
 import Backbutton from '../../components/Backbutton';
 
-const DATA = [
-  {
-    id: '1',
-    dataHora: '27/07/22 - 12:30',
-    descricao: 'Estou doando 3 calças de moletom para o frio, alguém precisando?',
-  },
-  {
-    id: '2',
-    dataHora: '12/06/22 - 12:30',
-    descricao: 'Preciso de leite para os meus filhos',
-  },
-  {
-    id: '3',
-    dataHora: '04/06/22 - 12:30',
-    descricao: 'Procuro cesta básica',
-  },
-  {
-    id: '4',
-    dataHora: '05/05/22 - 12:30',
-    descricao: 'Lorem Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsuLorem ipsum Lorem ipsum Lorem ipsuLorem ipsum Lorem ipsum Lorem ipsum',
-  },
-];
-
-
-
 export default function MinhaPubs({ navigation }) {
+
+  const [post, setPost] = useState([]);
+
+  const fetchPublicacoes = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const q = query(collection(db, 'posts'), where("userId", "==", user.uid));
+    const querySnapshot = await getDocs(q);
+    const List = []
+    querySnapshot.forEach((doc) => {
+      List.push({ ...doc.data(), id: doc.id, })
+      console.log(doc.id, "=>", doc.data());
+    });
+    console.log(post)
+    return setPost(List)
+  }
+
+  useEffect(() => {
+    fetchPublicacoes();
+  }, []);
+
   return (
 
     <View style={styles.container}>
@@ -41,13 +40,17 @@ export default function MinhaPubs({ navigation }) {
 
       <FlatList
         vertical={true}
-        data={DATA}
-        keyExtractor={(item) => item.id}
+        data={post}
         renderItem={({ item }) => (
 
           <MinhaPublicacao
-            dataHora={item.dataHora}
-            descricao={item.descricao}
+            tipoAjuda={item.tipoAjuda}
+            sobreVoce={item.sobreVoce}
+            nomeUser={item.nomeUser}
+            imgUser={item.imgUser}
+            imgPost1={item.imgPost1}
+            imgPost2={item.imgPost2}
+            imgPost3={item.imgPost3}
           />
         )}
       />

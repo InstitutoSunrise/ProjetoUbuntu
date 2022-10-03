@@ -166,6 +166,9 @@ export default function Home({ navigation }) {
                   imgPost1={item.imgPost1}
                   imgPost2={item.imgPost2}
                   imgPost3={item.imgPost3}
+                  tipoUser={item.tipoUser}
+                  userId={item.userId}
+                  navigation={navigation}
                 />
               )
             }}

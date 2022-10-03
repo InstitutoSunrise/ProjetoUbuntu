@@ -38,6 +38,8 @@ import EditarDescUserFis from '../pages/EditarDescUserFis';
 import EditarPerfilUserFis from '../pages/EditarPerfilUserFis';
 import EditarPerfilUserInst1 from '../pages/EditarPerfilUserInst1';
 import EditarPerfilUserInst2 from '../pages/EditarPerfilUserInst2';
+import InfoPostFisi from '../pages/InfoPostFisi';
+import InfoPostInst from '../pages/InfoPostInst';
 
 import { getAuth } from "firebase/auth";
 import { getDocs, query, collection, where } from "firebase/firestore";
@@ -168,7 +170,7 @@ function TabBar({ navigation }) {
 export default function Routes({ navigation }) {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName='Home'>
+            <Stack.Navigator initialRouteName='Entrar'>
                 <Stack.Screen
                     name="Home"
                     component={TabBar}
@@ -332,6 +334,20 @@ export default function Routes({ navigation }) {
                 <Stack.Screen
                     name="EditarPerfilUserInst2"
                     component={EditarPerfilUserInst2}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="InfoPostFisi"
+                    component={InfoPostFisi}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="InfoPostInst"
+                    component={InfoPostInst}
                     options={{
                         headerShown: false,
                     }}
