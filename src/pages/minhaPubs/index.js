@@ -51,6 +51,7 @@ export default function MinhaPubs({ navigation }) {
             imgPost1={item.imgPost1}
             imgPost2={item.imgPost2}
             imgPost3={item.imgPost3}
+            navigation={navigation}
           />
         )}
       />

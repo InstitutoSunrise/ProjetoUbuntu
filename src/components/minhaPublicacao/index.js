@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import CarouselPost from '../CarouselPost';
 
-export default function MinhaPublicacao({sobreVoce, tipoAjuda, imgPost1, imgPost2, imgPost3}) {
+export default function MinhaPublicacao({sobreVoce, tipoAjuda, imgPost1, imgPost2, imgPost3, navigation}) {
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
@@ -44,7 +44,7 @@ export default function MinhaPublicacao({sobreVoce, tipoAjuda, imgPost1, imgPost
                 <TouchableOpacity style={styles.button}>
                     <Text style={styles.text}>EXCLUIR</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('EditarPost', {sobreVoce:sobreVoce, tipoAjuda:tipoAjuda})}>
                     <Text style={styles.text}>EDITAR</Text>
                 </TouchableOpacity>
             </View>

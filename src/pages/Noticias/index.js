@@ -23,6 +23,14 @@ export default function Noticias({ navigation }) {
 
     const [modalVisible, setModalVisible] = useState(false);
 
+    const [qtdEstrela, setQtdEstrela] = useState({
+        1: false,
+        2: false,
+        3: false,
+        4: false,
+        5: false,
+    })
+
     return (
         <View style={styles.container}>
             <ImageBackground source={{ uri: image }} style={styles.ImageBackground} imageStyle={{ opacity: 0.5 }}>
@@ -50,6 +58,7 @@ export default function Noticias({ navigation }) {
                         <Text style={styles.tituloNoticia}>O que é ser uma pessoa solidaria</Text>
                         <Text style={styles.textNoticia}>{filterDesc("Ullamco voluptate reprehenderit consequat dolore do velit exercitation. Velit adipisicing veniam quis cillum quis deserunt nisi. Ex culpa non anim sint minim cupidatat adipisicing. Tempor eiusmod eu ea magna ipsum aliquip quis.")}</Text>
                     </TouchableOpacity>
+
                 </ScrollView>
 
                 <Modal
@@ -63,31 +72,48 @@ export default function Noticias({ navigation }) {
                     <View style={styles.modalContainer}>
                         <View style={styles.viewModal}>
                             <View style={styles.containerModalFiltro}>
-                                <TouchableOpacity style={{ alignSelf: 'flex-end', marginTop: 8 }} onPress={() => setModalVisible(!modalVisible)}>
-                                    <AntDesign name="close" size={40} color="#545454" />
-                                </TouchableOpacity>
-
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Text style={styles.noticiaData}>Publicado em 21/09/2022 ás 17:30h</Text>
+                                    <TouchableOpacity style={{ position: 'absolute', right: 20, paddingVertical: 15 }} onPress={() => setModalVisible(!modalVisible)}>
+                                        <AntDesign name="close" size={40} color="#545454" style={{ alignSelf: 'flex-end', paddingVertical: 10, }} />
+                                    </TouchableOpacity>
+                                </View>
                                 <View style={styles.tituloNoticiaModalView}>
                                     <Text style={styles.tituloModalNoticia}>Fome em Tempos de Crise</Text>
                                 </View>
-                                <View style={{ height: '65%' }}>
-                                    <ScrollView contentContainerStyle={{ width: '100%', height: '100%' }}>
-                                        <View style={styles.textModalNoticiaView}>
-                                            <Text style={styles.textModalNoticia}>
-                                                Aliqua do aute aliquip labore esse cillum. Veniam reprehenderit anim laboris aliquip et sint. Anim irure eu id velit nisi. Lorem proident nulla commodo ex consectetur est anim ipsum.
-                                                Ut laboris commodo est ipsum in nulla. Ullamco adipisicing ipsum proident nostrud et occaecat est consequat voluptate irure non aliquip nisi. Aute ea nisi minim do. In quis sunt nisi et reprehenderit nisi dolore id mollit sunt Lorem. Deserunt eu minim eiusmod fugiat excepteur eiusmod adipisicing. Labore consequat mollit amet dolor consequat pariatur magna fugiat non. Veniam sunt qui nostrud laborum commodo et pariatur dolore et officia cupidatat ea anim.
-                                                Laboris et magna nostrud ad officia incididunt deserunt mollit nostrud qui est reprehenderit culpa fugiat. Magna pariatur sit amet adipisicing culpa nostrud anim quis deserunt ea anim deserunt. Non reprehenderit adipisicing anim ad irure elit pariatur incididunt elit sint elit proident consequat aliquip. Culpa tempor elit nisi qui eiusmod proident duis. Elit enim elit est consectetur Lorem duis commodo sit reprehenderit nisi esse.
-                                                Pariatur amet ex deserunt ad. Voluptate ex enim occaecat deserunt veniam. Cillum ad in elit ea ut in voluptate aliquip qui qui non dolore labore. Occaecat eu esse veniam eu incididunt cupidatat qui incididunt sunt ad. Veniam eiusmod irure ipsum occaecat.
-                                            </Text>
-                                        </View>
-                                    </ScrollView>
+
+                                <ScrollView style={styles.textModalNoticiaView}>
+                                    <View style={styles.textModalNoticiaView}>
+                                        <Text style={styles.textModalNoticia}>
+                                            Aliqua do aute aliquip labore esse cillum. Veniam reprehenderit anim laboris aliquip et sint. Anim irure eu id velit nisi. Lorem proident nulla commodo ex consectetur est anim ipsum.
+                                            Ut laboris commodo est ipsum in nulla. Ullamco adipisicing ipsum proident nostrud et occaecat est consequat voluptate irure non aliquip nisi. Aute ea nisi minim do. In quis sunt nisi et reprehenderit nisi dolore id mollit sunt Lorem. Deserunt eu minim eiusmod fugiat excepteur eiusmod adipisicing. Labore consequat mollit amet dolor consequat pariatur magna fugiat non. Veniam sunt qui nostrud laborum commodo et pariatur dolore et officia cupidatat ea anim.
+                                            Laboris et magna nostrud ad officia incididunt deserunt mollit nostrud qui est reprehenderit culpa fugiat. Magna pariatur sit amet adipisicing culpa nostrud anim quis deserunt ea anim deserunt. Non reprehenderit adipisicing anim ad irure elit pariatur incididunt elit sint elit proident consequat aliquip. Culpa tempor elit nisi qui eiusmod proident duis. Elit enim elit est consectetur Lorem duis commodo sit reprehenderit nisi esse.
+                                            Pariatur amet ex deserunt ad. Voluptate ex enim occaecat deserunt veniam. Cillum ad in elit ea ut in voluptate aliquip qui qui non dolore labore. Occaecat eu esse veniam eu incididunt cupidatat qui incididunt sunt ad. Veniam eiusmod irure ipsum occaecat.
+                                        </Text>
+                                    </View>
+                                </ScrollView>
+                                <View style={styles.ratingView}>
+                                    <Text style={styles.span}>Este artigo foi útil?</Text>
+                                    <TouchableOpacity style={{ padding: 2 }} onPress={(() => setQtdEstrela({ 1: !qtdEstrela[1], 2: false, 3: false, 4: false, 5: false }))}>
+                                        <AntDesign name="star" size={23} color={qtdEstrela[1] ? "#f5bf00" : "#636363"} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={{ padding: 2 }} onPress={(() => setQtdEstrela({ 1: true, 2: true, 3: false, 4: false, 5: false }))}>
+                                        <AntDesign name="star" size={23} color={qtdEstrela[2] ? "#f5bf00" : "#636363"} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={{ padding: 2 }} onPress={(() => setQtdEstrela({ 1: true, 2: true, 3: true, 4: false, 5: false }))}>
+                                        <AntDesign name="star" size={23} color={qtdEstrela[3] ? "#f5bf00" : "#636363"} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={{ padding: 2 }} onPress={(() => setQtdEstrela({ 1: true, 2: true, 3: true, 4: true, 5: false }))}>
+                                        <AntDesign name="star" size={23} color={qtdEstrela[4] ? "#f5bf00" : "#636363"} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={{ padding: 2 }} onPress={(() => setQtdEstrela({ 1: true, 2: true, 3: true, 4: true, 5: true }))}>
+                                        <AntDesign name="star" size={23} color={qtdEstrela[5] ? "#f5bf00" : "#636363"} />
+                                    </TouchableOpacity>
                                 </View>
                             </View>
                         </View>
                     </View>
                 </Modal>
-
-
             </ImageBackground>
         </View>
     );
@@ -116,6 +142,12 @@ const styles = StyleSheet.create({
         padding: 10,
         textAlign: 'center',
         textTransform: 'uppercase',
+    },
+    noticiaData: {
+        marginHorizontal: 10,
+        fontSize: 10,
+        color: '#020302',
+        padding: 20,
     },
     textNoticia: {
         marginHorizontal: 10,
@@ -160,5 +192,20 @@ const styles = StyleSheet.create({
     },
     textModalNoticia: {
         fontSize: 15,
+    },
+    ratingView: {
+        width: "100%",
+        height: '10%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row'
+    },
+    span: {
+        fontSize: 13.5,
+        color: '#0e52b2',
+        padding: 5
+    },
+    starIcons: {
+
     },
 })

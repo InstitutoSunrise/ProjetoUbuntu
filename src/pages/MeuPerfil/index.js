@@ -3,9 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { Image, Text, View, StyleSheet, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import { Ionicons, FontAwesome5, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
-import firebase from '../../config/configFirebase';
 import { getAuth } from "firebase/auth";
-import { doc, getDocs, docSnap, query, collection, where } from "firebase/firestore";
+import { getDocs, query, collection, where } from "firebase/firestore";
 import db from '../../config/configFirebase';
 
 
@@ -19,6 +18,7 @@ export default function MeuPerfil({ navigation }) {
     const [descricao, setDescricao] = useState();
     const [endereco, setEndereco] = useState();
     const [numero, setNumero] = useState();
+    const [tipoUser, setTipoUser] = useState();
 
     async function ShowUserInfos() {
         const auth = getAuth();
@@ -31,11 +31,12 @@ export default function MeuPerfil({ navigation }) {
             const q = query(collection(db, 'Usuários'), where("userId", "==", uid));
             const querySnapshot = await getDocs(q);
             const getInfos = querySnapshot.forEach(doc => {
-                if (doc.data().tipoUser = "userFisico") {
+                if (doc.data().tipoUser == "userFisico") {
                     setNomeCompleto(user.displayName)
                     setDescricao(doc.data().descricao);
                     setEndereco(doc.data().endereço);
                     setNumero(doc.data().numero);
+                    setTipoUser("Fis");
                     console.log(doc.data().userId, " => ", doc.data());
                 } else {
                     console.log(doc.data().userId, " => ", doc.data());
@@ -43,9 +44,18 @@ export default function MeuPerfil({ navigation }) {
                     setDescricao(doc.data().descricao);
                     setEndereco(doc.data().endereço);
                     setNumero(doc.data().numero);
+                    setTipoUser("Inst");
                 }
             })
             return getInfos;
+        }
+    }
+
+    const editarPost = () => {
+        if(tipoUser == "Fis"){
+            navigation.navigate('EditarPerfilUserFis')
+        }else{
+            navigation.navigate('EditarPerfilUserInst1')
         }
     }
 
@@ -92,7 +102,7 @@ export default function MeuPerfil({ navigation }) {
 
                 <View style={styles.funcoesContainer}>
                     <View style={styles.funcoesGrid}>
-                        <TouchableOpacity style={styles.btn} onPress={(() => navigation.navigate('EditarPerfilUserInst1'))}>
+                        <TouchableOpacity style={styles.btn} onPress={editarPost}>
                             <View style={styles.funcoesIconContainer}>
                                 <FontAwesome5
                                     name="edit"

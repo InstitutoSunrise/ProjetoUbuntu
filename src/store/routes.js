@@ -38,6 +38,7 @@ import EditarDescUserFis from '../pages/EditarDescUserFis';
 import EditarPerfilUserFis from '../pages/EditarPerfilUserFis';
 import EditarPerfilUserInst1 from '../pages/EditarPerfilUserInst1';
 import EditarPerfilUserInst2 from '../pages/EditarPerfilUserInst2';
+import EditarPost from '../pages/EditarPost'
 import InfoPostFisi from '../pages/InfoPostFisi';
 import InfoPostInst from '../pages/InfoPostInst';
 
@@ -348,6 +349,13 @@ export default function Routes({ navigation }) {
                 <Stack.Screen
                     name="InfoPostInst"
                     component={InfoPostInst}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="EditarPost"
+                    component={EditarPost}
                     options={{
                         headerShown: false,
                     }}

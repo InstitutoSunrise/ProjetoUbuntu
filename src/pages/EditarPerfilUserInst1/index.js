@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { Image, Text, View, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5, Entypo } from '@expo/vector-icons';
 
 import * as ImagePicker from 'expo-image-picker';
 import MaskInput from 'react-native-mask-input';
@@ -21,11 +21,8 @@ export default function EditarPerfilUserInst1({ navigation }) {
 
 
     const [nome, setNome] = useState('');
-    const [cnpj, setCnpj] = useState('');
-    const [telefone, setTelefone] = useState('');
-    const [email, setEmail] = useState('');
-    const [senha1, setSenha1] = useState('');
-    const [senha2, setSenha2] = useState('');
+    const [localizacao, setLocalizacao] = useState('');
+    const [descricao, setDescricao] = useState('');
 
 
     const pickImage = async () => {
@@ -61,59 +58,30 @@ export default function EditarPerfilUserInst1({ navigation }) {
                     placeholder="NOME DA INSTITUIÇÃO"
                     style={styles.TextInput}
                     value={nome}
-                    onChangeText={text => setNome(text)} />
-
-                <TextInput
-                    placeholder="E-MAIL"
-                    style={styles.TextInput}
-                    value={email}
-                    onChangeText={text => setEmail(text)} />
-
-
-                <View style={styles.containerInput}>
-                    <MaskInput
-                        placeholder="CNPJ"
-                        keyboardType={'number-pad'}
-                        style={styles.Input}
-                        value={cnpj}
-                        onChangeText={(masked, unmasked) => {
-                            setCnpj(masked);
-
-                        }}
-                        mask={[/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/]}
+                    onChangeText={text => setNome(text)}
+                />
+                <View style={styles.localizacaoInputContainer}>
+                    <TextInput
+                        placeholder="LOCALIZAÇÃO"
+                        style={styles.localizacaoInput}
+                        value={localizacao}
+                        onChangeText={text => setLocalizacao(text)}
                     />
-
-                    <MaskInput
-                        placeholder="TELEFONE"
-                        keyboarType={'number-pad'}
-                        style={styles.Input}
-                        value={telefone}
-                        onChangeText={(masked, unmasked) => {
-                            setTelefone(masked);
-
-                        }}
-                        mask={['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-                    />
+                    <Entypo name="location-pin" size={24} color="#636363" />
                 </View>
 
                 <TextInput
-                    secureTextEntry={true}
-                    placeholder="DIGITE SUA SENHA"
-                    style={styles.TextInput}
-                    value={senha1}
-                    onChangeText={text => setSenha1(text)}
+                    placeholder="DESCRIÇÃO"
+                    style={styles.TextInputDesc}
+                    value={descricao}
+                    multiline={true}
+                    numberOfLines={6}
+                    onChangeText={text => setDescricao(text)}
                 />
 
-                <TextInput
-                    secureTextEntry={true}
-                    placeholder="CONFIRME SUA SENHA"
-                    style={styles.TextInput}
-                    value={senha2}
-                    onChangeText={text => setSenha2(text)}
-                />
             </View>
             <TouchableOpacity style={styles.botao} onPress={(() => navigation.navigate('EditarPerfilUserInst2'))}>
-                <Text style={styles.textoBotao}>SALVAR</Text>
+                <Text style={styles.textoBotao}>CONTINUAR</Text>
             </TouchableOpacity>
         </View>
     );
@@ -169,7 +137,30 @@ const styles = StyleSheet.create({
         fontSize: 14,
         width: '49%'
     },
+    localizacaoInput: {
+        fontSize: 14,
+        width: '90%',
+    },
+    localizacaoInputContainer: {
+        width: '80%',
+        paddingVertical: 16,
+        paddingHorizontal: 25,
+        borderRadius: 30,
+        marginTop: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#e8eaea',
+    },
     TextInput: {
+        width: '80%',
+        marginTop: 10,
+        backgroundColor: '#e8eaea',
+        paddingVertical: 16,
+        paddingHorizontal: 25,
+        borderRadius: 30,
+        fontSize: 14,
+    },
+    TextInputDesc: {
         width: '80%',
         marginTop: 10,
         backgroundColor: '#e8eaea',
