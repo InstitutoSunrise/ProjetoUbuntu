@@ -1,40 +1,47 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import Backbutton from '../../components/Backbutton/index';
-import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons, Foundation, MaterialIcons, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 
-export default function InstituiçãoDestalhe({ navigation }) {
+
+export default function InstituiçãoDestalhe({ navigation, route }) {
     return (
         <View style={styles.container}>
             <Backbutton onClick={() => navigation.goBack()} />
             <ScrollView contentContainerStyle={{ alignItems: 'center', width: '100%' }}>
                 <View style={styles.containerInst}>
-                    <Text style={styles.titulo}>Instituição paulo gustavo </Text>
+                    <Text style={styles.titulo}>{route.params.nomeInst}</Text>
 
                     <Image
                         style={styles.img}
-                        source={require('../../assets/carrosel-img1.jpg')}
+                        source={{uri:route.params.img}}
                     />
 
-                    <View style={styles.descricao}>
-                        <Text style={styles.nomeInfo}>Endereço:</Text>
-                        <Text style={styles.info}>rua da sorte, 482 - cidade tiradentes sp  (09757-785)</Text>
-                    </View>
-                    <View style={styles.descricao}>
-                        <Text style={styles.nomeInfo}>Horário de atendimento:</Text>
-                        <Text style={styles.info}>sex á sab das 9h ás 18h</Text>
-                    </View>
-                    <View style={styles.descricao}>
-                        <Text style={styles.nomeInfo}>Telefone:</Text>
-                        <Text style={styles.info}>(55) 9999-9999</Text>
-                    </View>
-                    <View style={styles.descricao}>
-                        <Text style={styles.nomeInfo}>Email:</Text>
-                        <Text style={styles.info}>instpaulogustavo@gmail.com </Text>
-                    </View>
+                    <Text style={styles.textDescricao}>{route.params.descricao}</Text>
 
-                    <Text style={styles.texto}>“Cada pequeno esforço voluntário, quando é feito com amor, transforma qualquer coisa, até mesmo a mais difícil.”</Text>
+                    <View style={styles.infomaçoes}>
 
+                        <View style={styles.viewInfo}>
+                            <Ionicons name="location" size={24} color="#0e52B2" style={{ marginRight: 5 }} />
+                            <Text style={styles.textInfo}>{route.params.endereco}, {route.params.numero}</Text>
+                        </View>
+                        <View style={styles.viewInfo}>
+                            <Ionicons name="time-outline" size={24} color="#0e52B2" style={{ marginRight: 5 }} />
+                            <Text style={styles.textInfo}>{route.params.horario}</Text>
+                        </View>
+
+                        <View style={styles.ViewContato}>
+                            <View style={styles.viewInfo}>
+                                <Foundation name="telephone" size={24} color="#0e52B2" style={{ marginRight: 7 }} />
+                                <Text style={styles.textInfo}>{route.params.telefone}</Text>
+                            </View>
+
+                            <View style={styles.viewInfo}>
+                                <MaterialIcons name="email" size={24} color="#0e52B2" style={{ marginRight: 7 }} />
+                                <Text style={styles.textInfo}>{route.params.email}</Text>
+                            </View>
+                        </View>
+                    </View>
 
                     <View style={styles.containerFuncao}>
 
@@ -98,34 +105,35 @@ const styles = StyleSheet.create({
     },
     img: {
         width: '90%',
-        height: 200,
+        height: 250,
         marginVertical: 15
     },
-    descricao: {
-        flexDirection: 'row',
-        width: '90%',
-        marginVertical: 2
-    },
-    nomeInfo: {
-        marginRight: 2,
-        color: '#38B6FF',
-        textTransform: 'uppercase',
-        fontWeight: 'bold',
-        marginTop: 2,
-    },
-    info: {
-        fontSize: 14,
-        width: '90%',
-        color: '#0c4a86',
-        textTransform: 'uppercase',
-        marginTop: 2,
-        flexShrink: 1
-    },
-    texto: {
-        width: '90%',
-        fontStyle: 'italic',
+    textDescricao: {
+        width: '80%',
         textAlign: 'center',
-        marginVertical: 30,
+        color: "#0e52B2",
+        fontSize: 18,
+        marginVertical: 5
+    },
+    infomaçoes: {
+        width: '80%',
+        marginVertical: 15
+    },
+    viewInfo: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginVertical: 5,
+    },
+    textInfo: {
+        textTransform: 'uppercase',
+        fontSize: 14,
+    },
+    ViewContato: {
+        width: '100%',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
     containerIcon: {
         width: 75,

@@ -1,30 +1,63 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
-export default function postInstituicao({ onClick }) {
+export default function postInstituicao({nome, endereço, numero, telefone,horario, userId, navigation, descricao, email}) {
+
+    const [img, setImg] = useState('')
+    
+    const storage = getStorage();
+    const starsRef = ref(storage, `photoPerfil/${userId}`);
+
+    // Get the download URL
+    getDownloadURL(starsRef)
+    .then((url) => {
+        // Insert url into an <img> tag to "download"
+        setImg(url)
+    })
+    .catch((error) => {
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+        case 'storage/object-not-found':
+            // File doesn't exist
+            break;
+        case 'storage/unauthorized':
+            // User doesn't have permission to access the object
+            break;
+        case 'storage/canceled':
+            // User canceled the upload
+            break;
+        case 'storage/unknown':
+            // Unknown error occurred, inspect the server response
+            break;
+        }
+    });
     return (
-        <TouchableOpacity style={styles.card} onPress={onClick}>
+        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('InstituiçãoDetalhe', {nomeInst:nome, endereco: endereço, numero:numero, telefone:telefone, horario:horario, descricao:descricao, img:img, email:email })}>
             <Ionicons style={styles.icon} name="bookmark" size={50} color="rgb(14, 82, 178)" />
 
             <View style={styles.box}>
-                <Text style={styles.nomeInst}>Instituição paulo gustavo</Text>
-                <Image
-                    style={styles.img}
-                    source={require('../../assets/maos.jpg')} />
+                <Text style={styles.nomeInst}>{nome}</Text>
+                <View style={styles.boxImg}>
+                    <Image
+                        style={styles.img}
+                        source={{uri:img}} />
+                </View>
             </View>
-            <Text style={styles.endereco}>rua da sorte, 482 - cidade tiradentes sp  (09757-785)</Text>
+            <Text style={styles.endereco}>{endereço}, {numero}</Text>
         </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     card: {
-        width: '90%',
         height: 180,
         backgroundColor: '#e8eaea',
         borderRadius: 8,
         marginVertical: 10,
+        marginHorizontal: 20,
         paddingHorizontal: 5,
         // alignItems:'center'
     },
@@ -37,6 +70,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     nomeInst: {
+        width:'70%',
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -44,14 +78,18 @@ const styles = StyleSheet.create({
         marginRight: 8,
         textTransform: 'uppercase'
     },
+    boxImg: {
+        width:'30%',
+        marginTop: -30
+    },
     img: {
         width: 100,
         height: 100,
         borderRadius: 50,
-        marginTop: -30
+        
     },
     endereco: {
-        marginTop: 15,
+        marginTop: 17,
         color: 'rgb(14, 82, 178)',
         textAlign: 'center',
         fontSize: 13,
