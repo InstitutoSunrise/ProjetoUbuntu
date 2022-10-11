@@ -18,7 +18,8 @@ export default function InfoPostFisi({navigation, route}) {
             setDescricao(doc.data().descricao);
         })
         return getInfos;
-    });
+    }, [route.params.nome]);
+
  return (
    <View style={styles.container}>
         <Backbutton onClick={() => navigation.goBack()}/>

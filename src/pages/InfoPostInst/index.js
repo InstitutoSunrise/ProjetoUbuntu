@@ -23,7 +23,7 @@ export default function InfoPostFisi({navigation, route}) {
             setHorario(doc.data().horário);
         })
         return getInfos;
-    });
+    }, [route.params.nome]);
 
  return (
    <View style={styles.container}>
