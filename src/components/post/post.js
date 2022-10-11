@@ -3,11 +3,22 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import CarouselPost from '../CarouselPost';
 import { useEffect } from 'react';
+import db from '../../config/configFirebase';
+import { getAuth } from 'firebase/auth';
+import {
+    getDatabase,
+    get,
+    ref,
+    set,
+    onValue,
+    push,
+    update,
+} from 'firebase/database';
 
 
-export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1, imgPost2, imgPost3, tipoUser, userId, navigation}) {
+export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1, imgPost2, imgPost3, tipoUser, userId, navigation }) {
 
-    
+
 
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
@@ -19,6 +30,102 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
         + ' - ' + hours + ':' + min)
 
     const [imagesPost, setImagesPost] = useState([])
+
+    const [username, setUsername] = useState(null);
+    const [users, setUsers] = useState([]);
+    const [userToAdd, setUserToAdd] = useState(null);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [myData, setMyData] = useState(null);
+    const [myId, setMyId] = useState(null);
+    const [myAvatar, setMyAvatar] = useState(null)
+
+    const addUserToChat = async () => {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        const database = getDatabase();
+        setMyId(user.uid)
+        setMyAvatar(user.photoURL)
+        console.log(myAvatar)
+        console.log(myId)
+
+        const userInfo = await findUser(user.uid)
+        console.log(userInfo)
+
+        if (userInfo == null) {
+            const newUserObj = {
+                username: user.uid,
+                avatar: user.photoURL,
+                friends: [],
+            };
+            console.log(user.photoURL)
+            console.log(user.uid)
+            set(ref(database, `users/${user.uid}`), newUserObj);
+            console.log(newUserObj)
+
+        } else {
+            if (user.uid === userId) {
+                // don't let user add himself
+                return;
+            }
+
+            if (
+                userInfo.friends &&
+                userInfo.friends.findIndex(f => f.userId === userInfo.username) > 0
+            ) {
+                // don't let user add a user twice
+                return;
+            }
+        }
+
+
+        const newChatroomRef = push(ref(database, 'chatrooms'), {
+            firstUser: user.uid,
+            secondUser: userId,
+            messages: [],
+        });
+
+        const newChatroomId = newChatroomRef.key;
+
+        const userFriends = userInfo.friends || [];
+        console.log(userFriends)
+        //join myself to this user friend list
+        update(ref(database, `users/${userId}`), {
+            friends: [
+                ...userFriends,
+                {
+                    id: myId,
+                    avatar: myAvatar,
+                    chatroomId: newChatroomId,
+                },
+            ],
+        });
+
+        const otherUserInfo = await findUser(userId)
+
+
+        const myFriends = otherUserInfo.friends || [];
+        console.log(myFriends)
+        //add this user to my friend list
+        update(ref(database, `users/${user.uid}`), {
+            friends: [
+                ...myFriends,
+                {
+                    username: userId,
+                    avatar: imgUser,
+                    chatroomId: newChatroomId,
+                },
+            ],
+        });
+    }
+    const findUser = async id => {
+        const database = getDatabase();
+
+        const mySnapshot = await get(ref(database, `users/${id}`));
+
+        return mySnapshot.val();
+    };
+
+
 
 
     const getImages = () => {
@@ -32,10 +139,10 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
     }, [imgPost3])
 
     const showInfoPost = () => {
-        if(tipoUser == "Fisico"){
-            navigation.navigate('InfoPostFisi', {nome:nomeUser, imgUser:imgUser, sobreVoce:sobreVoce, tipoAjuda:tipoAjuda, imgPost1:imgPost1, imgPost2:imgPost2, imgPost3:imgPost3, userId:userId});
-        }else{
-            navigation.navigate('InfoPostInst' , {nome:nomeUser, imgUser:imgUser, sobreVoce:sobreVoce, tipoAjuda:tipoAjuda, imgPost1:imgPost1, imgPost2:imgPost2, imgPost3:imgPost3, userId:userId});
+        if (tipoUser == "Fisico") {
+            navigation.navigate('InfoPostFisi', { nome: nomeUser, imgUser: imgUser, sobreVoce: sobreVoce, tipoAjuda: tipoAjuda, imgPost1: imgPost1, imgPost2: imgPost2, imgPost3: imgPost3, userId: userId });
+        } else {
+            navigation.navigate('InfoPostInst', { nome: nomeUser, imgUser: imgUser, sobreVoce: sobreVoce, tipoAjuda: tipoAjuda, imgPost1: imgPost1, imgPost2: imgPost2, imgPost3: imgPost3, userId: userId });
         }
     }
 
@@ -57,7 +164,7 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
                 />
             </View>
             <View style={styles.ViewBtn}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={addUserToChat}>
                     <Text style={styles.text}>ENTRAR EM CONTATO</Text>
                 </TouchableOpacity>
             </View>

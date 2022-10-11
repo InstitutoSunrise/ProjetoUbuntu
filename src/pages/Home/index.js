@@ -21,7 +21,7 @@ export default function Home({ navigation }) {
   const [post, setPost] = useState([]);
   const windowWidth = Dimensions.get('window').width;
 
-
+  
   const fetchPublicacoes = async () => {
     const querySnapshot = await getDocs(collection(db, "posts"));
     const List = []

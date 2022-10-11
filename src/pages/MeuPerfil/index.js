@@ -68,7 +68,7 @@ export default function MeuPerfil({ navigation }) {
         <View style={styles.container}>
 
             <StatusBar barStyle="dark-content" backgroundColor="#0e52b2" />
-            <ScrollView contentContainerStyle={{ width: '100%' }}>
+            <ScrollView contentContainerStyle={{ width: '100%', justifyContent: 'space-between'}}>
 
                 <Backbutton onClick={() => navigation.goBack()} />
 
@@ -87,17 +87,6 @@ export default function MeuPerfil({ navigation }) {
                     <View style={styles.descricaoContainer}>
                         <Text style={styles.descricao}>{descricao}</Text>
                     </View>
-                </View>
-
-                <View style={styles.editPerfilContainer}>
-                    <TouchableOpacity style={styles.editPerfilContainer} onPress={(() => navigation.navigate('EditarDescUserFis'))}>
-                        <FontAwesome5
-                            name="edit"
-                            size={16}
-                            color="#0e52b2"
-                        />
-                        <Text style={styles.editPerfil}> EDITAR TEXTO</Text>
-                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.funcoesContainer}>
@@ -198,36 +187,18 @@ const styles = StyleSheet.create({
         paddingVertical: 35,
         textAlignVertical: 'center',
         backgroundColor: '#ebeff1',
-        marginTop: 65,
+        marginTop: 60,
         borderRadius: 20,
     },
     descricao: {
         color: '#0e52B2',
         fontSize: 14,
     },
-    editPerfilContainer: {
-        flexDirection: 'row',
-        marginTop: 5,
-        marginBottom: 30,
-        alignSelf: 'flex-end'
-    },
-    editPerfilIcon: {
-        width: 17,
-        height: 17,
-    },
-    editPerfil: {
-        fontSize: 13,
-        color: '#0e52B2',
-        fontWeight: '600',
-        marginRight: 25,
-
-    },
     funcoesContainer: {
         width: '100%',
         flexDirection: 'row',
-        marginTop: 65,
+        marginTop: 130,
         justifyContent: 'space-between',
-        bottom: 0
     },
     funcoesGrid: {
         flexDirection: 'column',
