@@ -4,7 +4,7 @@ import { GiftedChat, Bubble, Send, scrollToBottom, scrollToBottomComponent } fro
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import Backbuttom from '../../components/Backbutton'
-import chatModels from '../../config/chatModels';
+
 
 import { getDatabase, get, ref, onValue, off, update } from 'firebase/database';
 import { getAuth } from "firebase/auth";
