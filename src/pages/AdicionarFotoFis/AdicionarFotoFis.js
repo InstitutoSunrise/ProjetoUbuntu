@@ -58,6 +58,7 @@ export default function AdicionarFotoFis({ navigation, route }) {
               telefone: route.params.userTelefone,
               descricao: route.params.userDescricao,
               userId: user.uid,
+              email: route.params.userEmail,
               tipoUser: "userFisico",
             });
           } catch (e) {

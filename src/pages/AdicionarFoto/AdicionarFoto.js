@@ -61,6 +61,7 @@ export default function AdicionarFoto({ navigation, route }) {
               voluntario: route.params.voluntario,
               descricao: route.params.descricao,
               userId: user.uid,
+              email: route.params.userEmail,
               tipoUser: "userInst",
             });
             console.log("Document written with ID: ", docRef.id);
