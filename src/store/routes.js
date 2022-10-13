@@ -32,7 +32,7 @@ import CadastroInst2 from '../pages/CadastroInst2/CadastroInst2';
 import AdicionarFoto from '../pages/AdicionarFoto/AdicionarFoto';
 import SobreApp from '../pages/SobreApp/Index';
 import Configurações from '../pages/Configuracoes/index';
-import AdicionarFotoFis from '../pages/AdicionarFotoFis';
+import AdicionarFotoFis from '../pages/AdicionarFotoFis/AdicionarFotoFis';
 import Noticias from '../pages/Noticias';
 import EditarDescUserFis from '../pages/EditarDescUserFis';
 import EditarPerfilUserFis from '../pages/EditarPerfilUserFis';
