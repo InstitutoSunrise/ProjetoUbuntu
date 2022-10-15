@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, Text, TextInput, ScrollView } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, Text, TextInput, ScrollView, ActivityIndicator } from 'react-native';
 
 import Checkbox from 'expo-checkbox';
 import * as ImagePicker from 'expo-image-picker';
+
+import Carregamento from '../../components/Carregamento/carregamento';
+import FinalCarregamento from '../../components/Carregamento/finalCarregamento';
 
 import db from '../../config/configFirebase';
 import { getAuth } from "firebase/auth";
@@ -21,6 +24,8 @@ export default function Publicar({ navigation }) {
 
     const [isDoando, setDoando] = useState(false);
     const [isRecebendo, setRecebendo] = useState(false);
+    const [carregamento, setCarregamento] = useState(false)
+    const [finalCarregamento, setFinalCarregamento] = useState(false)
 
     const [tipoAjuda, setTipoAjuda] = useState('');
     const [sobreVoce, setSobreVoce] = useState('');
@@ -58,34 +63,41 @@ export default function Publicar({ navigation }) {
 
     const Publicar = async () => {
 
-        setExecutePublicar(!executePublicar)
+        if (isDoando == false && isRecebendo == false) {
+            alert('Selecione se está doando ou recebendo')
+        } else if (sobreVoce == '') {
+            alert('Pelo menos diga algo sobre você')
+        } else {
 
-        const auth = getAuth();
-        const userId = auth.currentUser.uid;
-        const urlImg1 = await uploadImagePost(image[0], userId);
-        const urlImg2 = await uploadImagePost(image[1], userId);
-        const urlImg3 = await uploadImagePost(image[2], userId);
+            setCarregamento(true)
+            setExecutePublicar(!executePublicar)
 
+            const auth = getAuth();
+            const userId = auth.currentUser.uid;
+            const urlImg1 = await uploadImagePost(image[0], userId);
+            const urlImg2 = await uploadImagePost(image[1], userId);
+            const urlImg3 = await uploadImagePost(image[2], userId);
 
-        try {
+            try {
 
-            const docRef = await addDoc(collection(db, "posts"), {
-                tipoAjuda: tipoAjuda,
-                sobreVoce: sobreVoce,
-                status: status,
-                nomeUser: nomeCompleto,
-                userId: user.uid,
-                imgUser: imagePerfil,
-                imgPost1: urlImg1,
-                imgPost2: urlImg2,
-                imgPost3: urlImg3,
-            });
+                const docRef = await addDoc(collection(db, "posts"), {
+                    tipoAjuda: tipoAjuda,
+                    sobreVoce: sobreVoce,
+                    status: status,
+                    nomeUser: nomeCompleto,
+                    userId: user.uid,
+                    imgUser: imagePerfil,
+                    imgPost1: urlImg1,
+                    imgPost2: urlImg2,
+                    imgPost3: urlImg3,
+                });
 
-
-            alert('Post publicado com sucesso!');
-            // console.log("Document written with ID: ", docRef.id);
-        } catch (e) {
-            console.error("Error adding document: ", e);
+                setCarregamento(false)
+                setFinalCarregamento(true)
+                // console.log("Document written with ID: ", docRef.id);
+            } catch (e) {
+                console.error("Error adding document: ", e);
+            }
         }
 
     }
@@ -121,91 +133,101 @@ export default function Publicar({ navigation }) {
     }
 
     return (
-        <View style={styles.container}>
+        <>
+            <View style={styles.container}>
 
-            <ScrollView contentContainerStyle={{ alignItems: 'center', width: '100%' }}>
+                <ScrollView contentContainerStyle={{ alignItems: 'center', width: '100%' }}>
 
-                <TouchableOpacity style={styles.containerFoto} onPress={(() => navigation.navigate('MeuPerfil'))}>
-                    <Image style={styles.fotoPerfil} source={{ uri: imagePerfil }} />
-                </TouchableOpacity>
+                    <TouchableOpacity style={styles.containerFoto} onPress={(() => navigation.navigate('MeuPerfil'))}>
+                        <Image style={styles.fotoPerfil} source={{ uri: imagePerfil }} />
+                    </TouchableOpacity>
 
-                <View style={styles.checkBoxesContainer}>
-                    <Text style={styles.textoCheckBox}>Você está recebendo ou doando?</Text>
-                    <View style={styles.containerCheck}>
-                        <Text style={styles.opcoesCheckBox}>Doando</Text>
-                        <Checkbox
-                            style={styles.checkBox}
-                            value={isDoando}
-                            onValueChange={() => setDoando(true) & setRecebendo(false)}
-                            color={isDoando ? '#4630EB' : undefined}
-                        />
+                    <View style={styles.checkBoxesContainer}>
+                        <Text style={styles.textoCheckBox}>Você está recebendo ou doando?</Text>
+                        <View style={styles.containerCheck}>
+                            <Text style={styles.opcoesCheckBox}>Doando</Text>
+                            <Checkbox
+                                style={styles.checkBox}
+                                value={isDoando}
+                                onValueChange={() => setDoando(true) & setRecebendo(false)}
+                                color={isDoando ? '#4630EB' : undefined}
+                            />
+                        </View>
+
+                        <View style={styles.containerCheck}>
+                            <Text style={styles.opcoesCheckBox}>Recebendo</Text>
+                            <Checkbox
+                                style={styles.checkBox}
+                                value={isRecebendo}
+                                onValueChange={() => setRecebendo(true) & setDoando(false)}
+                                color={isRecebendo ? '#4630EB' : undefined}
+                            />
+                        </View>
                     </View>
 
-                    <View style={styles.containerCheck}>
-                        <Text style={styles.opcoesCheckBox}>Recebendo</Text>
-                        <Checkbox
-                            style={styles.checkBox}
-                            value={isRecebendo}
-                            onValueChange={() => setRecebendo(true) & setDoando(false)}
-                            color={isRecebendo ? '#4630EB' : undefined}
-                        />
-                    </View>
-                </View>
+                    {isRecebendo ?
+                        <View style={styles.containerInput1}>
+                            <TextInput
+                                style={styles.placeholderText}
+                                onChangeText={setTipoAjuda}
+                                value={tipoAjuda}
+                                placeholder="Que tipo de ajuda você precisa no momento?"
+                                multiline
+                                numberOfLines={5}
+                                autoCapitalize={'sentences'}
+                                autoCorrect
+                                maxLength={200}
+                                textBreakStrategy={'highQuality'}
 
-                {isRecebendo ?
-                    <View style={styles.containerInput1}>
+                            />
+                        </View>
+                        : undefined}
+
+                    <View style={styles.containerInput2}>
                         <TextInput
                             style={styles.placeholderText}
-                            onChangeText={setTipoAjuda}
-                            value={tipoAjuda}
-                            placeholder="Que tipo de ajuda você precisa no momento?"
+                            onChangeText={setSobreVoce}
+                            value={sobreVoce}
+                            placeholder="Fale um pouco sobre você..."
                             multiline
-                            numberOfLines={5}
+                            numberOfLines={8}
                             autoCapitalize={'sentences'}
                             autoCorrect
-                            maxLength={200}
-                            textBreakStrategy={'highQuality'}
-
+                            maxLength={350}
                         />
                     </View>
-                    : undefined}
 
-                <View style={styles.containerInput2}>
-                    <TextInput
-                        style={styles.placeholderText}
-                        onChangeText={setSobreVoce}
-                        value={sobreVoce}
-                        placeholder="Fale um pouco sobre você..."
-                        multiline
-                        numberOfLines={8}
-                        autoCapitalize={'sentences'}
-                        autoCorrect
-                        maxLength={350}
-                    />
-                </View>
+                    {isDoando ?
+                        <View style={styles.imgPickerContainer}>
+                            <TouchableOpacity style={styles.touchable} onPress={pickImage}>
+                                <MaterialCommunityIcons
+                                    name="file-image-plus"
+                                    size={55}
+                                    color='#0e52b2'
+                                />
+                                <Text style={styles.imgPickerTitle}>ADICIONAR IMAGENS</Text>
+                            </TouchableOpacity>
+                            {image && <Image source={{ uri: image[0] }} style={styles.imgPicker} />}
+                            {image && <Image source={{ uri: image[1] }} style={styles.imgPicker} />}
+                            {image && <Image source={{ uri: image[2] }} style={styles.imgPicker} />}
+                        </View>
+                        : undefined}
 
-                {isDoando ?
-                    <View style={styles.imgPickerContainer}>
-                        <TouchableOpacity style={styles.touchable} onPress={pickImage}>
-                            <MaterialCommunityIcons
-                                name="file-image-plus"
-                                size={55}
-                                color='#0e52b2'
-                            />
-                            <Text style={styles.imgPickerTitle}>ADICIONAR IMAGENS</Text>
-                        </TouchableOpacity>
-                        {image && <Image source={{ uri: image[0] }} style={styles.imgPicker} />}
-                        {image && <Image source={{ uri: image[1] }} style={styles.imgPicker} />}
-                        {image && <Image source={{ uri: image[2] }} style={styles.imgPicker} />}
-                    </View>
-                    : undefined}
+                    <TouchableOpacity style={styles.btnPublicar} onPress={Publicar}>
+                        <Text style={styles.btnPublicarTexto}>PUBLICAR</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={styles.btnPublicar} onPress={Publicar}>
-                    <Text style={styles.btnPublicarTexto}>PUBLICAR</Text>
-                </TouchableOpacity>
-
-            </ScrollView>
-        </View>
+                </ScrollView>
+            </View>
+            {carregamento ?
+                <Carregamento />
+                : undefined}
+            {finalCarregamento ?
+                <FinalCarregamento
+                    onClick={() => setFinalCarregamento(false)}
+                />
+                : undefined}
+        </>
     );
 }
 const styles = StyleSheet.create({
