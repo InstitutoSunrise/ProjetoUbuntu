@@ -171,7 +171,7 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
     }, [imgPost3])
 
     const showInfoPost = () => {
-        if (tipoUser == "Fisico") {
+        if (tipoUser == "userFisico") {
             navigation.navigate('InfoPostFisi', { nome: nomeUser, imgUser: imgUser, sobreVoce: sobreVoce, tipoAjuda: tipoAjuda, imgPost1: imgPost1, imgPost2: imgPost2, imgPost3: imgPost3, userId: userId });
         } else {
             navigation.navigate('InfoPostInst', { nome: nomeUser, imgUser: imgUser, sobreVoce: sobreVoce, tipoAjuda: tipoAjuda, imgPost1: imgPost1, imgPost2: imgPost2, imgPost3: imgPost3, userId: userId });

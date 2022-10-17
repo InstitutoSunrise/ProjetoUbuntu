@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+
 import { addDoc, collection } from "firebase/firestore";
 
 import { uploadImageAsync } from '../../config/configStorage';
@@ -11,6 +13,8 @@ import db from '../../config/configFirebase';
 import Backbutton from '../../components/Backbutton';
 
 export default function AdicionarFoto({ navigation, route }) {
+
+  const [image, setImage] = useState("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -24,21 +28,18 @@ export default function AdicionarFoto({ navigation, route }) {
     };
   };
 
-  const [image, setImage] = useState("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
-
   const subirFotoPerfil = async () => {
     const auth = getAuth();
-    const userId = auth.currentUser.uid;
-
-    await uploadImageAsync(image, userId)
+    const user = auth.currentUser;
+    await uploadImageAsync(image, user.uid)
     alert("Parabéns, cadastro realizado!")
   }
 
-  const Cadastrar = () => {
+  const Cadastrar = async () => {
     if (image === "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png") {
       alert("Adicione uma foto de perfil");
     } else {
-      const auth = getAuth();
+      const auth = getAuth(); 
       createUserWithEmailAndPassword(auth, route.params.email, route.params.senha)
         .then(async (userCredential) => {
 
@@ -47,6 +48,7 @@ export default function AdicionarFoto({ navigation, route }) {
           updateProfile(auth.currentUser, {
             displayName: route.params.nome
           })
+
           try {
             const docRef = await addDoc(collection(db, "Usuários"), {
               nome: route.params.nome,
@@ -61,7 +63,7 @@ export default function AdicionarFoto({ navigation, route }) {
               voluntario: route.params.voluntario,
               descricao: route.params.descricao,
               userId: user.uid,
-              email: route.params.userEmail,
+              email: route.params.email,
               tipoUser: "userInst",
             });
             console.log("Document written with ID: ", docRef.id);
@@ -70,6 +72,7 @@ export default function AdicionarFoto({ navigation, route }) {
           }
 
           subirFotoPerfil();
+          
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -82,7 +85,9 @@ export default function AdicionarFoto({ navigation, route }) {
               break;
           }
         });
+          
     }
+    
   }
 
   return (

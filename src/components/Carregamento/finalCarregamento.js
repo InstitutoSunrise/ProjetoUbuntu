@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     },
     imgFigu:{
         width:'100%',
-        height:130,
+        height:150,
         marginBottom:-100
     }
 })

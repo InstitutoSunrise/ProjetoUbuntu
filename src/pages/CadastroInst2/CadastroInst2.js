@@ -17,7 +17,7 @@ export default function App({ navigation, route }) {
 
   const [cepValido, setCepValido] = useState(true);
 
-  const fetchCpf = (cep) => {
+  const fetchCep= (cep) => {
 
     cep = cep.replace(/[^\d]+/g, '');
     console.log(cep.length);
@@ -69,7 +69,7 @@ export default function App({ navigation, route }) {
           setCep(masked);
 
         }}
-        onBlur={(() => fetchCpf(cep))}
+        onBlur={(() => fetchCep(cep))}
         mask={[/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
       />
 

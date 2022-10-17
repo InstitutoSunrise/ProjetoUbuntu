@@ -30,6 +30,7 @@ export default function Publicar({ navigation }) {
     const [tipoAjuda, setTipoAjuda] = useState('');
     const [sobreVoce, setSobreVoce] = useState('');
     const [nomeCompleto, setNomeCompleto] = useState('');
+    const [tipoUser, setTipoUser] = useState('')
     const [status, setStatus] = useState('');
 
     const [executePublicar, setExecutePublicar] = useState(false);
@@ -54,6 +55,7 @@ export default function Publicar({ navigation }) {
 
         const getInfos = querySnapshot.forEach(doc => {
             setNomeCompleto(user.displayName)
+            setTipoUser(doc.data().tipoUser)
             console.log(doc.data().userId, " => ", doc.data());
         })
 
@@ -90,6 +92,7 @@ export default function Publicar({ navigation }) {
                     imgPost1: urlImg1,
                     imgPost2: urlImg2,
                     imgPost3: urlImg3,
+                    tipoUser: tipoUser
                 });
 
                 setCarregamento(false)
