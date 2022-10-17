@@ -57,8 +57,6 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
                 avatar: user.photoURL,
                 friends: [],
             };
-            console.log(user.photoURL)
-            console.log(user.uid)
             set(ref(database, `users/${user.uid}`), newUserObj);
             console.log(newUserObj)
 
@@ -70,7 +68,7 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
 
             if (
                 userInfo.friends &&
-                userInfo.friends.findIndex(f => f.userId === userInfo.username) > 0
+                userInfo.friends.findIndex(f => userId === userInfo.username) > 0
             ) {
                 // don't let user add a user twice
                 return;
@@ -85,38 +83,75 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
         });
 
         const newChatroomId = newChatroomRef.key;
-
-        const userFriends = userInfo.friends || [];
-        console.log(userFriends)
         //join myself to this user friend list
-        update(ref(database, `users/${userId}`), {
-            friends: [
-                ...userFriends,
-                {
-                    id: myId,
-                    avatar: myAvatar,
-                    chatroomId: newChatroomId,
-                },
-            ],
-        });
+        if (userInfo == null) {
+            update(ref(database, `users/${userId}`), {
+                friends: [
+                    {
+                        username: user.uid,
+                        avatar: user.photoURL,
+                        chatroomId: newChatroomId,
+                    },
+                ],
+            });
+        } else {
+            console.log(userInfo.friends)
+            const userFriends = userInfo.friends || [];
+            console.log(userFriends)
+            console.log("ala tem amigos kkkkk", userFriends)
+            update(ref(database, `users/${userId}`), {
+                friends: [
+                    ...userFriends,
+                    {
+                        username: user.uid,
+                        avatar: user.photoURL,
+                        chatroomId: newChatroomId,
+                    },
+                ],
+            });
+        }
 
         const otherUserInfo = await findUser(userId)
-
+        if (otherUserInfo == null) {
+            const newUserObj = {
+                username: userId,
+                avatar: imgUser,
+                friends: [],
+            };
+            set(ref(database, `users/${userId}`), newUserObj);
+            console.log(newUserObj)
+        }
 
         const myFriends = otherUserInfo.friends || [];
-        console.log(myFriends)
-        //add this user to my friend list
-        update(ref(database, `users/${user.uid}`), {
-            friends: [
-                ...myFriends,
-                {
-                    username: userId,
-                    avatar: imgUser,
-                    chatroomId: newChatroomId,
-                },
-            ],
-        });
+        console.log(otherUserInfo)
+        // add this user to my friend list
+        if (otherUserInfo == null) {
+            console.log(otherUserInfo)
+            update(ref(database, `users/${user.uid}`), {
+                friends: [
+                    {
+                        username: userId,
+                        avatar: imgUser,
+                        chatroomId: newChatroomId,
+                    },
+                ],
+            });
+        } else {
+            console.log(userInfo)
+            update(ref(database, `users/${user.uid}`), {
+                friends: [
+                    ...userInfo.friends,
+                    {
+                        username: userId,
+                        avatar: imgUser,
+                        chatroomId: newChatroomId,
+                    },
+                ],
+            });
+        }
+
     }
+
     const findUser = async id => {
         const database = getDatabase();
 
@@ -124,9 +159,6 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
 
         return mySnapshot.val();
     };
-
-
-
 
     const getImages = () => {
         let newArray = imagesPost

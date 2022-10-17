@@ -5,7 +5,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import Backbuttom from '../../components/Backbutton'
 
-
 import { getDatabase, get, ref, onValue, off, update } from 'firebase/database';
 import { getAuth } from "firebase/auth";
 import { getDocs, query, collection, where } from "firebase/firestore";
@@ -52,7 +51,6 @@ export default function Mensagem({ navigation, route }) {
       return getInfos;
     }
   }
-
 
   useEffect(() => {
     //load old messages

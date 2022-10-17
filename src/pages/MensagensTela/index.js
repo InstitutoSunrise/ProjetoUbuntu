@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import { getDatabase, get, ref, onValue, off, update, set } from 'firebase/database';
-import { getDocs, query, collection, where } from "firebase/firestore";
+import { getDocs, query, collection, where, onSnapshot } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import db from '../../config/configFirebase';
 
@@ -17,58 +17,98 @@ export default function MensagemTela({ navigation }) {
   const [nomeCompleto, setNomeCompleto] = useState();
   const [imgPerfil, setImgPerfil] = useState();
   const [lastMsg, setLastMsg] = useState("");
-  const [time, setTime] = useState()
+  const [time, setTime] = useState();
+  const [slavar, setSlavar] = useState([])
+  const [roomId, setRoomId] = useState()
 
   async function ShowUserInfos(idUsuario) {
-    const auth = getAuth();
-    const user = auth.currentUser;
-
-    if (user !== null) {
-      const uid = user.uid;
-
+    if (idUsuario !== null) {
       const q = query(collection(db, 'Usuários'), where("userId", "==", idUsuario));
       const querySnapshot = await getDocs(q);
-
+      console.log("entrou na showuserinfo")
       const getInfos = querySnapshot.forEach(doc => {
-        if (doc.data().tipoUser == "userFisico") {
-          setNomeCompleto(doc.data().nome + " " + doc.data().sobrenome)
-        } else {
+        if (doc.data().tipoUser = "userFisico") {
+          console.log("entrou no if")
           setNomeCompleto(doc.data().nome)
+          console.log(doc.data().userId, " => ", doc.data());
+          // return (doc.data().userId, " => ", doc.data())
+
+        } else {
+          console.log("entrou no else")
+          // return (doc.data().userId, " => ", doc.data())
+          console.log(doc.data().userId, " => ", doc.data());
+          // setNomeCompleto(doc.data().nome)
         }
       })
-      return getInfos;
+    } else {
+      return
     }
   }
 
-  const fetchLastMsg = (roomId) => {
-    try {
-      console.log("room id: " + roomId)
-      const database = getDatabase();
-      const chatRef = ref(database, `chatrooms/${roomId}`);
-      onValue(chatRef, snapshot => {
-        const data = snapshot.val();
-        if (data.messages == null) {
-          setLastMsg("Este é o início de sua conversa!")
-          setTime("")
-        } else {
-          data.messages.forEach(e => {
-            setLastMsg(e.text)
-            setTime(e.createdAt)
-          })
-        }
-      })
-    } catch (error) {
-      console.log(error)
-    }
+
+  // const fetchMessages = useCallback(async () => {
+  //   const database = getDatabase();
+
+  //   const snapshot = await get(
+  //     ref(database, `chatrooms/${roomId}`),
+  //   );
+
+  //   return snapshot.val();
+  // }, [roomId]);
+
+
+  const fetchLastMsg = async (roomId) => {
+    const database = getDatabase();
+    const snapshot = await get(ref(database, `chatrooms/${roomId}`));
+    let sla = snapshot.val();
+    return sla;
+    // if (snapshot.val().messages == null) {
+    //   setLastMsg("Este é o início de sua conversa!")
+    //   setTime("")
+    //   console.log("fetchlastmsg aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    // } else {
+    //   console.log("fetchlastmsg bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+    //   console.log(sla.messages)
+    //   setSlavar(sla)
+    //   console.log(slavar)
+    //   console.log(snapshot.val().messages.pop().createdAt)
+    //   setTime(snapshot.val().messages.pop().createdAt)
+    //   console.log(snapshot.val().messages.pop().text)
+    //   setLastMsg(snapshot.val().messages.pop().text)
+    //   console.log("----------")
+    //   console.log(time)
+    //   console.log(lastMsg)
+    // }
   }
+
+  // const chatRef = await get(ref(database, `chatrooms/${roomId}`));
+  // onValue(chatRef, snapshot => {
+  //   const data = snapshot.val();
+  //   if (data.messages == null) {
+  //     setLastMsg("Este é o início de sua conversa!")
+  //     setTime("")
+  //     console.log("fetchlastmsg")
+  //   } else {
+  //     // data.messages.forEach(e => {
+  //     //   setLastMsg(e.text)
+  //     //   setTime(e.createdAt)
+  //     // })
+
+  //       let last = data.messages.pop();
+  //       setTime(last.createdAt)
+  //       setLastMsg(last.text)
+  //       console.log(last.createdAt)
+  //       console.log(last.text)
+
+  //   }
+  // })
+  // }
 
   const onLoad = async () => {
     try {
       const auth = getAuth();
       const user = auth.currentUser;
       const database = getDatabase();
-      //first check if the user registered before
-      const findUsers = await findUser(user.uid);
       // set friends list change listener
       const myUserRef = ref(database, `users/${user.uid}`);
       onValue(myUserRef, snapshot => {
@@ -77,11 +117,38 @@ export default function MensagemTela({ navigation }) {
           return
         } else {
           setUsers(data.friends);
-          data.friends.forEach(element => {
-            fetchLastMsg(element.chatroomId)
+          data.friends.forEach(async element => {
+            const hm = await fetchLastMsg(element.chatroomId)
+            if (hm.messages == null) {
+              setLastMsg("Este é o início de sua conversa!")
+              setTime("")
+              console.log("fetchlastmsg aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+            } else {
+              setRoomId(element.chatroomId)
+              var qtdMsg = hm.messages.length
+              
+              let aaaaaaaaaaa = hm.messages.pop().text
+              console.log(hm.messages[1])
+              setLastMsg(aaaaaaaaaaa)
+              console.log("ultima mensagem1: ",hm.messages.pop().text)
+              console.log("ultima mensagem: ", aaaaaaaaaaa)
+              // console.log("fetchlastmsg bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+              // console.log(hm.messages)
+              // setSlavar(hm)
+              // console.log(slavar)
+              // console.log(hm.messages.pop().createdAt)
+              // setTime(hm.messages.pop().createdAt)
+              // console.log(hm.messages.pop().text)
+              // setLastMsg(hm.messages.pop().text)
+              // console.log("----------")
+              // console.log(time)
+              // console.log(lastMsg)
+            }
             ShowUserInfos(element.username)
-            Messages.push({ id: element.chatroomId, name: nomeCompleto, userName: element.username, userImg: element.avatar, messageTime: time, messageText: lastMsg })
-            console.log("---------------------------" + { id: element.chatroomId, name: nomeCompleto, userName: element.username, userImg: element.avatar, messageTime: time, messageText: lastMsg })
+
+            Messages.push({ id: element.chatroomId, name: nomeCompleto, userName: element.username, userImg: element.avatar, messageTime: hm.messages.pop().createdAt, messageText: hm.messages.pop().text })
+            console.log("mensagens", "=>", Messages)
+
           });
           setMyData(prevData => ({
             ...prevData,
@@ -90,26 +157,16 @@ export default function MensagemTela({ navigation }) {
         }
       });
 
-      setLoad(!true);
     } catch (error) {
       console.error(error);
     }
+
   };
 
   useEffect(() => {
-
     onLoad();
-    console.log("sla")
-    console.log(Messages)
-  }, [load])
-
-  const findUser = async id => {
-    const database = getDatabase();
-    // console.log(id)
-    const mySnapshot = await get(ref(database, `users/${id}`));
-    // console.log(mySnapshot.val())
-    return mySnapshot.val();
-  };
+    console.log("executou")
+  }, [])
 
   function filterDesc(desc) {
     if (desc.length < 50) {
