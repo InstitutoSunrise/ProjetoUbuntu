@@ -146,7 +146,7 @@ export default function MensagemTela({ navigation }) {
             }
             ShowUserInfos(element.username)
 
-            Messages.push({ id: element.chatroomId, name: nomeCompleto, userName: element.username, userImg: element.avatar, messageTime: hm.messages.pop().createdAt, messageText: hm.messages.pop().text })
+            Messages.push({ id: element.chatroomId, name: nomeCompleto, userName: element.username, userImg: element.avatar, messageTime: "hm.messages.pop().createdAt", messageText: "hm.messages.pop().text" })
             console.log("mensagens", "=>", Messages)
 
           });
