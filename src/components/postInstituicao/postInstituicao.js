@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     nomeInst: {
-        width:'70%',
+        width:'60%',
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',

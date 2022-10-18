@@ -19,6 +19,7 @@ export default function MeuPerfil({ navigation }) {
     const [endereco, setEndereco] = useState();
     const [numero, setNumero] = useState();
     const [tipoUser, setTipoUser] = useState();
+    const [docId, setDocId] = useState();
 
     async function ShowUserInfos() {
         const auth = getAuth();
@@ -37,6 +38,7 @@ export default function MeuPerfil({ navigation }) {
                     setEndereco(doc.data().endereço);
                     setNumero(doc.data().numero);
                     setTipoUser("Fis");
+                    setDocId(doc.id);
                     console.log(doc.data().userId, " => ", doc.data());
                 } else {
                     console.log(doc.data().userId, " => ", doc.data());
@@ -45,6 +47,7 @@ export default function MeuPerfil({ navigation }) {
                     setEndereco(doc.data().endereço);
                     setNumero(doc.data().numero);
                     setTipoUser("Inst");
+                    setDocId(doc.id);
                 }
             })
             return getInfos;
@@ -113,7 +116,7 @@ export default function MeuPerfil({ navigation }) {
                     </View>
 
                     <View style={styles.funcoesGrid}>
-                        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Configurações')}>
+                        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Configurações', {id:docId})}>
                             <View style={styles.funcoesIconContainer}>
                                 <Ionicons name="settings" size={40} color="#fff" />
                             </View>
