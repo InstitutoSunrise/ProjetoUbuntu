@@ -168,6 +168,8 @@ export default function Home({ navigation }) {
                   imgPost3={item.imgPost3}
                   tipoUser={item.tipoUser}
                   userId={item.userId}
+                  status={item.status}
+                  dataHoraPost={item.dataHoraPost}
                   navigation={navigation}
                 />
               )

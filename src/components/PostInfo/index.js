@@ -5,17 +5,9 @@ import CarouselPost from '../CarouselPost';
 import { useEffect } from 'react';
 
 
-export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1, imgPost2, imgPost3, onClick }) {
+export default function post({ sobreVoce, tipoAjuda, imgPost1, imgPost2, imgPost3, status, dataHoraPost, onClick }) {
 
-    var date = new Date().getDate(); //Current Date
-    var month = new Date().getMonth() + 1; //Current Month
-    var year = new Date().getFullYear(); //Current Year
-    var hours = new Date().getHours(); //Current Hours
-    var min = new Date().getMinutes(); //Current Minutes
-
-    const [dataHoraPost, setDataHoraPost] = useState(date + '/' + month + '/' + year
-        + ' - ' + hours + ':' + min)
-
+    const [isStatus, setStatus] = useState(status)
     const [imagesPost, setImagesPost] = useState([])
 
 
@@ -32,20 +24,15 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
     return (
         <View onPress={onClick} style={styles.card}>
             <Text style={styles.dataPost}>{dataHoraPost}</Text>
-            {/* <View style={styles.userDatail}>
-                <Image source={{ uri: imgUser }} style={styles.fotoPerfil} />
-                <View style={styles.userText}>
-                    <Text style={styles.name}>{nomeUser}</Text>
-                    <Text style={styles.cidade}>Itaquera, SP</Text>
-                </View>
-            </View> */}
             <Text style={styles.titulo}>{tipoAjuda}</Text>
             <Text style={styles.description}>{sobreVoce}</Text>
-            <View style={styles.boxImages}>
-                <CarouselPost
-                    data={imagesPost}
-                />
-            </View>
+            {isStatus ?
+                <View style={styles.boxImages}>
+                    <CarouselPost
+                        data={imagesPost}
+                    />
+                </View>
+                : undefined}
             <View style={styles.ViewBtn}>
                 <TouchableOpacity style={styles.button}>
                     <Text style={styles.text}>ENTRAR EM CONTATO</Text>
@@ -72,27 +59,6 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         marginVertical: 2,
     },
-    // userDatail: {
-    //     width: '100%',
-    //     flexDirection: 'row',
-    //     alignItems: 'center',
-    // },
-    // userText: {
-    //     marginLeft: 10,
-    //     justifyContent: 'center'
-    // },
-    // name: {
-    //     textTransform: 'uppercase',
-    //     color: '#0e52b2',
-    //     fontSize: 16,
-    //     fontWeight: '800'
-    // },
-    // cidade: {
-    //     textTransform: 'capitalize',
-    //     color: '#0e52b2',
-    //     fontSize: 16,
-    //     fontWeight: '700'
-    // },
     titulo: {
         fontSize: 18,
         fontWeight: '700',
@@ -100,7 +66,8 @@ const styles = StyleSheet.create({
         marginVertical: 5
     },
     description: {
-        width: '100%'
+        width: '100%',
+        marginBottom: 10
     },
     fotoPerfil: {
         width: 50,

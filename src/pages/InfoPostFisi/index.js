@@ -34,8 +34,7 @@ export default function InfoPostFisi({navigation, route}) {
             <PostInfo
                 tipoAjuda={route.params.tipoAjuda}
                 sobreVoce={route.params.sobreVoce}
-                // nomeUser={route.params.nome}
-                // imgUser={route.params.imgUser}
+                status={route.params.status}
                 imgPost1={route.params.imgPost1}
                 imgPost2={route.params.imgPost2}
                 imgPost3={route.params.imgPost3}

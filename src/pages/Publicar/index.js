@@ -38,6 +38,14 @@ export default function Publicar({ navigation }) {
 
     const [image, setImage] = useState([]);
 
+    var date = new Date().getDate(); //Current Date
+    var month = new Date().getMonth() + 1; //Current Month
+    var year = new Date().getFullYear(); //Current Year
+    // var hours = new Date().getHours(); //Current Hours
+    // var min = new Date().getMinutes(); //Current Minutes
+
+    const [dataHoraPost, setDataHoraPost] = useState(date + '/' + month + '/' + year)
+
     useEffect(() => {
 
     }, [newImg]);
@@ -45,22 +53,20 @@ export default function Publicar({ navigation }) {
     useEffect(() => {
 
         fetchUserName();
-
+    
     }, [executePublicar])
 
     const fetchUserName = async () => {
-
+        
         const q = query(collection(db, 'Usuários'), where("userId", "==", user.uid));
         const querySnapshot = await getDocs(q);
 
         const getInfos = querySnapshot.forEach(doc => {
             setNomeCompleto(user.displayName)
             setTipoUser(doc.data().tipoUser)
-            console.log(doc.data().userId, " => ", doc.data());
         })
 
         return getInfos;
-
     }
 
     const Publicar = async () => {
@@ -69,8 +75,7 @@ export default function Publicar({ navigation }) {
             alert('Selecione se está doando ou recebendo')
         } else if (sobreVoce == '') {
             alert('Pelo menos diga algo sobre você')
-        } else {
-
+        } else{
             setCarregamento(true)
             setExecutePublicar(!executePublicar)
 
@@ -85,14 +90,15 @@ export default function Publicar({ navigation }) {
                 const docRef = await addDoc(collection(db, "posts"), {
                     tipoAjuda: tipoAjuda,
                     sobreVoce: sobreVoce,
-                    status: status,
+                    status: isDoando,
                     nomeUser: nomeCompleto,
                     userId: user.uid,
                     imgUser: imagePerfil,
                     imgPost1: urlImg1,
                     imgPost2: urlImg2,
                     imgPost3: urlImg3,
-                    tipoUser: tipoUser
+                    tipoUser: tipoUser,
+                    dataHoraPost:dataHoraPost
                 });
 
                 setCarregamento(false)

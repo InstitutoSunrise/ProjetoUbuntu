@@ -16,19 +16,19 @@ import {
 } from 'firebase/database';
 
 
-export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1, imgPost2, imgPost3, tipoUser, userId, navigation }) {
+export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1, imgPost2, imgPost3, tipoUser, userId, dataHoraPost, status, navigation }) {
 
 
 
-    var date = new Date().getDate(); //Current Date
-    var month = new Date().getMonth() + 1; //Current Month
-    var year = new Date().getFullYear(); //Current Year
-    var hours = new Date().getHours(); //Current Hours
-    var min = new Date().getMinutes(); //Current Minutes
+    // var date = new Date().getDate(); //Current Date
+    // var month = new Date().getMonth() + 1; //Current Month
+    // var year = new Date().getFullYear(); //Current Year
+    // var hours = new Date().getHours(); //Current Hours
+    // var min = new Date().getMinutes(); //Current Minutes
 
-    const [dataHoraPost, setDataHoraPost] = useState(date + '/' + month + '/' + year
-        + ' - ' + hours + ':' + min)
-
+    // const [dataHoraPost, setDataHoraPost] = useState(date + '/' + month + '/' + year
+    //     + ' - ' + hours + ':' + min)
+    const [isStatus, setStatus] = useState(status)
     const [imagesPost, setImagesPost] = useState([])
 
     const [username, setUsername] = useState(null);
@@ -52,7 +52,7 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
         });
 
         const newChatroomId = newChatroomRef.key;
-        
+
         if (userInfo == null) {
             console.log(userInfo, "é nulo")
             const newUserObj = {
@@ -64,7 +64,7 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
                         avatar: imgUser,
                         chatroomId: newChatroomId,
                     },
-                    ],
+                ],
             };
             set(ref(database, `users/${user.uid}`), newUserObj);
 
@@ -116,7 +116,7 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
         }
 
 
- 
+
         const otherUserInfo = await findUser(userId)
         //join myself to this user friend list
         if (otherUserInfo == null) {
@@ -191,9 +191,9 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
 
     const showInfoPost = () => {
         if (tipoUser == "userFisico") {
-            navigation.navigate('InfoPostFisi', { nome: nomeUser, imgUser: imgUser, sobreVoce: sobreVoce, tipoAjuda: tipoAjuda, imgPost1: imgPost1, imgPost2: imgPost2, imgPost3: imgPost3, userId: userId });
+            navigation.navigate('InfoPostFisi', { nome: nomeUser, imgUser: imgUser, sobreVoce: sobreVoce, tipoAjuda: tipoAjuda, imgPost1: imgPost1, imgPost2: imgPost2, imgPost3: imgPost3, userId: userId, status: status, dataHoraPost: dataHoraPost });
         } else {
-            navigation.navigate('InfoPostInst', { nome: nomeUser, imgUser: imgUser, sobreVoce: sobreVoce, tipoAjuda: tipoAjuda, imgPost1: imgPost1, imgPost2: imgPost2, imgPost3: imgPost3, userId: userId });
+            navigation.navigate('InfoPostInst', { nome: nomeUser, imgUser: imgUser, sobreVoce: sobreVoce, tipoAjuda: tipoAjuda, imgPost1: imgPost1, imgPost2: imgPost2, imgPost3: imgPost3, userId: userId, status: status, dataHoraPost: dataHoraPost });
         }
     }
 
@@ -209,11 +209,13 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
             </View>
             <Text style={styles.titulo}>{tipoAjuda}</Text>
             <Text style={styles.description}>{sobreVoce}</Text>
-            <View style={styles.boxImages}>
-                <CarouselPost
-                    data={imagesPost}
-                />
-            </View>
+            {isStatus ?
+                <View style={styles.boxImages}>
+                    <CarouselPost
+                        data={imagesPost}
+                    />
+                </View>
+                : undefined}
             <View style={styles.ViewBtn}>
                 <TouchableOpacity style={styles.button} onPress={addUserToChat}>
                     <Text style={styles.text}>ENTRAR EM CONTATO</Text>
@@ -268,7 +270,8 @@ const styles = StyleSheet.create({
         marginVertical: 5
     },
     description: {
-        width: '100%'
+        width: '100%',
+        marginBottom: 10
     },
     fotoPerfil: {
         width: 50,
