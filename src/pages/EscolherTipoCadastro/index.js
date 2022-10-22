@@ -47,7 +47,8 @@ const estilos = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 10
     },
     imagem: {
         height: 300,

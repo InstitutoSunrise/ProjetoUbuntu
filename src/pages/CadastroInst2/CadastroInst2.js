@@ -98,11 +98,15 @@ export default function App({ navigation, route }) {
         value={nolocal}
         onChangeText={text => setNolocal(text)} />
 
-      <TextInput
-        placeholder="HORARIO DE FUNCIONAMENTO"
+      <MaskInput
+        placeholder="HORARIO DE FUNCIONAMENTO: 00:00 - 12:00"
         style={styles.TextInput}
         value={horario}
-        onChangeText={text => setHorario(text)} />
+        onChangeText={(masked, unmasked) => {
+          setHorario(masked);
+        }} 
+        mask={[/\d/, /\d/, ':', /\d/, /\d/ , '-', /\d/, /\d/, ':', /\d/, /\d/]}
+        />
 
       <TextInput
         placeholder="ACEITA VOLUNTÁRIOS"

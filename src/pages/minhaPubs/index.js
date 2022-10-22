@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 
 import { getAuth } from "firebase/auth";
@@ -46,8 +46,8 @@ export default function MinhaPubs({ navigation }) {
           <MinhaPublicacao
             tipoAjuda={item.tipoAjuda}
             sobreVoce={item.sobreVoce}
-            nomeUser={item.nomeUser}
-            imgUser={item.imgUser}
+            status={item.status}
+            dataHoraPost={item.dataHoraPost}
             imgPost1={item.imgPost1}
             imgPost2={item.imgPost2}
             imgPost3={item.imgPost3}

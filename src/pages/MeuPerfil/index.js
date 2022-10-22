@@ -55,9 +55,9 @@ export default function MeuPerfil({ navigation }) {
     }
 
     const editarPost = () => {
-        if(tipoUser == "Fis"){
+        if (tipoUser == "Fis") {
             navigation.navigate('EditarPerfilUserFis')
-        }else{
+        } else {
             navigation.navigate('EditarPerfilUserInst1')
         }
     }
@@ -71,7 +71,7 @@ export default function MeuPerfil({ navigation }) {
         <View style={styles.container}>
 
             <StatusBar barStyle="dark-content" backgroundColor="#0e52b2" />
-            <ScrollView contentContainerStyle={{ width: '100%', justifyContent: 'space-between'}}>
+            <ScrollView>
 
                 <Backbutton onClick={() => navigation.goBack()} />
 
@@ -116,7 +116,7 @@ export default function MeuPerfil({ navigation }) {
                     </View>
 
                     <View style={styles.funcoesGrid}>
-                        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Configurações', {id:docId})}>
+                        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Configurações', { id: docId })}>
                             <View style={styles.funcoesIconContainer}>
                                 <Ionicons name="settings" size={40} color="#fff" />
                             </View>
@@ -141,7 +141,6 @@ export default function MeuPerfil({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
         backgroundColor: '#fff'
     },
     titulo: {

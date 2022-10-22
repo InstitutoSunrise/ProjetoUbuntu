@@ -3,16 +3,9 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import CarouselPost from '../CarouselPost';
 
-export default function MinhaPublicacao({sobreVoce, tipoAjuda, imgPost1, imgPost2, imgPost3, navigation}) {
-    var date = new Date().getDate(); //Current Date
-    var month = new Date().getMonth() + 1; //Current Month
-    var year = new Date().getFullYear(); //Current Year
-    var hours = new Date().getHours(); //Current Hours
-    var min = new Date().getMinutes(); //Current Minutes
+export default function MinhaPublicacao({ sobreVoce, tipoAjuda, imgPost1, imgPost2, imgPost3, status, dataHoraPost, navigation }) {
 
-    const [dataHoraPost, setDataHoraPost] = useState(date + '/' + month + '/' + year
-        + ' - ' + hours + ':' + min)
-
+    const [isStatus, setStatus] = useState(status)
     const [imagesPost, setImagesPost] = useState([])
 
 
@@ -30,21 +23,28 @@ export default function MinhaPublicacao({sobreVoce, tipoAjuda, imgPost1, imgPost
         <View style={styles.card}>
             <View style={styles.viewInfo}>
                 <Text style={styles.dataPost}>{dataHoraPost}</Text>
-                <Text style={styles.status}>Você esta doando</Text>
+
+                {isStatus ?
+                    <Text style={styles.status}>Você esta doando</Text>
+                    : <Text style={styles.status}>Você esta Recebendo</Text>}
+
                 <Text style={styles.titulo}>{tipoAjuda}</Text>
                 <Text style={styles.description}>{sobreVoce}</Text>
             </View>
-            
-            <View style={styles.boxImages}>
-                <CarouselPost
-                    data={imagesPost}
-                />
-            </View>
+
+            {isStatus ?
+                <View style={styles.boxImages}>
+                    <CarouselPost
+                        data={imagesPost}
+                    />
+                </View>
+                : undefined}
+                
             <View style={styles.ViewBtn}>
                 <TouchableOpacity style={styles.button}>
                     <Text style={styles.text}>EXCLUIR</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('EditarPost', {sobreVoce:sobreVoce, tipoAjuda:tipoAjuda})}>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('EditarPost', { sobreVoce: sobreVoce, tipoAjuda: tipoAjuda })}>
                     <Text style={styles.text}>EDITAR</Text>
                 </TouchableOpacity>
             </View>
@@ -60,12 +60,12 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         padding: 15,
         justifyContent: 'space-between',
-        alignItems:'center',
+        alignItems: 'center',
         marginVertical: 10,
         marginHorizontal: 10
     },
-    viewInfo:{
-        width:'100%'
+    viewInfo: {
+        width: '100%'
     },
     dataPost: {
         fontSize: 13,
@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
         marginVertical: 5
     },
     description: {
-        width: '100%'
+        width: '100%',
+        marginBottom: 10
     },
     fotoPerfil: {
         width: 50,
@@ -92,8 +93,8 @@ const styles = StyleSheet.create({
     ViewBtn: {
         width: '80%',
         alignItems: 'center',
-        flexDirection:'row',
-        justifyContent:'space-between',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     button: {
         width: '40%',
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     boxImages: {
-        width:'100%',
+        width: '100%',
         padding: 5,
     },
     img: {
