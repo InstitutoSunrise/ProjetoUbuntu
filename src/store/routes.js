@@ -225,7 +225,7 @@ export default function Routes({ navigation }) {
                 <Stack.Screen
                     name="Mensagem"
                     component={Mensagem}
-                    options={({ route }) => ({ title: route.params.userName })}
+                    options={({ route }) => ({ title: route.params.nome })}
                 />
                 <Stack.Screen
                     name="MeuPerfil"

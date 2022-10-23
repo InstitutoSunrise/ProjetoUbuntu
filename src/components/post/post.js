@@ -19,23 +19,8 @@ import {
 export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1, imgPost2, imgPost3, tipoUser, userId, dataHoraPost, status, navigation }) {
 
 
-
-    // var date = new Date().getDate(); //Current Date
-    // var month = new Date().getMonth() + 1; //Current Month
-    // var year = new Date().getFullYear(); //Current Year
-    // var hours = new Date().getHours(); //Current Hours
-    // var min = new Date().getMinutes(); //Current Minutes
-
-    // const [dataHoraPost, setDataHoraPost] = useState(date + '/' + month + '/' + year
-    //     + ' - ' + hours + ':' + min)
     const [isStatus, setStatus] = useState(status)
     const [imagesPost, setImagesPost] = useState([])
-
-    const [username, setUsername] = useState(null);
-    const [users, setUsers] = useState([]);
-    const [userToAdd, setUserToAdd] = useState(null);
-    const [selectedUser, setSelectedUser] = useState(null);
-    const [myData, setMyData] = useState(null);
 
     const addUserToChat = async () => {
         const auth = getAuth();
@@ -43,7 +28,18 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
         const database = getDatabase();
 
         const userInfo = await findUser(user.uid)
-        console.log(userInfo)
+
+        if (userId == user.uid) {
+            return
+        }
+
+        if (userInfo !== null) {
+            let usernames = userInfo.friends
+            if (usernames.findIndex(friends => friends.username === userId) > -1) {
+                console.log("usuário repetido")
+                return
+            }
+        }
 
         const newChatroomRef = push(ref(database, 'chatrooms'), {
             firstUser: user.uid,
@@ -52,6 +48,7 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
         });
 
         const newChatroomId = newChatroomRef.key;
+
 
         if (userInfo == null) {
             console.log(userInfo, "é nulo")
@@ -70,59 +67,40 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
 
             console.log(newUserObj)
         } else {
-            if (user.uid === userId) {
-                // don't let user add himself
-                return;
-            }
+            if (userInfo.friends == null) {
+                console.log(otherUserInfo)
+                // console.log(myFriends)
 
-            if (
-                userInfo.friends &&
-                userInfo.friends.findIndex(f => userId === userInfo.username) > 0
-            ) {
-                // don't let user add a user twice
-                return;
-            }
-            else {
-                // if (userInfo.friends == null) {
-                //     console.log(otherUserInfo)
-                //     // console.log(myFriends)
+                update(ref(database, `users/${user.uid}`), {
+                    friends: [
+                        {
+                            username: userId,
+                            avatar: imgUser,
+                            chatroomId: newChatroomId,
+                        },
+                    ],
+                });
 
-                //     update(ref(database, `users/${user.uid}`), {
-                //         friends: [
-                //             {
-                //                 username: userId,
-                //                 avatar: imgUser,
-                //                 chatroomId: newChatroomId,
-                //             },
-                //         ],
-                //     });
-
-                // } else {
-                //     console.log(otherUserInfo)
-                //     const myFriends = userInfo.friends || [];
-                //     console.log(myFriends)
-                //     update(ref(database, `users/${user.uid}`), {
-                //         friends: [
-                //             ...userInfo.friends,
-                //             {
-                //                 username: userId,
-                //                 avatar: imgUser,
-                //                 chatroomId: newChatroomId,
-                //             },
-                //         ],
-                //     });
-                // }
+            } else {
+                console.log(otherUserInfo)
+                const myFriends = userInfo.friends || [];
+                console.log(myFriends)
+                update(ref(database, `users/${user.uid}`), {
+                    friends: [
+                        ...userInfo.friends,
+                        {
+                            username: userId,
+                            avatar: imgUser,
+                            chatroomId: newChatroomId,
+                        },
+                    ],
+                });
             }
         }
-
-
 
         const otherUserInfo = await findUser(userId)
         //join myself to this user friend list
         if (otherUserInfo == null) {
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-            console.log(userId)
-            console.log(user.uid)
             const newOtherUserObj = {
                 username: userId,
                 avatar: imgUser,
@@ -134,24 +112,9 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
                     },
                 ],
             };
-            console.log("bbbbbb")
             set(ref(database, `users/${userId}`), newOtherUserObj);
-            console.log(newOtherUserObj)
-            console.log("ccccc")
-            // update(ref(database, `users/${userId}`), {
-            //     friends: [
-            //         {
-            //             username: user.uid,
-            //             avatar: user.photoURL,
-            //             chatroomId: newChatroomId,
-            //         },
-            //     ],
-            // });
         } else {
-            console.log(userInfo.friends)
             const userFriends = otherUserInfo.friends || [];
-            console.log(userFriends)
-            console.log("ala tem ", userFriends)
             update(ref(database, `users/${userId}`), {
                 friends: [
                     ...userFriends,
@@ -163,12 +126,6 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
                 ],
             });
         }
-
-        // const myFriends = userInfo.friends || [];
-        // console.log(myFriends)
-        // add this user to my friend list
-        // console.log(userInfo)
-
     }
 
     const findUser = async id => {

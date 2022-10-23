@@ -4,168 +4,101 @@ import { getDatabase, get, ref, onValue, off, update, set } from 'firebase/datab
 import { getDocs, query, collection, where, onSnapshot } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import db from '../../config/configFirebase';
-
-// const [Message, setMessages] = useState({})
-const Messages = []
+import FriendsMessage from '../../components/friendsMessage';
 
 export default function MensagemTela({ navigation }) {
-  const [users, setUsers] = useState(null);
-  const [myData, setMyData] = useState();
-  const [load, setLoad] = useState(false);
-  const [friendsId, setFriendsId] = useState(null)
-
-  const [nomeCompleto, setNomeCompleto] = useState();
-  const [imgPerfil, setImgPerfil] = useState();
-  const [lastMsg, setLastMsg] = useState("");
-  const [time, setTime] = useState();
-  const [slavar, setSlavar] = useState([])
-  const [roomId, setRoomId] = useState()
+  const [Messages, setMessages] = useState([])
+  const [load, setLoad] = useState(false)
 
   async function ShowUserInfos(idUsuario) {
     if (idUsuario !== null) {
       const q = query(collection(db, 'Usuários'), where("userId", "==", idUsuario));
       const querySnapshot = await getDocs(q);
-      console.log("entrou na showuserinfo")
-      const getInfos = querySnapshot.forEach(doc => {
-        if (doc.data().tipoUser = "userFisico") {
-          console.log("entrou no if")
-          setNomeCompleto(doc.data().nome)
-          console.log(doc.data().userId, " => ", doc.data());
-          // return (doc.data().userId, " => ", doc.data())
-
-        } else {
-          console.log("entrou no else")
-          // return (doc.data().userId, " => ", doc.data())
-          console.log(doc.data().userId, " => ", doc.data());
-          // setNomeCompleto(doc.data().nome)
-        }
-      })
+      return querySnapshot
     } else {
       return
     }
   }
 
-
-  // const fetchMessages = useCallback(async () => {
-  //   const database = getDatabase();
-
-  //   const snapshot = await get(
-  //     ref(database, `chatrooms/${roomId}`),
-  //   );
-
-  //   return snapshot.val();
-  // }, [roomId]);
-
-
   const fetchLastMsg = async (roomId) => {
     const database = getDatabase();
     const snapshot = await get(ref(database, `chatrooms/${roomId}`));
-    let sla = snapshot.val();
-    return sla;
-    // if (snapshot.val().messages == null) {
-    //   setLastMsg("Este é o início de sua conversa!")
-    //   setTime("")
-    //   console.log("fetchlastmsg aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-    // } else {
-    //   console.log("fetchlastmsg bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
-    //   console.log(sla.messages)
-    //   setSlavar(sla)
-    //   console.log(slavar)
-    //   console.log(snapshot.val().messages.pop().createdAt)
-    //   setTime(snapshot.val().messages.pop().createdAt)
-    //   console.log(snapshot.val().messages.pop().text)
-    //   setLastMsg(snapshot.val().messages.pop().text)
-    //   console.log("----------")
-    //   console.log(time)
-    //   console.log(lastMsg)
-    // }
+    let snapshotResult = snapshot.val();
+    return snapshotResult;
   }
 
-  // const chatRef = await get(ref(database, `chatrooms/${roomId}`));
-  // onValue(chatRef, snapshot => {
-  //   const data = snapshot.val();
-  //   if (data.messages == null) {
-  //     setLastMsg("Este é o início de sua conversa!")
-  //     setTime("")
-  //     console.log("fetchlastmsg")
-  //   } else {
-  //     // data.messages.forEach(e => {
-  //     //   setLastMsg(e.text)
-  //     //   setTime(e.createdAt)
-  //     // })
-
-  //       let last = data.messages.pop();
-  //       setTime(last.createdAt)
-  //       setLastMsg(last.text)
-  //       console.log(last.createdAt)
-  //       console.log(last.text)
-
-  //   }
-  // })
-  // }
-
   const onLoad = async () => {
-    try {
-      const auth = getAuth();
-      const user = auth.currentUser;
-      const database = getDatabase();
-      // set friends list change listener
-      const myUserRef = ref(database, `users/${user.uid}`);
-      onValue(myUserRef, snapshot => {
-        const data = snapshot.val();
-        if (data == null) {
-          return
-        } else {
-          setUsers(data.friends);
-          data.friends.forEach(async element => {
-            const hm = await fetchLastMsg(element.chatroomId)
-            if (hm.messages == null) {
-              setLastMsg("Este é o início de sua conversa!")
-              setTime("")
-              console.log("fetchlastmsg aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    setLoad(!load)
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const database = getDatabase();
+    // set friends list change listener
+    const myUserRef = ref(database, `users/${user.uid}`);
+    onValue(myUserRef, snapshot => {
+      const data = snapshot.val();
+      if (data == null) {
+        return
+      } else {
+        data.friends.forEach(async element => {
+
+          const getLastMessage = await fetchLastMsg(element.chatroomId)
+
+          let myId = user.uid
+          let idFriend = getLastMessage.secondUser
+          let userId
+          if (myId == idFriend) {
+            userId = getLastMessage.firstUser
+          } else {
+            userId = idFriend
+          }
+
+          const fetchNameUser = await ShowUserInfos(userId)
+          let nameFriend
+          fetchNameUser.forEach(doc => {
+            if (doc.data().tipoUser === "userFisico") {
+              nameFriend = doc.data().nome + " " + doc.data().sobrenome
+              return nameFriend
             } else {
-              setRoomId(element.chatroomId)
-              var qtdMsg = hm.messages.length
-              
-              let aaaaaaaaaaa = hm.messages.pop().text
-              console.log(hm.messages[1])
-              setLastMsg(aaaaaaaaaaa)
-              console.log("ultima mensagem1: ",hm.messages.pop().text)
-              console.log("ultima mensagem: ", aaaaaaaaaaa)
-              // console.log("fetchlastmsg bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
-              // console.log(hm.messages)
-              // setSlavar(hm)
-              // console.log(slavar)
-              // console.log(hm.messages.pop().createdAt)
-              // setTime(hm.messages.pop().createdAt)
-              // console.log(hm.messages.pop().text)
-              // setLastMsg(hm.messages.pop().text)
-              // console.log("----------")
-              // console.log(time)
-              // console.log(lastMsg)
+              nameFriend = doc.data().nome
+              return nameFriend
             }
-            ShowUserInfos(element.username)
+          })
 
-            Messages.push({ id: element.chatroomId, name: nomeCompleto, userName: element.username, userImg: element.avatar, messageTime: "hm.messages.pop().createdAt", messageText: "hm.messages.pop().text" })
+          if (getLastMessage.messages == null) {
+            let date = new Date().getDate(); //Current Date
+            let month = new Date().getMonth() + 1; //Current Month
+            let year = new Date().getFullYear(); //Current Year
+            let hours = new Date().getHours(); //Current Hours
+            let min = new Date().getMinutes(); //Current Minutes
+
+            var dataHora = date + "/" + month + "/" + year + " - " + hours + ":" + min
+            console.log(dataHora)
+            let newMsg = [{ id: element.chatroomId, name: nameFriend, userName: element.username, userImg: element.avatar, messageTime: dataHora, messageText: "Este é o início da sua conversa!" }]
+            let oldArray = Messages
+            console.log("Novo =>", newMsg)
+            console.log("Antigo =>", oldArray)
+
+            setMessages(...Messages, newMsg)
             console.log("mensagens", "=>", Messages)
+          } else {
+            let ultimaMsg = getLastMessage.messages.pop().text
+            let horaEnviado = dataHora
 
-          });
-          setMyData(prevData => ({
-            ...prevData,
-            friends: data.friends,
-          }));
-        }
-      });
+            let newMsg = [{ id: element.chatroomId, name: nameFriend, userName: element.username, userImg: element.avatar, messageTime: horaEnviado, messageText: ultimaMsg }]
+            let oldArray = Messages
+            console.log("Novo =>", newMsg)
+            console.log("Antigo =>", oldArray)
 
-    } catch (error) {
-      console.error(error);
-    }
-
-  };
+            setMessages(...Messages, newMsg)
+          }
+        });
+      }
+    });
+  }
 
   useEffect(() => {
     onLoad();
-    console.log("executou")
+    console.log("mensagens", "=>", Messages)
   }, [])
 
   function filterDesc(desc) {
@@ -177,37 +110,33 @@ export default function MensagemTela({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Mensagem</Text>
+      <Text style={styles.titulo}>CONVERSAS</Text>
 
-      {Messages ?
-        <FlatList
-          contentContainerStyle={{ alignItems: 'center' }}
-          vertical
-          data={Messages}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => (
-            <TouchableOpacity style={styles.containerFlatList} onPress={() => navigation.navigate('Mensagem', { userName: item.userName, chatRoomId: item.id, avatar: item.userImg, nome: item.name })}>
+      <FlatList
+        contentContainerStyle={{ alignItems: 'center' }}
+        vertical
+        data={Messages}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity style={styles.containerFlatList} onPress={() => navigation.navigate('Mensagem', { userName: item.userName, chatRoomId: item.id, avatar: item.userImg, nome: item.name })}>
 
-              <Image style={styles.img} source={{ uri: item.userImg }} />
+            <Image style={styles.img} source={{ uri: item.userImg }} />
 
-              <View style={styles.descricao}>
-                <View style={styles.box}>
-                  <Text style={styles.userName}>{item.name}</Text>
-                  <Text style={styles.dataHora}>{item.messageTime}</Text>
-                </View>
-
-                <Text style={styles.text}>{filterDesc(item.messageText)}</Text>
+            <View style={styles.descricao}>
+              <View style={styles.box}>
+                <Text style={styles.userName}>{item.name}</Text>
+                <Text style={styles.dataHora}>{item.messageTime}</Text>
               </View>
 
-            </TouchableOpacity>
-          )}
-        />
-        : undefined}
+              <Text style={styles.text}>{item.messageText}</Text>
+            </View>
+          </TouchableOpacity>
+        )}
 
+      />
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
