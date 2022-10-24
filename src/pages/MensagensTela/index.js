@@ -1,22 +1,46 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
-import { getDatabase, get, ref, onValue, off, update, set } from 'firebase/database';
-import { getDocs, query, collection, where, onSnapshot } from "firebase/firestore";
+import React, { useState, useEffect, useCallback } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import {
+  getDatabase,
+  get,
+  ref,
+  onValue,
+  off,
+  update,
+  set,
+} from "firebase/database";
+import {
+  getDocs,
+  query,
+  collection,
+  where,
+  onSnapshot,
+} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import db from '../../config/configFirebase';
-import FriendsMessage from '../../components/friendsMessage';
+import db from "../../config/configFirebase";
+import FriendsMessage from "../../components/friendsMessage";
 
 export default function MensagemTela({ navigation }) {
-  const [Messages, setMessages] = useState([])
-  const [load, setLoad] = useState(false)
+  const [Messages, setMessages] = useState([]);
+  const [load, setLoad] = useState(false);
 
   async function ShowUserInfos(idUsuario) {
     if (idUsuario !== null) {
-      const q = query(collection(db, 'Usuários'), where("userId", "==", idUsuario));
+      const q = query(
+        collection(db, "Usuários"),
+        where("userId", "==", idUsuario)
+      );
       const querySnapshot = await getDocs(q);
-      return querySnapshot
+      return querySnapshot;
     } else {
-      return
+      return;
     }
   }
 
@@ -25,44 +49,43 @@ export default function MensagemTela({ navigation }) {
     const snapshot = await get(ref(database, `chatrooms/${roomId}`));
     let snapshotResult = snapshot.val();
     return snapshotResult;
-  }
+  };
 
   const onLoad = async () => {
-    setLoad(!load)
+    setLoad(!load);
     const auth = getAuth();
     const user = auth.currentUser;
     const database = getDatabase();
     // set friends list change listener
     const myUserRef = ref(database, `users/${user.uid}`);
-    onValue(myUserRef, snapshot => {
+    onValue(myUserRef, (snapshot) => {
       const data = snapshot.val();
       if (data == null) {
-        return
+        return;
       } else {
-        data.friends.forEach(async element => {
+        data.friends.forEach(async (element) => {
+          const getLastMessage = await fetchLastMsg(element.chatroomId);
 
-          const getLastMessage = await fetchLastMsg(element.chatroomId)
-
-          let myId = user.uid
-          let idFriend = getLastMessage.secondUser
-          let userId
+          let myId = user.uid;
+          let idFriend = getLastMessage.secondUser;
+          let userId;
           if (myId == idFriend) {
-            userId = getLastMessage.firstUser
+            userId = getLastMessage.firstUser;
           } else {
-            userId = idFriend
+            userId = idFriend;
           }
 
-          const fetchNameUser = await ShowUserInfos(userId)
-          let nameFriend
-          fetchNameUser.forEach(doc => {
+          const fetchNameUser = await ShowUserInfos(userId);
+          let nameFriend;
+          fetchNameUser.forEach((doc) => {
             if (doc.data().tipoUser === "userFisico") {
-              nameFriend = doc.data().nome + " " + doc.data().sobrenome
-              return nameFriend
+              nameFriend = doc.data().nome + " " + doc.data().sobrenome;
+              return nameFriend;
             } else {
-              nameFriend = doc.data().nome
-              return nameFriend
+              nameFriend = doc.data().nome;
+              return nameFriend;
             }
-          })
+          });
 
           if (getLastMessage.messages == null) {
             let date = new Date().getDate(); //Current Date
@@ -71,41 +94,66 @@ export default function MensagemTela({ navigation }) {
             let hours = new Date().getHours(); //Current Hours
             let min = new Date().getMinutes(); //Current Minutes
 
-            var dataHora = date + "/" + month + "/" + year + " - " + hours + ":" + min
-            console.log(dataHora)
-            let newMsg = [{ id: element.chatroomId, name: nameFriend, userName: element.username, userImg: element.avatar, messageTime: dataHora, messageText: "Este é o início da sua conversa!" }]
-            let oldArray = Messages
-            console.log("Novo =>", newMsg)
-            console.log("Antigo =>", oldArray)
+            var dataHora =
+              date + "/" + month + "/" + year + " - " + hours + ":" + min;
+            console.log(dataHora);
+            let newMsg = [
+              {
+                id: element.chatroomId,
+                name: nameFriend,
+                userName: element.username,
+                userImg: element.avatar,
+                messageTime: dataHora,
+                messageText: "Inicie uma conversa",
+              },
+            ];
 
-            setMessages(...Messages, newMsg)
-            console.log("mensagens", "=>", Messages)
+            let oldArray;
+            // oldArray.push(newMsg)
+
+            console.log("Novo =>", newMsg);
+            // console.log("Antigo =>", oldArray);
+
+            setMessages(...Messages, newMsg);
+            console.log("mensagens", "=>", Messages);
+            Messages.map(msgs => console.log(msgs))
           } else {
-            let ultimaMsg = getLastMessage.messages.pop().text
-            let horaEnviado = dataHora
+            let ultimaMsg = getLastMessage.messages.pop().text;
+            let horaEnviado = dataHora;
 
-            let newMsg = [{ id: element.chatroomId, name: nameFriend, userName: element.username, userImg: element.avatar, messageTime: horaEnviado, messageText: ultimaMsg }]
-            let oldArray = Messages
-            console.log("Novo =>", newMsg)
-            console.log("Antigo =>", oldArray)
+            let newMsg = [
+              {
+                id: element.chatroomId,
+                name: nameFriend,
+                userName: element.username,
+                userImg: element.avatar,
+                messageTime: horaEnviado,
+                messageText: ultimaMsg,
+              },
+            ];
+            // let oldArray = Messages;
+            // let oldArray = oldArray.push(newMsg)
+            console.log("Novo =>", newMsg);
+            // console.log("Antigo =>", oldArray);
 
-            setMessages(...Messages, newMsg)
+            setMessages(...Messages, newMsg);
+            
           }
         });
       }
     });
-  }
+  };
 
   useEffect(() => {
     onLoad();
-    console.log("mensagens", "=>", Messages)
-  }, [])
+    console.log("mensagens", "=>", Messages);
+  }, []);
 
   function filterDesc(desc) {
-    if (desc.length < 50) {
+    if (desc.length < 40) {
       return desc;
     }
-    return `${desc.substring(0, 45)}...`;
+    return `${desc.substring(0, 35)}...`;
   }
 
   return (
@@ -113,26 +161,32 @@ export default function MensagemTela({ navigation }) {
       <Text style={styles.titulo}>CONVERSAS</Text>
 
       <FlatList
-        contentContainerStyle={{ alignItems: 'center' }}
         vertical
         data={Messages}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.containerFlatList} onPress={() => navigation.navigate('Mensagem', { userName: item.userName, chatRoomId: item.id, avatar: item.userImg, nome: item.name })}>
-
+          <TouchableOpacity
+            style={styles.containerFlatList}
+            onPress={() =>
+              navigation.navigate("Mensagem", {
+                userName: item.userName,
+                chatRoomId: item.id,
+                avatar: item.userImg,
+                nome: item.name,
+              })
+            }
+          >
             <Image style={styles.img} source={{ uri: item.userImg }} />
 
             <View style={styles.descricao}>
+              <Text style={styles.dataHora}>{item.messageTime}</Text>
               <View style={styles.box}>
                 <Text style={styles.userName}>{item.name}</Text>
-                <Text style={styles.dataHora}>{item.messageTime}</Text>
+                <Text style={styles.text}>{item.messageText}</Text>
               </View>
-
-              <Text style={styles.text}>{item.messageText}</Text>
             </View>
           </TouchableOpacity>
         )}
-
       />
     </View>
   );
@@ -140,27 +194,26 @@ export default function MensagemTela({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   titulo: {
     fontSize: 40,
-    fontWeight: 'bold',
-    color: '#38B6FF',
+    fontWeight: "bold",
+    color: "#38B6FF",
     marginBottom: 10,
     marginTop: 35,
-    textTransform: 'uppercase',
-    textAlign: 'center'
+    textTransform: "uppercase",
+    textAlign: "center",
   },
   containerFlatList: {
-    backgroundColor: '#e8eaea',
+    backgroundColor: "#e8eaea",
     borderRadius: 8,
     height: 90,
-    width: '90%',
     padding: 5,
     marginVertical: 5,
     marginHorizontal: 20,
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
   },
   img: {
     width: 80,
@@ -169,26 +222,25 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   descricao: {
-    width: '70%'
+    width: "75%",
   },
   box: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    justifyContent: "space-between",
+    marginLeft: 10,
   },
   userName: {
     fontSize: 20,
-    color: '#0c4a86',
+    color: "#0c4a86",
   },
   dataHora: {
     fontSize: 13,
-    fontWeight: '300',
-    textAlign: 'right',
+    fontWeight: "300",
+    textAlign: "right",
   },
   text: {
     fontSize: 15,
-    textAlign: 'left',
-    justifyContent: 'center',
+    textAlign: "left",
+    justifyContent: "center",
     // width:'70%',
   },
 });
