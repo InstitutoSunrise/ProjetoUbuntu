@@ -63,6 +63,7 @@ export default function MensagemTela({ navigation }) {
       if (data == null) {
         return;
       } else {
+        let msgs;
         data.friends.forEach(async (element) => {
           const getLastMessage = await fetchLastMsg(element.chatroomId);
 
@@ -96,7 +97,7 @@ export default function MensagemTela({ navigation }) {
 
             var dataHora =
               date + "/" + month + "/" + year + " - " + hours + ":" + min;
-            console.log(dataHora);
+            
             let newMsg = [
               {
                 id: element.chatroomId,
@@ -108,18 +109,16 @@ export default function MensagemTela({ navigation }) {
               },
             ];
 
-            let oldArray;
-            // oldArray.push(newMsg)
-
-            console.log("Novo =>", newMsg);
-            // console.log("Antigo =>", oldArray);
-
-            setMessages(...Messages, newMsg);
-            console.log("mensagens", "=>", Messages);
-            Messages.map(msgs => console.log(msgs))
+            if (msgs == null) {
+              msgs = newMsg;
+            } else {
+              msgs.push(...newMsg);
+            }
           } else {
             let ultimaMsg = getLastMessage.messages.pop().text;
-            let horaEnviado = dataHora;
+            console.log(getLastMessage.messages.pop().createdAt)
+            let horaEnviado = (getLastMessage.messages.pop().createdAt);
+            console.log(horaEnviado)
 
             let newMsg = [
               {
@@ -131,14 +130,13 @@ export default function MensagemTela({ navigation }) {
                 messageText: ultimaMsg,
               },
             ];
-            // let oldArray = Messages;
-            // let oldArray = oldArray.push(newMsg)
-            console.log("Novo =>", newMsg);
-            // console.log("Antigo =>", oldArray);
-
-            setMessages(...Messages, newMsg);
-            
+            if (msgs == null) {
+              msgs = newMsg;
+            } else {
+              msgs.push(...newMsg);
+            }
           }
+          setMessages(msgs);
         });
       }
     });
@@ -146,7 +144,6 @@ export default function MensagemTela({ navigation }) {
 
   useEffect(() => {
     onLoad();
-    console.log("mensagens", "=>", Messages);
   }, []);
 
   function filterDesc(desc) {

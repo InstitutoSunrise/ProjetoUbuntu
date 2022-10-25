@@ -119,6 +119,13 @@ export default function Mensagem({ navigation, route }) {
 
   const onSend = useCallback(
     async (msg = []) => {
+      let date = new Date().getDate(); //Current Date
+      let month = new Date().getMonth() + 1; //Current Month
+      let year = new Date().getFullYear(); //Current Year
+      let hours = new Date().getHours(); //Current Hours
+      let min = new Date().getMinutes(); //Current Minutes
+
+      var dataHora = date + "/" + month + "/" + year + " - " + hours + ":" + min;
       //send the msg[0] to the other user
       const database = getDatabase();
 
@@ -201,14 +208,12 @@ export default function Mensagem({ navigation, route }) {
         renderSend={renderSend}
         scrollToBottom={true}
         scrollToBottomComponent={scrollToBottomComponent}
-
       >
       </GiftedChat>
     </View>
 
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
