@@ -36,7 +36,7 @@ export default function MinhaPublicacao({
     const desertRef2 = ref(storage, imgPost2);
     const desertRef3 = ref(storage, imgPost3);
 
-    if (isStatus == false) {
+    if (isStatus === 'Recebendo') {
       await deleteDoc(doc(db, "posts", idPost));
       console.log("Deletado com sucesso");
       setModalVisible(!modalVisible);
@@ -151,7 +151,8 @@ export default function MinhaPublicacao({
                 imgPost1: imgPost1,
                 imgPost2: imgPost2,
                 imgPost3: imgPost3,
-                status: status
+                status: status,
+                idPost: idPost
               })
             }
           >
