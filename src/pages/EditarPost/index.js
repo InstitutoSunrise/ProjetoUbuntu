@@ -10,13 +10,36 @@ export default function EditarPost({ navigation, route }) {
 
     const [tipoAjuda, setTipoAjuda] = useState(route.params.tipoAjuda);
     const [sobreVoce, setSobreVoce] = useState(route.params.sobreVoce)
+    const [status, setStatus] = useState(route.params.status)
 
-    const [image, setImage] = useState();
+    const [newImg, setNewImg] = useState(false)
+    const [image, setImage] = useState([route.params.imgPost1, route.params.imgPost2, route.params.imgPost3]);
 
     useEffect(() => {
-        setImage("https://bravo.org.br/wp-content/uploads/2020/09/WhatsApp-Image-2020-09-05-at-15.05.55-e1599345710763.jpeg")
-        console.log(image)
+
     }, [image])
+
+    const Excluir = () => {
+        image.splice(image.indexOf(0), 1)
+        console.log('excluiu')
+    }
+
+    function addImgIndex(imgUri) {
+
+        if (image.length < 3) {
+            let newArray = image
+            newArray[newArray.length] = imgUri
+            setImage(newArray)
+            setNewImg(!newImg)
+        } else {
+            let newArray = image
+            newArray[2] = imgUri
+            setImage(newArray)
+            setNewImg(!newImg)
+        }
+
+    }
+
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -35,7 +58,7 @@ export default function EditarPost({ navigation, route }) {
         <View style={styles.container}>
             <Backbutton onClick={() => navigation.goBack()} />
 
-            <View style={styles.descInput}>
+            {status === 'Recebendo' ?<View style={styles.descInput}>
                 <TextInput
                     style={styles.textInput}
                     onChangeText={setTipoAjuda}
@@ -48,7 +71,7 @@ export default function EditarPost({ navigation, route }) {
                     maxLength={200}
                     textBreakStrategy={'highQuality'}
                 />
-            </View>
+            </View> : undefined}
 
             <View style={styles.aboutInput}>
                 <TextInput
@@ -64,7 +87,8 @@ export default function EditarPost({ navigation, route }) {
                 />
             </View>
 
-            <View style={styles.imgPickerContainer}>
+
+            {status === 'Doando' ? <View style={styles.imgPickerContainer}>
                 <TouchableOpacity onPress={pickImage} style={styles.imgPicker}>
                     <MaterialCommunityIcons
                         name="file-image-plus"
@@ -74,26 +98,26 @@ export default function EditarPost({ navigation, route }) {
                 </TouchableOpacity>
 
                 <View style={styles.imgPickedContainer}>
-                    <View style={styles.image}>
-                        <Image source={{ uri: image }} style={styles.imgPicked} />
+                    {image && <View style={styles.image}>
+                        <Image source={{ uri: image[0] }} style={styles.imgPicked} />
+                        <TouchableOpacity onPress={Excluir}>
+                            <AntDesign name="close" size={25} color="#ebeff1" style={{ marginLeft: -25 }} />
+                        </TouchableOpacity>
+                    </View>}
+                    {image && <View style={styles.image}>
+                        <Image source={{ uri: image[1] }} style={styles.imgPicked} />
                         <TouchableOpacity>
                             <AntDesign name="close" size={25} color="#ebeff1" style={{ marginLeft: -25 }} />
                         </TouchableOpacity>
-                    </View>
-                    <View style={styles.image}>
-                        <Image source={{ uri: image }} style={styles.imgPicked} />
+                    </View>}
+                    {image && <View style={styles.image}>
+                        <Image source={{ uri: image[2] }} style={styles.imgPicked} />
                         <TouchableOpacity>
                             <AntDesign name="close" size={25} color="#ebeff1" style={{ marginLeft: -25 }} />
                         </TouchableOpacity>
-                    </View>
-                    <View style={styles.image}>
-                        <Image source={{ uri: image }} style={styles.imgPicked} />
-                        <TouchableOpacity>
-                            <AntDesign name="close" size={25} color="#ebeff1" style={{ marginLeft: -25 }} />
-                        </TouchableOpacity>
-                    </View>
+                    </View>}
                 </View>
-            </View>
+            </View> : undefined}
             <TouchableOpacity style={styles.btnEditar}>
                 <Text style={styles.textBtnEditar}>EDITAR</Text>
             </TouchableOpacity>

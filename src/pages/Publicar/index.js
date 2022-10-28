@@ -50,6 +50,15 @@ export default function Publicar({ navigation }) {
 
     }, [newImg]);
 
+    useEffect(() =>{
+        if(isDoando == true){
+            setStatus('Doando');
+        }else{
+            setStatus('Recebendo');
+
+        }
+    })
+
     useEffect(() => {
 
         fetchUserName();
@@ -90,7 +99,7 @@ export default function Publicar({ navigation }) {
                 const docRef = await addDoc(collection(db, "posts"), {
                     tipoAjuda: tipoAjuda,
                     sobreVoce: sobreVoce,
-                    status: isDoando,
+                    status: status,
                     nomeUser: nomeCompleto,
                     userId: user.uid,
                     imgUser: imagePerfil,

@@ -26,7 +26,7 @@ export default function post({ sobreVoce, tipoAjuda, imgPost1, imgPost2, imgPost
             <Text style={styles.dataPost}>{dataHoraPost}</Text>
             <Text style={styles.titulo}>{tipoAjuda}</Text>
             <Text style={styles.description}>{sobreVoce}</Text>
-            {isStatus ?
+            {isStatus === 'Doando' ?
                 <View style={styles.boxImages}>
                     <CarouselPost
                         data={imagesPost}

@@ -166,7 +166,7 @@ export default function post({ sobreVoce, tipoAjuda, nomeUser, imgUser, imgPost1
             </View>
             <Text style={styles.titulo}>{tipoAjuda}</Text>
             <Text style={styles.description}>{sobreVoce}</Text>
-            {isStatus ?
+            {isStatus === 'Doando' ?
                 <View style={styles.boxImages}>
                     <CarouselPost
                         data={imagesPost}

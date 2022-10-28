@@ -119,7 +119,7 @@ export default function MinhaPublicacao({
         <View style={styles.viewInfo}>
           <Text style={styles.dataPost}>{dataHoraPost}</Text>
 
-          {isStatus ? (
+          {isStatus === 'Doando' ? (
             <Text style={styles.status}>Você esta doando</Text>
           ) : (
             <Text style={styles.status}>Você esta Recebendo</Text>
@@ -129,7 +129,7 @@ export default function MinhaPublicacao({
           <Text style={styles.description}>{sobreVoce}</Text>
         </View>
 
-        {isStatus ? (
+        {isStatus === 'Doando' ? (
           <View style={styles.boxImages}>
             <CarouselPost data={imagesPost} />
           </View>
@@ -148,6 +148,10 @@ export default function MinhaPublicacao({
               navigation.navigate("EditarPost", {
                 sobreVoce: sobreVoce,
                 tipoAjuda: tipoAjuda,
+                imgPost1: imgPost1,
+                imgPost2: imgPost2,
+                imgPost3: imgPost3,
+                status: status
               })
             }
           >
