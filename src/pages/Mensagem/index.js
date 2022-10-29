@@ -13,45 +13,8 @@ import db from '../../config/configFirebase';
 export default function Mensagem({ navigation, route }) {
 
   const [messages, setMessages] = useState([]);
-  const [msg, setMsg] = useState()
   const auth = getAuth();
   const user = auth.currentUser;
-
-  var date = new Date().getDate(); //Current Date
-  var month = new Date().getMonth() + 1; //Current Month
-  var year = new Date().getFullYear(); //Current Year
-  var hours = new Date().getHours(); //Current Hours
-  var min = new Date().getMinutes(); //Current Minutes
-
-  const [dataHora, setDataHora] = useState(date + '/' + month + '/' + year
-    + ' - ' + hours + ':' + min)
-
-  const [nomeCompleto, setNomeCompleto] = useState();
-
-  async function ShowUserInfos() {
-    const auth = getAuth();
-    const user = auth.currentUser;
-    if (user !== null) {
-      setImage(user.photoURL);
-
-      const uid = user.uid;
-
-      const q = query(collection(db, 'Usuários'), where("userId", "==", route.params.userName));
-      const querySnapshot = await getDocs(q);
-
-      const getInfos = querySnapshot.forEach(doc => {
-        if (doc.data().tipoUser = "userFisico") {
-          setNomeCompleto(user.displayName)
-          console.log(doc.data().userId, " => ", doc.data());
-        } else {
-          console.log(doc.data().userId, " => ", doc.data());
-          setNomeCompleto(doc.data().nome)
-        }
-      })
-      return getInfos;
-    }
-  }
-
   useEffect(() => {
     //load old messages
     const loadData = async () => {
@@ -119,19 +82,11 @@ export default function Mensagem({ navigation, route }) {
 
   const onSend = useCallback(
     async (msg = []) => {
-      let date = new Date().getDate(); //Current Date
-      let month = new Date().getMonth() + 1; //Current Month
-      let year = new Date().getFullYear(); //Current Year
-      let hours = new Date().getHours(); //Current Hours
-      let min = new Date().getMinutes(); //Current Minutes
-
-      var dataHora = date + "/" + month + "/" + year + " - " + hours + ":" + min;
-      //send the msg[0] to the other user
+      let date = new Date();    
       const database = getDatabase();
 
       //fetch fresh messages from server
       const currentChatroom = await fetchMessages();
-      console.log(currentChatroom.messages)
 
       const lastMessages = currentChatroom.messages || [];
 
@@ -141,7 +96,7 @@ export default function Mensagem({ navigation, route }) {
           {
             text: msg[0].text,
             sender: user.uid,
-            createdAt: new Date(),
+            createdAt: date,
           },
         ],
       });

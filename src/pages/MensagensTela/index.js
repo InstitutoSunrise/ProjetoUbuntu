@@ -23,13 +23,18 @@ import {
   where,
   onSnapshot,
 } from "firebase/firestore";
+import moment from "moment"
 import { getAuth } from "firebase/auth";
 import db from "../../config/configFirebase";
 import FriendsMessage from "../../components/friendsMessage";
 
 export default function MensagemTela({ navigation }) {
   const [Messages, setMessages] = useState([]);
+  const [conversaId, setConversaId] = useState()
   const [load, setLoad] = useState(false);
+  const [execute, setExecute] = useState(false)
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   async function ShowUserInfos(idUsuario) {
     if (idUsuario !== null) {
@@ -44,6 +49,14 @@ export default function MensagemTela({ navigation }) {
     }
   }
 
+  const updateMsg = useCallback(async (id) => {
+    const database = getDatabase();
+    const snapshot = await get(
+      ref(database, `chatrooms/${id}`),
+    );
+
+  }, []);
+
   const fetchLastMsg = async (roomId) => {
     const database = getDatabase();
     const snapshot = await get(ref(database, `chatrooms/${roomId}`));
@@ -51,8 +64,7 @@ export default function MensagemTela({ navigation }) {
     return snapshotResult;
   };
 
-  const onLoad = async () => {
-    setLoad(!load);
+  const onLoad = useCallback(async () => {
     const auth = getAuth();
     const user = auth.currentUser;
     const database = getDatabase();
@@ -89,22 +101,16 @@ export default function MensagemTela({ navigation }) {
           });
 
           if (getLastMessage.messages == null) {
-            let date = new Date().getDate(); //Current Date
-            let month = new Date().getMonth() + 1; //Current Month
-            let year = new Date().getFullYear(); //Current Year
-            let hours = new Date().getHours(); //Current Hours
-            let min = new Date().getMinutes(); //Current Minutes
+            let date = new Date(); //Current Date
+            let dataHora = moment(date).format("DD/MM/YYYY LT")
 
-            var dataHora =
-              date + "/" + month + "/" + year + " - " + hours + ":" + min;
-            
             let newMsg = [
               {
                 id: element.chatroomId,
                 name: nameFriend,
                 userName: element.username,
                 userImg: element.avatar,
-                messageTime: dataHora,
+                messageTime:  dataHora,
                 messageText: "Inicie uma conversa",
               },
             ];
@@ -115,10 +121,9 @@ export default function MensagemTela({ navigation }) {
               msgs.push(...newMsg);
             }
           } else {
-            let ultimaMsg = getLastMessage.messages.pop().text;
-            console.log(getLastMessage.messages.pop().createdAt)
-            let horaEnviado = (getLastMessage.messages.pop().createdAt);
-            console.log(horaEnviado)
+            let ultimaMsg = getLastMessage.messages.pop()
+            let lastCreatedAt = moment(ultimaMsg.createdAt).format("DD/MM/YYYY LT")
+            let lastText = ultimaMsg.text
 
             let newMsg = [
               {
@@ -126,25 +131,31 @@ export default function MensagemTela({ navigation }) {
                 name: nameFriend,
                 userName: element.username,
                 userImg: element.avatar,
-                messageTime: horaEnviado,
-                messageText: ultimaMsg,
+                messageTime: lastCreatedAt,
+                messageText: lastText,
               },
             ];
+
             if (msgs == null) {
               msgs = newMsg;
             } else {
               msgs.push(...newMsg);
             }
+
           }
+          updateMsg(element.chatroomId)
           setMessages(msgs);
         });
       }
     });
-  };
+  }
+  );
 
   useEffect(() => {
+    setExecute(!execute)
     onLoad();
-  }, []);
+    updateMsg();
+  }, [updateMsg]);
 
   function filterDesc(desc) {
     if (desc.length < 40) {
