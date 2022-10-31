@@ -1,28 +1,37 @@
 import React, { useState, useEffect } from 'react';
 
-import { Image, Text, View, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { Image, Text, View, StyleSheet, TouchableOpacity, TextInput, Modal } from 'react-native';
 import { FontAwesome5, Entypo } from '@expo/vector-icons';
 
 import * as ImagePicker from 'expo-image-picker';
-import MaskInput from 'react-native-mask-input';
 import Backbutton from '../../components/Backbutton';
 
-import firebase from '../../config/configFirebase';
-import { getAuth } from "firebase/auth";
+import Editando from '../../components/Carregamento/editando';
+import FinalEditando from '../../components/Carregamento/finalEditando';
 
-export default function EditarPerfilUserFis({ navigation }) {
+import firebase from '../../config/configFirebase';
+import { getAuth, updateProfile } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import db from '../../config/configFirebase';
+
+import { uploadImageAsync } from '../../config/configStorage';
+
+export default function EditarPerfilUserFis({ navigation, route }) {
 
     const auth = getAuth();
     const user = auth.currentUser;
     const photoURL = user.photoURL;
 
+    const [modalVisible, setModalVisible] = useState(false)
+
+    const [carregamento, setCarregamento] = useState(false)
+    const [finalCarregamento, setFinalCarregamento] = useState(false)
 
     const [image, setImage] = useState(photoURL);
 
-
     const [nome, setNome] = useState('');
     const [sobrenome, setSobrenome] = useState('');
-    const [localizacao, setLocalizacao] = useState('');
+    const [localizacao, setLocalizacao] = useState('')
     const [descricao, setDescricao] = useState('');
 
 
@@ -36,6 +45,62 @@ export default function EditarPerfilUserFis({ navigation }) {
             setImage(result.uri);
         };
     };
+
+    const updateProfilePic = async () => {
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        await uploadImageAsync(image, user.uid)
+    }
+
+    const editarPerfil = async () => {
+        setModalVisible(!modalVisible)
+        setCarregamento(true)
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (user.photoURL !== image) {
+            updateProfilePic()
+        }
+
+        updateProfile(auth.currentUser, {
+            displayName: nome + " " + sobrenome
+        })
+
+        const userRef = doc(db, "Usuários", route.params.id)
+
+        setDoc(userRef, { nome: nome, sobrenome: sobrenome, endereco: localizacao, descricao: descricao }, { merge: true })
+            .then(refs => {
+                console.log("Dados atualizados com sucesso!");
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        setCarregamento(false)
+        setFinalCarregamento(true)
+    }
+
+    const confirmarMudancas = () => {
+        setModalVisible(!modalVisible)
+    }
+
+    useEffect(() => {
+
+        setNome(route.params.nome);
+        setSobrenome(route.params.sobrenome);
+        setDescricao(route.params.descricao);
+        if (route.params.localizacao) {
+            setLocalizacao(route.params.localizacao);
+        } else {
+            return
+        }
+
+    }, [])
+
+    const confirm = () => {
+        setFinalCarregamento(false)
+        navigation.navigate('Entrar')
+    }
 
     return (
         <View style={styles.container}>
@@ -89,9 +154,42 @@ export default function EditarPerfilUserFis({ navigation }) {
 
             </View>
 
-            <TouchableOpacity style={styles.botao}>
+            <TouchableOpacity style={styles.botao} onPress={confirmarMudancas}>
                 <Text style={styles.textoBotao}>SALVAR</Text>
             </TouchableOpacity>
+
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={styles.modalView}>
+                    <View style={styles.modalContainer}>
+                        <Text style={styles.modalText}>Você tem certeza que deseja fazer essas atualizações?</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <TouchableOpacity style={styles.modalBtn} onPress={editarPerfil}>
+                                <Text style={styles.modalBtnText}>CONFIRMAR</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.modalBtn} onPress={() => setModalVisible(!modalVisible)}>
+                                <Text style={styles.modalBtnText}>CANCELAR</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
+            {carregamento ?
+                <Editando />
+                : undefined}
+            {finalCarregamento ?
+                <FinalEditando
+                    onClick={confirm}
+                />
+                : undefined}
+
         </View>
     );
 }
@@ -192,4 +290,37 @@ const styles = StyleSheet.create({
         color: '#fff',
         letterSpacing: 2
     },
+    modalView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: '#rgba(0,0,0,0.5)',
+    },
+    modalContainer: {
+        width: '90%',
+        height: '30%',
+        borderRadius: 40,
+        backgroundColor: '#fff',
+        padding: 25
+    },
+    modalText: {
+        fontSize: 20,
+        fontWeight: '700',
+        color: '#0e52b2',
+        textTransform: "uppercase",
+    },
+    modalBtn: {
+        marginTop: 35,
+        width: '45%',
+        backgroundColor: '#0e52b2',
+        padding: 20,
+        borderRadius: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalBtnText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: '800',
+    }
 })

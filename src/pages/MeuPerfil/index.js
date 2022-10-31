@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import { Image, Text, View, StyleSheet, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import { Ionicons, FontAwesome5, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -19,6 +19,14 @@ export default function MeuPerfil({ navigation }) {
     const [endereco, setEndereco] = useState();
     const [numero, setNumero] = useState();
     const [tipoUser, setTipoUser] = useState();
+
+    const [nome, setNome] = useState();
+    const [sobrenome, setSobrenome] = useState();
+
+    const [cep, setCep] = useState('');
+    const [complemento, setComplemento] = useState('');
+
+
     const [docId, setDocId] = useState();
 
     async function ShowUserInfos() {
@@ -33,32 +41,49 @@ export default function MeuPerfil({ navigation }) {
             const querySnapshot = await getDocs(q);
             const getInfos = querySnapshot.forEach(doc => {
                 if (doc.data().tipoUser == "userFisico") {
-                    setNomeCompleto(user.displayName)
+
+                    setNome(doc.data().nome);
+                    setSobrenome(doc.data().sobrenome);
+
+                    setNomeCompleto(user.displayName);
                     setDescricao(doc.data().descricao);
-                    setEndereco(doc.data().endereço);
+                    setEndereco(doc.data().endereco);
                     setNumero(doc.data().numero);
                     setTipoUser("Fis");
                     setDocId(doc.id);
-                    console.log(doc.data().userId, " => ", doc.data());
+
                 } else {
-                    console.log(doc.data().userId, " => ", doc.data());
+
                     setNomeCompleto(doc.data().nome)
                     setDescricao(doc.data().descricao);
                     setEndereco(doc.data().endereço);
                     setNumero(doc.data().numero);
                     setTipoUser("Inst");
+
+                    setCep(doc.data().cep)
+                    setComplemento(doc.data().complemento)
+
                     setDocId(doc.id);
+
                 }
             })
             return getInfos;
         }
     }
 
+    const VerificarLocalLabel = () => {
+        if (numero) {
+            return <Text style={styles.endereco}>{endereco}, {numero} </Text>
+        } else {
+            return <Text style={styles.endereco}>{endereco} </Text>
+        }
+    }
+
     const editarPost = () => {
         if (tipoUser == "Fis") {
-            navigation.navigate('EditarPerfilUserFis')
+            navigation.navigate('EditarPerfilUserFis', { id: docId, nome: nome, sobrenome: sobrenome, descricao: descricao, localizacao: endereco })
         } else {
-            navigation.navigate('EditarPerfilUserInst1')
+            navigation.navigate('EditarPerfilUserInst1', { id: docId, nome: nomeCompleto, cep: cep, endereco: endereco, numero: numero, complemento: complemento, descricao: descricao })
         }
     }
 
@@ -85,7 +110,8 @@ export default function MeuPerfil({ navigation }) {
                     </View>
 
                     <Text style={styles.nome}>{nomeCompleto}</Text>
-                    <Text style={styles.endereco}>{endereco}, {numero}</Text>
+
+                    {endereco ? <VerificarLocalLabel /> : undefined}
 
                     <View style={styles.descricaoContainer}>
                         <Text style={styles.descricao}>{descricao}</Text>
@@ -116,7 +142,7 @@ export default function MeuPerfil({ navigation }) {
                     </View>
 
                     <View style={styles.funcoesGrid}>
-                        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Configurações', { id: docId })}>
+                        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Configurações', { id: docId, tipoUser: tipoUser })}>
                             <View style={styles.funcoesIconContainer}>
                                 <Ionicons name="settings" size={40} color="#fff" />
                             </View>

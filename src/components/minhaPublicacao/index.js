@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
   },
   btnTextAlert:{
       color:'#fff',
-      fontSize:'13',
+      fontSize: 13,
       fontWeight:'500'
   },
   card: {
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   button: {
-    width: "40%",
+    width: "45%",
     backgroundColor: "#38B6FF",
     borderRadius: 25,
     padding: 15,

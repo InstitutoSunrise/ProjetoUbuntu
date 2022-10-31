@@ -23,9 +23,11 @@ import {
 } from "firebase/firestore";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 import db from "../../config/configFirebase";
+import { useEffect } from "react";
 
 export default function Configuracoes({ navigation, route }) {
   const [postList, setPostList] = useState();
+  const [userType, setUserType] = useState();
 
   function Logout() {
     const auth = getAuth();
@@ -71,7 +73,7 @@ export default function Configuracoes({ navigation, route }) {
       .then(() => {
         console.log("Deletado");
       })
-      .catch((error) => {});
+      .catch((error) => { });
 
     await deleteDoc(doc(db, "Usuários", route.params.id));
     console.log("collection deletada");
@@ -91,6 +93,16 @@ export default function Configuracoes({ navigation, route }) {
       });
   };
 
+  useEffect(() => {
+
+    if (route.params.tipoUser == "Fis") {
+      setUserType("EditarInformacoesFis")
+    } else {
+      setUserType("EditarInformacoesInst")
+    }
+
+  })
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#0e52b2" />
@@ -103,6 +115,10 @@ export default function Configuracoes({ navigation, route }) {
         onPress={() => navigation.navigate("SobreApp")}
       >
         <Text style={styles.btnText}>SOBRE O APP</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate(`${userType}`)}>
+        <Text style={styles.btnText}>EDITAR INFORMAÇÕES</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.btn} onPress={Deletar}>
@@ -151,5 +167,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     fontSize: 25,
     color: "white",
+    textAlign: 'center',
+    justifyContent: "center",
   },
 });

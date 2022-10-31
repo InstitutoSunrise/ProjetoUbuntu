@@ -38,7 +38,7 @@ export default function MinhaPubs({ navigation }) {
         <FlatList
           vertical={true}
           data={post}
-          ListEmptyComponent={ <Text style={styles.aviso}>Você não tem nunhuma publicação</Text>}
+          ListEmptyComponent={ <Text style={styles.aviso}>Você não tem nenhuma publicação</Text>}
           renderItem={({ item }) => (
             <MinhaPublicacao
               tipoAjuda={item.tipoAjuda}

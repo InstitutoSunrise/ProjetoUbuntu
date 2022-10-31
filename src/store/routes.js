@@ -34,10 +34,9 @@ import SobreApp from '../pages/SobreApp/Index';
 import Configurações from '../pages/Configuracoes/index';
 import AdicionarFotoFis from '../pages/AdicionarFotoFis/AdicionarFotoFis';
 import Noticias from '../pages/Noticias';
-import EditarDescUserFis from '../pages/EditarDescUserFis';
 import EditarPerfilUserFis from '../pages/EditarPerfilUserFis';
 import EditarPerfilUserInst1 from '../pages/EditarPerfilUserInst1';
-import EditarPerfilUserInst2 from '../pages/EditarPerfilUserInst2';
+import EditarInformacoesInst from '../pages/EditarInformacoesInst';
 import EditarPost from '../pages/EditarPost'
 import InfoPostFisi from '../pages/InfoPostFisi';
 import InfoPostInst from '../pages/InfoPostInst';
@@ -312,13 +311,6 @@ export default function Routes({ navigation }) {
                     }}
                 />
                 <Stack.Screen
-                    name="EditarDescUserFis"
-                    component={EditarDescUserFis}
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen
                     name="EditarPerfilUserFis"
                     component={EditarPerfilUserFis}
                     options={{
@@ -333,8 +325,8 @@ export default function Routes({ navigation }) {
                     }}
                 />
                 <Stack.Screen
-                    name="EditarPerfilUserInst2"
-                    component={EditarPerfilUserInst2}
+                    name="EditarInformacoesInst"
+                    component={EditarInformacoesInst}
                     options={{
                         headerShown: false,
                     }}
