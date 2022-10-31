@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
-export default function postInstituicao({nome, endereço, numero, telefone,horario, userId, navigation, descricao, email}) {
+export default function postInstituicao({nome, endereço, numero, telefone,horario, userId, navigation, descricao, email, banho, alimento, voluntario}) {
 
     const [img, setImg] = useState('')
     
@@ -35,7 +35,7 @@ export default function postInstituicao({nome, endereço, numero, telefone,horar
         }
     });
     return (
-        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('InstituiçãoDetalhe', {nomeInst:nome, endereco: endereço, numero:numero, telefone:telefone, horario:horario, descricao:descricao, img:img, email:email })}>
+        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('InstituiçãoDetalhe', {nomeInst:nome, endereco: endereço, numero:numero, telefone:telefone, horario:horario, descricao:descricao, img:img, email:email, banho:banho, voluntario:voluntario, alimento:alimento })}>
             <Ionicons style={styles.icon} name="bookmark" size={50} color="rgb(14, 82, 178)" />
 
             <View style={styles.box}>

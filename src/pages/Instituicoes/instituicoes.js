@@ -47,6 +47,9 @@ export default function Instituicoes({ navigation }) {
                                 descricao={item.descricao}
                                 email={item.email}
                                 userId={item.userId}
+                                banho={item.banho}
+                                voluntario={item.voluntario}
+                                alimento={item.alimento}
                                 navigation={navigation}
                             />
                         )
