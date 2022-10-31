@@ -1,6 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Form } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import MaskInput from 'react-native-mask-input';
 
 import Backbutton from '../../components/Backbutton';
@@ -11,13 +10,38 @@ export default function App({ navigation, route }) {
   const [endereço, setEndereço] = useState('');
   const [numero, setNumero] = useState('');
   const [complemento, setComplemento] = useState('');
-  const [nolocal, setNolocal] = useState('');
+  const [alimento, setAlimento] = useState(false);
   const [horario, setHorario] = useState('');
-  const [voluntario, setVoluntario] = useState('');
+  const [voluntario, setVoluntario] = useState(false);
+  const [banho, setBanho] = useState(false);
 
   const [cepValido, setCepValido] = useState(true);
 
-  const fetchCep= (cep) => {
+  const Alimento = () => {
+    if(alimento == true){
+      setAlimento(false);
+    }else {
+      setAlimento(true);
+    }
+  }
+
+  const Banho = () => {
+    if(banho == true){
+      setBanho(false);
+    }else {
+      setBanho(true);
+    }
+  }
+
+  const Voluntario = () => {
+    if(voluntario == true){
+      setVoluntario(false);
+    }else {
+      setVoluntario(true);
+    }
+  }
+
+  const fetchCep = (cep) => {
 
     cep = cep.replace(/[^\d]+/g, '');
     console.log(cep.length);
@@ -41,14 +65,14 @@ export default function App({ navigation, route }) {
 
   const PassarValores = () => {
 
-    if (cep === '' || endereço === '' || numero === '' || complemento === '' || nolocal === '' || horario === '') {
+    if (cep === '' || endereço === '' || numero === '' || complemento === '' || horario === '') {
 
       alert('Preencha os campos');
 
     } else if (cepValido === false) {
       alert('CEP Inválido')
     } else {
-      navigation.navigate('AdicionarFoto', { cep: cep, endereço: endereço, numero: numero, complemento: complemento, nolocal: nolocal, horario: horario, voluntario: voluntario, email: route.params.email, senha: route.params.senha, cnpj: route.params.cnpj, telefone: route.params.telefone, descricao: route.params.descricao, nome: route.params.nome })
+      navigation.navigate('AdicionarFoto', { cep: cep, endereço: endereço, numero: numero, complemento: complemento, alimento: alimento, banho: banho, horario: horario, voluntario: voluntario, email: route.params.email, senha: route.params.senha, cnpj: route.params.cnpj, telefone: route.params.telefone, descricao: route.params.descricao, nome: route.params.nome })
     }
 
   }
@@ -58,68 +82,74 @@ export default function App({ navigation, route }) {
 
       <Backbutton onClick={() => navigation.goBack()} />
 
-      <Text style={styles.titulo}>CADASTRE-SE</Text>
+      <ScrollView>
 
-      <MaskInput
-        placeholder="DIGITE SEU CEP"
-        keyboardType={'number-pad'}
-        style={cepValido ? styles.TextInput : styles.TextInputError}
-        value={cep}
-        onChangeText={(masked, unmasked) => {
-          setCep(masked);
+        <Text style={styles.titulo}>CADASTRE-SE</Text>
 
-        }}
-        onBlur={(() => fetchCep(cep))}
-        mask={[/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
-      />
+        <View style={styles.viewInput}>
+          <MaskInput
+            placeholder="DIGITE SEU CEP"
+            keyboardType={'number-pad'}
+            style={cepValido ? styles.TextInput : styles.TextInputError}
+            value={cep}
+            onChangeText={(masked, unmasked) => {
+              setCep(masked);
 
-      <TextInput
-        placeholder="ENDEREÇO"
-        style={styles.TextInput}
-        value={endereço}
-        onChangeText={text => setEndereço(text)} />
+            }}
+            onBlur={(() => fetchCep(cep))}
+            mask={[/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+          />
 
-      <TextInput
-        placeholder="NUMERO"
-        style={styles.TextInput}
-        value={numero}
-        onChangeText={text => setNumero(text)}
-        keyboardType={'number-pad'} />
+          <TextInput
+            placeholder="ENDEREÇO"
+            style={styles.TextInput}
+            value={endereço}
+            onChangeText={text => setEndereço(text)} />
 
-      <TextInput
-        placeholder="COMPLEMENTO"
-        style={styles.TextInput}
-        value={complemento}
-        onChangeText={text => setComplemento(text)} />
+          <TextInput
+            placeholder="NUMERO"
+            style={styles.TextInput}
+            value={numero}
+            onChangeText={text => setNumero(text)}
+            keyboardType={'number-pad'} />
 
-      <TextInput
-        placeholder="TEM LOCAL PARA BANHO/REFEIÇÃO"
-        style={styles.TextInput}
-        value={nolocal}
-        onChangeText={text => setNolocal(text)} />
+          <TextInput
+            placeholder="COMPLEMENTO"
+            style={styles.TextInput}
+            value={complemento}
+            onChangeText={text => setComplemento(text)} />
 
-      <MaskInput
-        placeholder="HORARIO DE FUNCIONAMENTO: 00:00 - 12:00"
-        style={styles.TextInput}
-        value={horario}
-        onChangeText={(masked, unmasked) => {
-          setHorario(masked);
-        }} 
-        mask={[/\d/, /\d/, ':', /\d/, /\d/ , '-', /\d/, /\d/, ':', /\d/, /\d/]}
-        />
+          <MaskInput
+            placeholder="HORARIO DE FUNCIONAMENTO: 00:00 - 12:00"
+            style={styles.TextInput}
+            value={horario}
+            onChangeText={(masked, unmasked) => {
+              setHorario(masked);
+            }}
+            mask={[/\d/, /\d/, ':', /\d/, /\d/, '-', /\d/, /\d/, ':', /\d/, /\d/]}
+          />
 
-      <TextInput
-        placeholder="ACEITA VOLUNTÁRIOS"
-        style={styles.TextInput}
-        value={voluntario}
-        onChangeText={text => setVoluntario(text)} />
+          <Text style={styles.textService}>Selecione os serviços da sua instituição:</Text>
+
+          <TouchableOpacity style={alimento == false ? styles.btnService : styles.btnServiceOn} onPress={Alimento}>
+            <Text style={styles.btnTextService}>Alimentação</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={banho == false ? styles.btnService : styles.btnServiceOn} onPress={Banho}>
+            <Text style={styles.btnTextService}>Banho</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={voluntario == false ? styles.btnService : styles.btnServiceOn} onPress={Voluntario}>
+            <Text style={styles.btnTextService}>Voluntáriados</Text>
+          </TouchableOpacity>
 
 
-      <TouchableOpacity style={styles.botao} onPress={PassarValores}>
-        <Text style={styles.textoBotao}>Cadastrar</Text>
-      </TouchableOpacity>
+          <TouchableOpacity style={styles.botao} onPress={PassarValores}>
+            <Text style={styles.textoBotao}>Cadastrar</Text>
+          </TouchableOpacity>
+        </View>
 
-
+      </ScrollView>
     </View>
 
   );
@@ -129,13 +159,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center'
   },
   titulo: {
+    width: '100%',
     fontSize: 50,
     fontWeight: 'bold',
+    textAlign: 'center',
     color: '#38B6FF',
     marginTop: 30,
+  },
+  viewInput: {
+    width: '100%',
+    alignItems: 'center'
   },
   TextInput: {
     width: '80%',
@@ -158,8 +193,42 @@ const styles = StyleSheet.create({
     width: '80%',
     marginTop: 15,
   },
+  textService: {
+    width: '80%',
+    fontSize: 14,
+    color: '#0e52b2',
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginTop: 20,
+  },
+  btnService:{
+    width: '80%',
+    marginTop: 15,
+    backgroundColor: '#e8eaea',
+    paddingVertical: 16,
+    paddingHorizontal: 25,
+    borderRadius: 30,
+    fontSize: 14,
+    alignItems:'center',
+  },
+  btnServiceOn:{
+    width: '80%',
+    marginTop: 15,
+    backgroundColor: '#0e52b2',
+    paddingVertical: 16,
+    paddingHorizontal: 25,
+    borderRadius: 30,
+    fontSize: 14,
+    alignItems:'center',
+  },
+  btnTextService:{
+    fontSize: 13,
+    fontWeight:'700',
+    textTransform: 'uppercase',
+  },
   botao: {
-    marginTop: 30,
+    marginVertical: 30,
     width: 200,
     backgroundColor: '#0e52b2',
     padding: 12,

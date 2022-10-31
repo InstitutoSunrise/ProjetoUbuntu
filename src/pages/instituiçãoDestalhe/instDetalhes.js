@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import Backbutton from '../../components/Backbutton/index';
 import { Ionicons, Foundation, MaterialIcons, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 
 
 export default function InstituiçãoDestalhe({ navigation, route }) {
+    const [alimento, setAlimento] = useState(route.params.alimento);
+    const [voluntario, setVoluntario] = useState(route.params.voluntario);
+    const [banho, setBanho] = useState(route.params.banho);
+    
+    console.log(banho);
+
     return (
         <View style={styles.container}>
             <Backbutton onClick={() => navigation.goBack()} />
@@ -14,7 +20,7 @@ export default function InstituiçãoDestalhe({ navigation, route }) {
 
                     <Image
                         style={styles.img}
-                        source={{uri:route.params.img}}
+                        source={{ uri: route.params.img }}
                     />
 
                     <Text style={styles.textDescricao}>{route.params.descricao}</Text>
@@ -45,30 +51,30 @@ export default function InstituiçãoDestalhe({ navigation, route }) {
 
                     <View style={styles.containerFuncao}>
 
-                        <View style={styles.funcoesGrid}>
+                        {banho === true ? <View style={styles.funcoesGrid}>
                             <View style={styles.btn}>
                                 <View style={styles.containerIcon}>
                                     <FontAwesome name="shower" size={40} color="#fff" />
                                 </View>
                                 <Text style={styles.textFuncoes}>Banho</Text>
                             </View>
-                        </View>
-                        <View style={styles.funcoesGrid}>
+                        </View> : undefined}
+                        {voluntario == true ? <View style={styles.funcoesGrid}>
                             <View style={styles.btn}>
                                 <View style={styles.containerIcon}>
                                     <FontAwesome name="heart" size={40} color="#fff" />
                                 </View>
                                 <Text style={styles.textFuncoes}>Seja voluntário</Text>
                             </View>
-                        </View>
-                        <View style={styles.funcoesGrid}>
+                        </View> : undefined}
+                        {alimento == true ? <View style={styles.funcoesGrid}>
                             <View style={styles.btn}>
                                 <View style={styles.containerIcon}>
                                     <MaterialCommunityIcons name="silverware-fork-knife" size={40} color="#fff" />
                                 </View>
                                 <Text style={styles.textFuncoes}>alimentação</Text>
                             </View>
-                        </View>
+                        </View> : undefined}
 
 
                     </View>
@@ -156,13 +162,14 @@ const styles = StyleSheet.create({
         width: '90%',
         marginVertical: 10,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'center'
     },
     funcoesGrid: {
         flexDirection: 'column',
         alignContent: 'space-between',
         textAlign: 'center',
         width: '23%',
+        marginHorizontal: 15,
     },
     btn: {
         alignItems: 'center'
