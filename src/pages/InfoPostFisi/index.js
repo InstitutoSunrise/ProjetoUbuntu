@@ -12,6 +12,7 @@ export default function InfoPostFisi({ navigation, route }) {
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [endereco, setEndereco] = useState("");
+  const [img, setImg] = useState("")
 
   useEffect(async () => {
     const q = query(
@@ -23,6 +24,8 @@ export default function InfoPostFisi({ navigation, route }) {
       setNome(doc.data().nome);
       setEndereco(doc.data().endereco);
       setSobrenome(doc.data().sobrenome);
+      setDescricao(doc.data().descricao);
+      setImg(doc.data().imgUser)
     });
     return getInfos;
   }, [route.params.nome]);

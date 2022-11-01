@@ -21,10 +21,6 @@ export default function Login({ navigation }) {
 
         if (email === '' || password === '') {
             alert('Atenção!!! Digite email e senha.')
-            // Alert.alert(
-            //     "Atenção",
-            //     "Digite email e senha",
-            // );
         } else {
             const auth = getAuth();
             signInWithEmailAndPassword(auth, email, password)

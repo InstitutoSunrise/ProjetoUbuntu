@@ -55,7 +55,7 @@ export default function AdicionarFoto({ navigation, route }) {
               cnpj: route.params.cnpj,
               telefone: route.params.telefone,
               cep: route.params.cep,
-              endereço: route.params.endereço,
+              endereco: route.params.endereco,
               numero: route.params.numero,
               complemento: route.params.complemento,
               horário: route.params.horario,

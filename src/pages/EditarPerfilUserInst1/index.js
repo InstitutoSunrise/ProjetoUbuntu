@@ -50,8 +50,9 @@ export default function EditarPerfilUserInst1({ route, navigation }) {
             fetch(`https://viacep.com.br/ws/${cep}/json/`)
                 .then(res => res.json()).then(data => {
 
-                    if (data.erro === "true") {
+                    if (data.erro == true) {
                         setCepValido(false);
+                        setEndereco('')
                     } else {
                         setCepValido(true)
                         setEndereco(data.logradouro);
@@ -102,7 +103,7 @@ export default function EditarPerfilUserInst1({ route, navigation }) {
 
             const userRef = doc(db, "Usuários", route.params.id)
 
-            setDoc(userRef, { nome: nome, cep: cep, endereço: endereco, numero: numero, complemento: complemento, descricao: descricao }, { merge: true })
+            setDoc(userRef, { nome: nome, cep: cep, endereco: endereco, numero: numero, complemento: complemento, descricao: descricao }, { merge: true })
                 .then(refs => {
                     console.log("Dados atualizados com sucesso!");
                 })
@@ -136,117 +137,120 @@ export default function EditarPerfilUserInst1({ route, navigation }) {
 
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.container}>
             <Backbutton onClick={() => navigation.goBack()} />
+            <ScrollView>
+                <TouchableOpacity style={styles.imgPickerContainer} onPress={pickImage}>
+                    <View style={styles.foto}>
+                        {image && <Image source={{ uri: image }} style={styles.imagePicker} />}
+                    </View>
+                    <View style={styles.imgEditIcon}>
+                        <FontAwesome5
+                            name="edit"
+                            size={20}
+                            color="#0e52b2"
+                        />
+                    </View>
+                </TouchableOpacity>
 
-            <TouchableOpacity style={styles.imgPickerContainer} onPress={pickImage}>
-                <View style={styles.foto}>
-                    {image && <Image source={{ uri: image }} style={styles.imagePicker} />}
-                </View>
-                <View style={styles.imgEditIcon}>
-                    <FontAwesome5
-                        name="edit"
-                        size={20}
-                        color="#0e52b2"
+                <View style={styles.inputsView}>
+                    <TextInput
+                        placeholder="NOME DA INSTITUIÇÃO"
+                        style={styles.TextInput}
+                        value={nome}
+                        onChangeText={text => setNome(text)}
                     />
+                    <MaskInput
+                        placeholder="DIGITE SEU CEP"
+                        keyboardType={'number-pad'}
+                        style={cepValido ? styles.TextInput : styles.TextInputError}
+                        value={cep}
+                        onChangeText={(masked, unmasked) => {
+                            setCep(masked);
+
+                        }}
+                        onBlur={(() => fetchCep(cep))}
+                        mask={[/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+                    />
+
+                    <TextInput
+                        placeholder="ENDEREÇO"
+                        style={styles.TextInput}
+                        value={endereco}
+                        onChangeText={text => setEndereco(text)} />
+
+                    <TextInput
+                        placeholder="NUMERO"
+                        style={styles.TextInput}
+                        value={numero}
+                        onChangeText={text => setNumero(text)}
+                        keyboardType={'number-pad'} />
+
+                    <TextInput
+                        placeholder="COMPLEMENTO"
+                        style={styles.TextInput}
+                        value={complemento}
+                        onChangeText={text => setComplemento(text)} />
+
+                    <TextInput
+                        placeholder="DESCRIÇÃO"
+                        style={styles.TextInputDesc}
+                        value={descricao}
+                        multiline={true}
+                        numberOfLines={7}
+                        onChangeText={text => setDescricao(text)}
+                    />
+
                 </View>
-            </TouchableOpacity>
 
-            <View style={styles.inputsView}>
-                <TextInput
-                    placeholder="NOME DA INSTITUIÇÃO"
-                    style={styles.TextInput}
-                    value={nome}
-                    onChangeText={text => setNome(text)}
-                />
-                <MaskInput
-                    placeholder="DIGITE SEU CEP"
-                    keyboardType={'number-pad'}
-                    style={cepValido ? styles.TextInput : styles.TextInputError}
-                    value={cep}
-                    onChangeText={(masked, unmasked) => {
-                        setCep(masked);
+                <View style={{ alignItems: 'center' }}>
+                    <TouchableOpacity style={styles.botao} onPress={confirmarMudancas}>
+                        <Text style={styles.textoBotao}>SALVAR</Text>
+                    </TouchableOpacity>
+                </View>
 
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        setModalVisible(!modalVisible);
                     }}
-                    onBlur={(() => fetchCep(cep))}
-                    mask={[/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
-                />
-
-                <TextInput
-                    placeholder="ENDEREÇO"
-                    style={styles.TextInput}
-                    value={endereco}
-                    onChangeText={text => setEndereco(text)} />
-
-                <TextInput
-                    placeholder="NUMERO"
-                    style={styles.TextInput}
-                    value={numero}
-                    onChangeText={text => setNumero(text)}
-                    keyboardType={'number-pad'} />
-
-                <TextInput
-                    placeholder="COMPLEMENTO"
-                    style={styles.TextInput}
-                    value={complemento}
-                    onChangeText={text => setComplemento(text)} />
-
-                <TextInput
-                    placeholder="DESCRIÇÃO"
-                    style={styles.TextInputDesc}
-                    value={descricao}
-                    multiline={true}
-                    numberOfLines={7}
-                    onChangeText={text => setDescricao(text)}
-                />
-
-            </View>
-            <TouchableOpacity style={styles.botao} onPress={confirmarMudancas}>
-                <Text style={styles.textoBotao}>SALVAR</Text>
-            </TouchableOpacity>
-
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}
-            >
-                <View style={styles.modalView}>
-                    <View style={styles.modalContainer}>
-                        <Text style={styles.modalText}>Você tem certeza que deseja fazer essas atualizações?</Text>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <TouchableOpacity style={styles.modalBtn} onPress={editarPerfil}>
-                                <Text style={styles.modalBtnText}>CONFIRMAR</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.modalBtn} onPress={() => setModalVisible(!modalVisible)}>
-                                <Text style={styles.modalBtnText}>CANCELAR</Text>
-                            </TouchableOpacity>
+                >
+                    <View style={styles.modalView}>
+                        <View style={styles.modalContainer}>
+                            <Text style={styles.modalText}>Você tem certeza que deseja fazer essas atualizações?</Text>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <TouchableOpacity style={styles.modalBtn} onPress={editarPerfil}>
+                                    <Text style={styles.modalBtnText}>CONFIRMAR</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.modalBtn} onPress={() => setModalVisible(!modalVisible)}>
+                                    <Text style={styles.modalBtnText}>CANCELAR</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
-                </View>
-            </Modal>
+                </Modal>
 
-            {carregamento ?
-                <Editando />
-                : undefined}
-            {finalCarregamento ?
-                <FinalEditando
-                    onClick={confirm}
-                />
-                : undefined}
+                {carregamento ?
+                    <Editando />
+                    : undefined}
+                {finalCarregamento ?
+                    <FinalEditando
+                        onClick={confirm}
+                    />
+                    : undefined}
 
-        </ScrollView>
+            </ScrollView>
+        </View>
 
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
+        flex: 1,
         backgroundColor: '#fff',
-        justifyContent: 'space-between',
     },
     foto: {
         width: 130,
@@ -258,7 +262,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#e8eaea',
     },
     imgPickerContainer: {
-        width: '40%',
+        width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
@@ -335,7 +339,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: '800',
         color: '#fff',
-        letterSpacing: 2
+        letterSpacing: 2,
     },
     TextInput: {
         width: '80%',

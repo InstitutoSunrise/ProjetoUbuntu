@@ -40,7 +40,7 @@ export default function Instituicoes({ navigation }) {
                         return(
                             <Post
                                 nome={item.nome}
-                                endereço={item.endereço}
+                                endereco={item.endereco}
                                 numero={item.numero}
                                 horario={item.horário}
                                 telefone={item.telefone}
@@ -55,11 +55,6 @@ export default function Instituicoes({ navigation }) {
                         )
                     }}
                 />
-
-                {/* <PostInstituicao onClick={() => navigation.navigate('InstituiçãoDetalhe')} />
-                <PostInstituicao onClick={() => navigation.navigate('InstituiçãoDetalhe')} />
-                <PostInstituicao onClick={() => navigation.navigate('InstituiçãoDetalhe')} />
-                <PostInstituicao onClick={() => navigation.navigate('InstituiçãoDetalhe')} /> */}
 
             </ScrollView>
 

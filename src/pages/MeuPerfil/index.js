@@ -56,7 +56,7 @@ export default function MeuPerfil({ navigation }) {
 
                     setNomeCompleto(doc.data().nome)
                     setDescricao(doc.data().descricao);
-                    setEndereco(doc.data().endereço);
+                    setEndereco(doc.data().endereco);
                     setNumero(doc.data().numero);
                     setTipoUser("Inst");
 

@@ -7,7 +7,7 @@ import Backbutton from '../../components/Backbutton';
 export default function App({ navigation, route }) {
 
   const [cep, setCep] = useState('');
-  const [endereço, setEndereço] = useState('');
+  const [endereco, setEndereco] = useState('');
   const [numero, setNumero] = useState('');
   const [complemento, setComplemento] = useState('');
   const [alimento, setAlimento] = useState(false);
@@ -55,7 +55,7 @@ export default function App({ navigation, route }) {
             setCepValido(false);
           } else {
             setCepValido(true)
-            setEndereço(data.logradouro);
+            setEndereco(data.logradouro);
           }
 
         })
@@ -65,14 +65,14 @@ export default function App({ navigation, route }) {
 
   const PassarValores = () => {
 
-    if (cep === '' || endereço === '' || numero === '' || complemento === '' || horario === '') {
+    if (cep === '' || endereco === '' || numero === '' || complemento === '' || horario === '') {
 
       alert('Preencha os campos');
 
     } else if (cepValido === false) {
       alert('CEP Inválido')
     } else {
-      navigation.navigate('AdicionarFoto', { cep: cep, endereço: endereço, numero: numero, complemento: complemento, alimento: alimento, banho: banho, horario: horario, voluntario: voluntario, email: route.params.email, senha: route.params.senha, cnpj: route.params.cnpj, telefone: route.params.telefone, descricao: route.params.descricao, nome: route.params.nome })
+      navigation.navigate('AdicionarFoto', { cep: cep, endereco: endereco, numero: numero, complemento: complemento, alimento: alimento, banho: banho, horario: horario, voluntario: voluntario, email: route.params.email, senha: route.params.senha, cnpj: route.params.cnpj, telefone: route.params.telefone, descricao: route.params.descricao, nome: route.params.nome })
     }
 
   }
@@ -103,8 +103,8 @@ export default function App({ navigation, route }) {
           <TextInput
             placeholder="ENDEREÇO"
             style={styles.TextInput}
-            value={endereço}
-            onChangeText={text => setEndereço(text)} />
+            value={endereco}
+            onChangeText={text => setEndereco(text)} />
 
           <TextInput
             placeholder="NUMERO"

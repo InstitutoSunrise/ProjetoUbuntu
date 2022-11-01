@@ -35,6 +35,8 @@ export default function post({
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [endereco, setEndereco] = useState("");
+  const [numero, setNumero] = useState("");
+
 
   useEffect(async () => {
     const q = query(collection(db, "Usuários"), where("userId", "==", userId));
@@ -43,6 +45,8 @@ export default function post({
       setNome(doc.data().nome);
       setEndereco(doc.data().endereco);
       setSobrenome(doc.data().sobrenome);
+      setNumero(doc.data().numero);
+
     });
     return getInfos;
   }, [imgUser]);
@@ -215,7 +219,7 @@ export default function post({
         <Image source={{ uri: imgUser }} style={styles.fotoPerfil} />
         <View style={styles.userText}>
           <Text style={styles.name}>{nome} {sobrenome}</Text>
-          <Text style={styles.cidade}>{endereco}</Text>
+          <Text style={styles.cidade}>{endereco}, {numero}</Text>
         </View>
       </View>
       <Text style={styles.titulo}>{tipoAjuda}</Text>

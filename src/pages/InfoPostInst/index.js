@@ -22,6 +22,8 @@ export default function InfoPostFisi({ navigation, route }) {
   const [horario, setHorario] = useState();
   const [nome, setNome] = useState("");
   const [endereco, setEndereco] = useState("");
+  const [numero, setNumero] = useState("");
+
 
 
   useEffect(async () => {
@@ -39,6 +41,7 @@ export default function InfoPostFisi({ navigation, route }) {
       setVoluntario(doc.data().voluntario);
       setNome(doc.data().nome);
       setEndereco(doc.data().endereco);
+      setNumero(doc.data().numero)
     });
     return getInfos;
   }, [route.params.nome]);
@@ -50,7 +53,7 @@ export default function InfoPostFisi({ navigation, route }) {
       <Text style={styles.nome}>{nome}</Text>
       <Text style={styles.endereco}>
         <Ionicons name="location" size={24} color="#0e52B2" />
-        {endereco}
+        {endereco}, {numero}
       </Text>
       <View style={styles.imgPerfilContainer}>
         <Image
