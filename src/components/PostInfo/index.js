@@ -3,13 +3,16 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import CarouselPost from '../CarouselPost';
 import { useEffect } from 'react';
+import { getAuth } from 'firebase/auth';
+import db from '../../config/configFirebase';
 
 
-export default function post({ sobreVoce, tipoAjuda, imgPost1, imgPost2, imgPost3, status, dataHoraPost, onClick }) {
 
-    const [isStatus, setStatus] = useState(status)
-    const [imagesPost, setImagesPost] = useState([])
+export default function post({ sobreVoce, tipoAjuda, imgPost1, imgPost2, imgPost3, status, dataHoraPost, userId, onClick }) {
 
+    const [isStatus, setStatus] = useState(status);
+    const [imagesPost, setImagesPost] = useState([]);
+    const [btn, setBtn] = useState(false);
 
     const getImages = () => {
         let newArray = imagesPost
@@ -17,8 +20,19 @@ export default function post({ sobreVoce, tipoAjuda, imgPost1, imgPost2, imgPost
         setImagesPost([...newArray])
     }
 
+    const showBtn = () => {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        if(user.uid === userId){
+            setBtn(false);
+        }else{
+            setBtn(true);
+        }
+    }
+
     useEffect(() => {
         getImages()
+        showBtn()
     }, [imgPost3])
 
     return (
@@ -33,11 +47,11 @@ export default function post({ sobreVoce, tipoAjuda, imgPost1, imgPost2, imgPost
                     />
                 </View>
                 : undefined}
-            <View style={styles.ViewBtn}>
+            {btn === true ?<View style={styles.ViewBtn}>
                 <TouchableOpacity style={styles.button}>
                     <Text style={styles.text}>ENTRAR EM CONTATO</Text>
                 </TouchableOpacity>
-            </View>
+            </View> : undefined}
 
         </View>
     );

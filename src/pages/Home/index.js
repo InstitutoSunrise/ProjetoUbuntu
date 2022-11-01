@@ -161,7 +161,6 @@ export default function Home({ navigation }) {
                 <Post
                   tipoAjuda={item.tipoAjuda}
                   sobreVoce={item.sobreVoce}
-                  nomeUser={item.nomeUser}
                   imgUser={item.imgUser}
                   imgPost1={item.imgPost1}
                   imgPost2={item.imgPost2}
