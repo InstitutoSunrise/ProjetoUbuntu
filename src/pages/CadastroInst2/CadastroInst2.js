@@ -18,25 +18,25 @@ export default function App({ navigation, route }) {
   const [cepValido, setCepValido] = useState(true);
 
   const Alimento = () => {
-    if(alimento == true){
+    if (alimento == true) {
       setAlimento(false);
-    }else {
+    } else {
       setAlimento(true);
     }
   }
 
   const Banho = () => {
-    if(banho == true){
+    if (banho == true) {
       setBanho(false);
-    }else {
+    } else {
       setBanho(true);
     }
   }
 
   const Voluntario = () => {
-    if(voluntario == true){
+    if (voluntario == true) {
       setVoluntario(false);
-    }else {
+    } else {
       setVoluntario(true);
     }
   }
@@ -132,15 +132,15 @@ export default function App({ navigation, route }) {
           <Text style={styles.textService}>Selecione os serviços da sua instituição:</Text>
 
           <TouchableOpacity style={alimento == false ? styles.btnService : styles.btnServiceOn} onPress={Alimento}>
-            <Text style={styles.btnTextService}>Alimentação</Text>
+            <Text style={alimento == false ? styles.btnTextService : styles.btnTextServiceOn}>Alimentação</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={banho == false ? styles.btnService : styles.btnServiceOn} onPress={Banho}>
-            <Text style={styles.btnTextService}>Banho</Text>
+            <Text style={banho == false ? styles.btnTextService : styles.btnTextServiceOn}>Banho</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={voluntario == false ? styles.btnService : styles.btnServiceOn} onPress={Voluntario}>
-            <Text style={styles.btnTextService}>Voluntáriados</Text>
+            <Text style={voluntario == false ? styles.btnTextService : styles.btnTextServiceOn}>Voluntáriados</Text>
           </TouchableOpacity>
 
 
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     marginTop: 20,
   },
-  btnService:{
+  btnService: {
     width: '80%',
     marginTop: 15,
     backgroundColor: '#e8eaea',
@@ -210,9 +210,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     borderRadius: 30,
     fontSize: 14,
-    alignItems:'center',
+    alignItems: 'center',
   },
-  btnServiceOn:{
+  btnServiceOn: {
     width: '80%',
     marginTop: 15,
     backgroundColor: '#0e52b2',
@@ -220,12 +220,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     borderRadius: 30,
     fontSize: 14,
-    alignItems:'center',
+    alignItems: 'center',
   },
-  btnTextService:{
+  btnTextService: {
     fontSize: 13,
-    fontWeight:'700',
+    fontWeight: '700',
     textTransform: 'uppercase',
+  },
+  btnTextServiceOn: {
+    fontSize: 13,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    color: '#fff'
   },
   botao: {
     marginVertical: 30,

@@ -40,6 +40,7 @@ import EditarInformacoesInst from '../pages/EditarInformacoesInst';
 import EditarPost from '../pages/EditarPost'
 import InfoPostFisi from '../pages/InfoPostFisi';
 import InfoPostInst from '../pages/InfoPostInst';
+import EditarInformacoesFis from '../pages/EditarInformacoesFis';
 
 import { getAuth } from "firebase/auth";
 import { getDocs, query, collection, where } from "firebase/firestore";
@@ -348,6 +349,13 @@ export default function Routes({ navigation }) {
                 <Stack.Screen
                     name="EditarPost"
                     component={EditarPost}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="EditarInformacoesFis"
+                    component={EditarInformacoesFis}
                     options={{
                         headerShown: false,
                     }}
