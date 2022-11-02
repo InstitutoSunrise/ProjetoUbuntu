@@ -12,7 +12,8 @@ export default function InfoPostFisi({ navigation, route }) {
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [endereco, setEndereco] = useState("");
-  const [img, setImg] = useState("")
+  const [img, setImg] = useState("");
+  const [numero, setNumero] = useState("");
 
   useEffect(async () => {
     const q = query(
@@ -23,6 +24,7 @@ export default function InfoPostFisi({ navigation, route }) {
     const getInfos = querySnapshot.forEach((doc) => {
       setNome(doc.data().nome);
       setEndereco(doc.data().endereco);
+      setNumero(doc.data().numero)
       setSobrenome(doc.data().sobrenome);
       setDescricao(doc.data().descricao);
       setImg(doc.data().imgUser)
@@ -36,7 +38,7 @@ export default function InfoPostFisi({ navigation, route }) {
       <Text style={styles.nome}>{nome} {sobrenome}</Text>
       <Text style={styles.endereco}>
         <Ionicons name="location" size={24} color="#0e52B2" />
-        {endereco}
+        {endereco}, {numero}
       </Text>
       <View style={styles.imgPerfilContainer}>
         <Image

@@ -48,7 +48,7 @@ export default function Pagess({ navigation }) {
           if (result.length >= 1) {
             alert('Email já cadastrado')
           } else {
-            navigation.navigate('AdicionarFotoFis', {
+            navigation.navigate('CadastroFisi2', {
               userEmail: email,
               userSenha: senha2,
               userNome: nome,

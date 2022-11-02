@@ -27,6 +27,7 @@ import Instituicoes from '../pages/Instituicoes/instituicoes';
 import InstituiçoesDetalhes from '../pages/instituiçãoDestalhe/instDetalhes';
 import Notificacao from '../pages/Notificações/notificações';
 import CadastroFisi from '../pages/CadastroFisi/CadastroFisi';
+import CadastroFisi2 from '../pages/CadastroFisi2/CadastroFisi2';
 import CadastroInst1 from '../pages/CadastroInst1/CadastroInst1';
 import CadastroInst2 from '../pages/CadastroInst2/CadastroInst2';
 import AdicionarFoto from '../pages/AdicionarFoto/AdicionarFoto';
@@ -265,6 +266,13 @@ export default function Routes({ navigation }) {
                 <Stack.Screen
                     name="CadastroFisi"
                     component={CadastroFisi}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="CadastroFisi2"
+                    component={CadastroFisi2}
                     options={{
                         headerShown: false,
                     }}
