@@ -28,13 +28,13 @@ export default function AdicionarFotoFis({ navigation, route }) {
     };
   };
 
-  const subirFotoPerfil = async () => {
-    const auth = getAuth();
-    const user = auth.currentUser;
+  // const subirFotoPerfil = async () => {
+  //   const auth = getAuth();
+  //   const user = auth.currentUser;
 
-    await uploadImageAsync(image, user.uid)
-    alert("Parabéns, cadastro realizado!")
-  }
+  //   const userPhoto = await uploadImageAsync(image, user.uid)
+  //   alert("Parabéns, cadastro realizado!")
+  // }
 
   const Cadastrar = () => {
     if (image === "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png") {
@@ -44,7 +44,10 @@ export default function AdicionarFotoFis({ navigation, route }) {
       createUserWithEmailAndPassword(auth, route.params.userEmail, route.params.userSenha)
         .then(async (userCredential) => {
 
-          const user = userCredential.user;
+          const auth = getAuth();
+          const user = auth.currentUser;
+
+          const userPhoto = await uploadImageAsync(image, user.uid)
 
           updateProfile(auth.currentUser, {
             displayName: route.params.userNome + " " + route.params.userSobrenome
@@ -63,12 +66,12 @@ export default function AdicionarFotoFis({ navigation, route }) {
               endereco: route.params.endereco,
               numero: route.params.numero,
               complemento: route.params.complemento,
+              imgUser: userPhoto,
               tipoUser: "userFisico",
             });
           } catch (e) {
             console.error("Error adding document: ", e);
           }
-          subirFotoPerfil();
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -82,6 +85,7 @@ export default function AdicionarFotoFis({ navigation, route }) {
           }
         });
     }
+    alert("Parabéns, cadastro realizado!")
   }
 
   return (

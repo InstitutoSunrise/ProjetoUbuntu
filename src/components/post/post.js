@@ -18,8 +18,6 @@ import { getDocs, query, collection, where } from "firebase/firestore";
 export default function post({
   sobreVoce,
   tipoAjuda,
-  nomeUser,
-  imgUser,
   imgPost1,
   imgPost2,
   imgPost3,
@@ -36,17 +34,38 @@ export default function post({
   const [sobrenome, setSobrenome] = useState("");
   const [endereco, setEndereco] = useState("");
   const [numero, setNumero] = useState("");
+  const [imgUser, setImgUser] = useState("");
+  const [descricao, setDescricao] = useState();
+  const [alimento, setAlimento] = useState();
+  const [voluntario, setVoluntario] = useState();
+  const [banho, setBanho] = useState();
+  const [telefone, setTelefone] = useState();
+  const [horario, setHorario] = useState();
 
 
   useEffect(async () => {
     const q = query(collection(db, "Usuários"), where("userId", "==", userId));
     const querySnapshot = await getDocs(q);
     const getInfos = querySnapshot.forEach((doc) => {
-      setNome(doc.data().nome);
-      setEndereco(doc.data().endereco);
-      setSobrenome(doc.data().sobrenome);
-      setNumero(doc.data().numero);
-
+      if (tipoUser === "userFisico") {
+        setNome(doc.data().nome);
+        setImgUser(doc.data().imgUser)
+        setEndereco(doc.data().endereco);
+        setSobrenome(doc.data().sobrenome);
+        setNumero(doc.data().numero);
+        setDescricao(doc.data().descricao);
+      } else {
+        setNome(doc.data().nome);
+        setImgUser(doc.data().imgUser)
+        setEndereco(doc.data().endereco);
+        setNumero(doc.data().numero);
+        setDescricao(doc.data().descricao);
+        setTelefone(doc.data().telefone);
+        setHorario(doc.data().horário);
+        setAlimento(doc.data().alimento);
+        setBanho(doc.data().banho);
+        setVoluntario(doc.data().voluntario);
+      }
     });
     return getInfos;
   }, [imgUser]);
@@ -188,6 +207,11 @@ export default function post({
     if (tipoUser == "userFisico") {
       navigation.navigate("InfoPostFisi", {
         imgUser: imgUser,
+        descricao: descricao,
+        nome: nome,
+        sobrenome: sobrenome,
+        endereco: endereco,
+        numero: numero,
         sobreVoce: sobreVoce,
         tipoAjuda: tipoAjuda,
         imgPost1: imgPost1,
@@ -200,6 +224,15 @@ export default function post({
     } else {
       navigation.navigate("InfoPostInst", {
         imgUser: imgUser,
+        descricao: descricao,
+        nome: nome,
+        endereco: endereco,
+        numero: numero,
+        horario: horario,
+        alimento: alimento,
+        banho: banho,
+        voluntario: voluntario,
+        telefone: telefone,
         sobreVoce: sobreVoce,
         tipoAjuda: tipoAjuda,
         imgPost1: imgPost1,

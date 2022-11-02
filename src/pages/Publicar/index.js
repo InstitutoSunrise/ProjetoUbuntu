@@ -21,7 +21,6 @@ export default function Publicar({ navigation }) {
     const user = auth.currentUser;
 
     const [imagePerfil, setImagePerfil] = useState(user.photoURL);
-
     const [isDoando, setDoando] = useState(false);
     const [isRecebendo, setRecebendo] = useState(false);
     const [carregamento, setCarregamento] = useState(false)
@@ -102,7 +101,6 @@ export default function Publicar({ navigation }) {
                     status: status,
                     nomeUser: nomeCompleto,
                     userId: user.uid,
-                    imgUser: imagePerfil,
                     imgPost1: urlImg1,
                     imgPost2: urlImg2,
                     imgPost3: urlImg3,

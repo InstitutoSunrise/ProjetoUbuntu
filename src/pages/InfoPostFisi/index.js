@@ -4,33 +4,13 @@ import Backbutton from "../../components/Backbutton/index";
 import PostInfo from "../../components/PostInfo/index";
 import { Ionicons } from "@expo/vector-icons";
 
-import { getDocs, query, collection, where } from "firebase/firestore";
-import db from "../../config/configFirebase";
-
 export default function InfoPostFisi({ navigation, route }) {
-  const [descricao, setDescricao] = useState();
-  const [nome, setNome] = useState("");
-  const [sobrenome, setSobrenome] = useState("");
-  const [endereco, setEndereco] = useState("");
-  const [img, setImg] = useState("");
-  const [numero, setNumero] = useState("");
-
-  useEffect(async () => {
-    const q = query(
-      collection(db, "Usuários"),
-      where("userId", "==", route.params.userId)
-    );
-    const querySnapshot = await getDocs(q);
-    const getInfos = querySnapshot.forEach((doc) => {
-      setNome(doc.data().nome);
-      setEndereco(doc.data().endereco);
-      setNumero(doc.data().numero)
-      setSobrenome(doc.data().sobrenome);
-      setDescricao(doc.data().descricao);
-      setImg(doc.data().imgUser)
-    });
-    return getInfos;
-  }, [route.params.nome]);
+  const [descricao, setDescricao] = useState(route.params.descricao);
+  const [nome, setNome] = useState(route.params.nome);
+  const [sobrenome, setSobrenome] = useState(route.params.sobrenome);
+  const [endereco, setEndereco] = useState(route.params.endereco);
+  const [img, setImg] = useState(route.params.imgUser);
+  const [numero, setNumero] = useState(route.params.numero);
 
   return (
     <View style={styles.container}>
@@ -42,7 +22,7 @@ export default function InfoPostFisi({ navigation, route }) {
       </Text>
       <View style={styles.imgPerfilContainer}>
         <Image
-          source={{ uri: route.params.imgUser }}
+          source={{ uri: img }}
           style={styles.fotoPerfil}
         />
       </View>

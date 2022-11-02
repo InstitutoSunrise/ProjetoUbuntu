@@ -28,22 +28,18 @@ export default function AdicionarFoto({ navigation, route }) {
     };
   };
 
-  const subirFotoPerfil = async () => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-    await uploadImageAsync(image, user.uid)
-    alert("Parabéns, cadastro realizado!")
-  }
-
   const Cadastrar = async () => {
     if (image === "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png") {
       alert("Adicione uma foto de perfil");
     } else {
-      const auth = getAuth(); 
+      const auth = getAuth();
       createUserWithEmailAndPassword(auth, route.params.email, route.params.senha)
         .then(async (userCredential) => {
 
-          const user = userCredential.user;
+          const auth = getAuth();
+          const user = auth.currentUser;
+
+          const userPhoto = await uploadImageAsync(image, user.uid)
 
           updateProfile(auth.currentUser, {
             displayName: route.params.nome
@@ -65,6 +61,7 @@ export default function AdicionarFoto({ navigation, route }) {
               descricao: route.params.descricao,
               userId: user.uid,
               email: route.params.email,
+              imgUser: userPhoto,
               tipoUser: "userInst",
             });
             console.log("Document written with ID: ", docRef.id);
@@ -73,7 +70,7 @@ export default function AdicionarFoto({ navigation, route }) {
           }
 
           subirFotoPerfil();
-          
+
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -86,9 +83,9 @@ export default function AdicionarFoto({ navigation, route }) {
               break;
           }
         });
-          
+
     }
-    
+    alert("Parabéns, cadastro realizado!");
   }
 
   return (

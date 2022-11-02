@@ -10,41 +10,19 @@ import {
   FontAwesome,
 } from "@expo/vector-icons";
 
-import { getDocs, query, collection, where } from "firebase/firestore";
-import db from "../../config/configFirebase";
-
 export default function InfoPostFisi({ navigation, route }) {
   const [alimento, setAlimento] = useState(route.params.alimento);
   const [voluntario, setVoluntario] = useState(route.params.voluntario);
   const [banho, setBanho] = useState(route.params.banho);
-  const [descricao, setDescricao] = useState();
-  const [telefone, setTelefone] = useState();
-  const [horario, setHorario] = useState();
-  const [nome, setNome] = useState("");
-  const [endereco, setEndereco] = useState("");
-  const [numero, setNumero] = useState("");
+  const [telefone, setTelefone] = useState(route.params.telefone);
+  const [horario, setHorario] = useState(route.params.horario);
+  const [descricao, setDescricao] = useState(route.params.descricao);
+  const [nome, setNome] = useState(route.params.nome);
+  const [endereco, setEndereco] = useState(route.params.endereco);
+  const [img, setImg] = useState(route.params.imgUser);
+  const [numero, setNumero] = useState(route.params.numero);
 
 
-
-  useEffect(async () => {
-    const q = query(
-      collection(db, "Usuários"),
-      where("userId", "==", route.params.userId)
-    );
-    const querySnapshot = await getDocs(q);
-    const getInfos = querySnapshot.forEach((doc) => {
-      setDescricao(doc.data().descricao);
-      setTelefone(doc.data().telefone);
-      setHorario(doc.data().horário);
-      setAlimento(doc.data().alimento);
-      setBanho(doc.data().banho);
-      setVoluntario(doc.data().voluntario);
-      setNome(doc.data().nome);
-      setEndereco(doc.data().endereco);
-      setNumero(doc.data().numero)
-    });
-    return getInfos;
-  }, [route.params.nome]);
 
   return (
     <View style={styles.container}>
@@ -57,7 +35,7 @@ export default function InfoPostFisi({ navigation, route }) {
       </Text>
       <View style={styles.imgPerfilContainer}>
         <Image
-          source={{ uri: route.params.imgUser }}
+          source={{ uri: img }}
           style={styles.fotoPerfil}
         />
       </View>
