@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Backbutton from "../../components/Backbutton/index";
 import PostInfo from "../../components/PostInfo/index";
+
+import { getDocs, query, collection, where } from "firebase/firestore";
+import db from "../../config/configFirebase";
+
 import {
   Ionicons,
   Foundation,
@@ -11,18 +15,30 @@ import {
 } from "@expo/vector-icons";
 
 export default function InfoPostFisi({ navigation, route }) {
-  const [alimento, setAlimento] = useState(route.params.alimento);
-  const [voluntario, setVoluntario] = useState(route.params.voluntario);
-  const [banho, setBanho] = useState(route.params.banho);
-  const [telefone, setTelefone] = useState(route.params.telefone);
-  const [horario, setHorario] = useState(route.params.horario);
-  const [descricao, setDescricao] = useState(route.params.descricao);
+  const [alimento, setAlimento] = useState('');
+  const [voluntario, setVoluntario] = useState('');
+  const [banho, setBanho] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [horario, setHorario] = useState('');
+  const [descricao, setDescricao] = useState('');
   const [nome, setNome] = useState(route.params.nome);
   const [endereco, setEndereco] = useState(route.params.endereco);
   const [img, setImg] = useState(route.params.imgUser);
   const [numero, setNumero] = useState(route.params.numero);
 
-
+  useEffect(async () => {
+    const q = query(collection(db, "Usuários"), where("userId", "==", route.params.userId));
+    const querySnapshot = await getDocs(q);
+    const getInfos = querySnapshot.forEach((doc) => {
+      setDescricao(doc.data().descricao);
+      setVoluntario(doc.data().voluntario);
+      setBanho(doc.data().banho);
+      setTelefone(doc.data().telefone);
+      setAlimento(doc.data().alimento);
+      setHorario(doc.data().horário);
+    });
+    return getInfos;
+  }, [route.params.nome]);
 
   return (
     <View style={styles.container}>

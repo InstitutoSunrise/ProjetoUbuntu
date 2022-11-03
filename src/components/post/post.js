@@ -53,18 +53,11 @@ export default function post({
         setEndereco(doc.data().endereco);
         setSobrenome(doc.data().sobrenome);
         setNumero(doc.data().numero);
-        setDescricao(doc.data().descricao);
       } else {
         setNome(doc.data().nome);
         setImgUser(doc.data().imgUser)
         setEndereco(doc.data().endereco);
         setNumero(doc.data().numero);
-        setDescricao(doc.data().descricao);
-        setTelefone(doc.data().telefone);
-        setHorario(doc.data().horário);
-        setAlimento(doc.data().alimento);
-        setBanho(doc.data().banho);
-        setVoluntario(doc.data().voluntario);
       }
     });
     return getInfos;
@@ -207,7 +200,6 @@ export default function post({
     if (tipoUser == "userFisico") {
       navigation.navigate("InfoPostFisi", {
         imgUser: imgUser,
-        descricao: descricao,
         nome: nome,
         sobrenome: sobrenome,
         endereco: endereco,
@@ -224,15 +216,9 @@ export default function post({
     } else {
       navigation.navigate("InfoPostInst", {
         imgUser: imgUser,
-        descricao: descricao,
         nome: nome,
         endereco: endereco,
         numero: numero,
-        horario: horario,
-        alimento: alimento,
-        banho: banho,
-        voluntario: voluntario,
-        telefone: telefone,
         sobreVoce: sobreVoce,
         tipoAjuda: tipoAjuda,
         imgPost1: imgPost1,
