@@ -43,7 +43,7 @@ export default function post({
   const [horario, setHorario] = useState();
 
 
-  useEffect(async () => {
+  const fetchInfos = async () => {
     const q = query(collection(db, "Usuários"), where("userId", "==", userId));
     const querySnapshot = await getDocs(q);
     const getInfos = querySnapshot.forEach((doc) => {
@@ -61,6 +61,10 @@ export default function post({
       }
     });
     return getInfos;
+  }
+
+  useEffect( () => {
+    fetchInfos()
   }, [imgUser]);
 
   const addUserToChat = async () => {
@@ -231,6 +235,14 @@ export default function post({
     }
   };
 
+  const VerificarLocalLabel = () => {
+    if (numero) {
+        return <Text style={styles.cidade}>{endereco}, {numero} </Text>
+    } else {
+        return <Text style={styles.cidade}>{endereco} </Text>
+    }
+}
+
   return (
     <TouchableOpacity onPress={showInfoPost} style={styles.card}>
       <Text style={styles.dataPost}>{dataHoraPost}</Text>
@@ -238,7 +250,7 @@ export default function post({
         <Image source={{ uri: imgUser }} style={styles.fotoPerfil} />
         <View style={styles.userText}>
           <Text style={styles.name}>{nome} {sobrenome}</Text>
-          <Text style={styles.cidade}>{endereco}, {numero}</Text>
+          {endereco ? <VerificarLocalLabel /> : undefined}
         </View>
       </View>
       <Text style={styles.titulo}>{tipoAjuda}</Text>

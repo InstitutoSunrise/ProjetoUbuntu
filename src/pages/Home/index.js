@@ -21,7 +21,7 @@ export default function Home({ navigation }) {
   const [post, setPost] = useState([]);
   const windowWidth = Dimensions.get('window').width;
 
-  
+
   const fetchPublicacoes = async () => {
     const querySnapshot = await getDocs(collection(db, "posts"));
     const List = []
@@ -29,11 +29,12 @@ export default function Home({ navigation }) {
       List.push({ ...doc.data(), id: doc.id, })
       console.log(doc.id, "=>", doc.data());
     });
-    console.log(post)
+    console.log(List)
     return setPost(List)
   }
 
   useEffect(() => {
+    console.log(post)
     fetchPublicacoes();
   }, []);
 
@@ -41,8 +42,8 @@ export default function Home({ navigation }) {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
 
-      <ScrollView >
 
+      <ScrollView>
         <View style={{ height: 260 }}>
           <CarouselCards />
         </View>
@@ -150,32 +151,30 @@ export default function Home({ navigation }) {
           <Text style={styles.titulo}>PUBLICAÇÕES</Text>
         </View>
 
-        <View
-          style={{ alignItems: "center", flexDirection: "row", justifyContent: "center", flex: 1, justifyContent: "center" }}
-        >
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            data={post}
-            renderItem={({ item }) => {
-              return (
-                <Post
-                  tipoAjuda={item.tipoAjuda}
-                  sobreVoce={item.sobreVoce}
-                  imgUser={item.imgUser}
-                  imgPost1={item.imgPost1}
-                  imgPost2={item.imgPost2}
-                  imgPost3={item.imgPost3}
-                  tipoUser={item.tipoUser}
-                  userId={item.userId}
-                  status={item.status}
-                  dataHoraPost={item.dataHoraPost}
-                  navigation={navigation}
-                />
-              )
-            }}
-          />
-        </View>
+
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={post}
+          renderItem={({ item }) => {
+            return (
+              <Post
+                tipoAjuda={item.tipoAjuda}
+                sobreVoce={item.sobreVoce}
+                imgUser={item.imgUser}
+                imgPost1={item.imgPost1}
+                imgPost2={item.imgPost2}
+                imgPost3={item.imgPost3}
+                tipoUser={item.tipoUser}
+                userId={item.userId}
+                status={item.status}
+                dataHoraPost={item.dataHoraPost}
+                navigation={navigation}
+              />
+            )
+          }}
+        />
       </ScrollView>
+
     </View>
   );
 }

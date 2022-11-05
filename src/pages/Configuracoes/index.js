@@ -117,7 +117,7 @@ export default function Configuracoes({ navigation, route }) {
         <Text style={styles.btnText}>SOBRE O APP</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate(`${userType}`)}>
+      <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate(`${userType}`, { docId: route.params.id, numTel: route.params.telefone, email: route.params.email, dataNasc: route.params.dataNasc })}>
         <Text style={styles.btnText}>EDITAR INFORMAÇÕES</Text>
       </TouchableOpacity>
 

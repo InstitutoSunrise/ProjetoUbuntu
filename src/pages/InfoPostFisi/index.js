@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView } from "react-native";
 import Backbutton from "../../components/Backbutton/index";
 import PostInfo from "../../components/PostInfo/index";
 import { Ionicons } from "@expo/vector-icons";
@@ -26,31 +26,33 @@ export default function InfoPostFisi({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <Backbutton onClick={() => navigation.goBack()} />
-      <Text style={styles.nome}>{nome} {sobrenome}</Text>
-      <Text style={styles.endereco}>
-        <Ionicons name="location" size={24} color="#0e52B2" />
-        {endereco}, {numero}
-      </Text>
-      <View style={styles.imgPerfilContainer}>
-        <Image
-          source={{ uri: img }}
-          style={styles.fotoPerfil}
-        />
-      </View>
-      <Text style={styles.descricao}>{descricao}</Text>
-      <View style={styles.linha}></View>
-      <View style={styles.ViewPost}>
-        <PostInfo
-          tipoAjuda={route.params.tipoAjuda}
-          sobreVoce={route.params.sobreVoce}
-          status={route.params.status}
-          imgPost1={route.params.imgPost1}
-          imgPost2={route.params.imgPost2}
-          imgPost3={route.params.imgPost3}
-          userId={route.params.userId}
-        />
-      </View>
+      <ScrollView contentContainerStyle={{alignItems: 'center'}}>
+        <Backbutton onClick={() => navigation.goBack()} />
+        <Text style={styles.nome}>{nome} {sobrenome}</Text>
+        <Text style={styles.endereco}>
+          <Ionicons name="location" size={24} color="#0e52B2" />
+          {endereco}
+        </Text>
+        <View style={styles.imgPerfilContainer}>
+          <Image
+            source={{ uri: img }}
+            style={styles.fotoPerfil}
+          />
+        </View>
+        <Text style={styles.descricao}>{descricao}</Text>
+        <View style={styles.linha}></View>
+        <View style={styles.ViewPost}>
+          <PostInfo
+            tipoAjuda={route.params.tipoAjuda}
+            sobreVoce={route.params.sobreVoce}
+            status={route.params.status}
+            imgPost1={route.params.imgPost1}
+            imgPost2={route.params.imgPost2}
+            imgPost3={route.params.imgPost3}
+            userId={route.params.userId}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -59,7 +61,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
   },
   nome: {
     width: "80%",

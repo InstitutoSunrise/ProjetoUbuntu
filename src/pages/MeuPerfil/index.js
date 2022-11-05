@@ -19,6 +19,9 @@ export default function MeuPerfil({ navigation }) {
     const [endereco, setEndereco] = useState();
     const [numero, setNumero] = useState();
     const [tipoUser, setTipoUser] = useState();
+    const [numTel, setNumTel] = useState();
+    const [email, setEmail] = useState();
+    const [dataNasc, setDataNascimento] = useState();
 
     const [nome, setNome] = useState();
     const [sobrenome, setSobrenome] = useState();
@@ -50,7 +53,10 @@ export default function MeuPerfil({ navigation }) {
                     setEndereco(doc.data().endereco);
                     setNumero(doc.data().numero);
                     setTipoUser("Fis");
+                    setNumTel(doc.data().telefone)
                     setDocId(doc.id);
+                    setEmail(doc.data().email)
+                    setDataNascimento(doc.data().datanascimento)
 
                 } else {
 
@@ -59,9 +65,10 @@ export default function MeuPerfil({ navigation }) {
                     setEndereco(doc.data().endereco);
                     setNumero(doc.data().numero);
                     setTipoUser("Inst");
-
-                    setCep(doc.data().cep)
-                    setComplemento(doc.data().complemento)
+                    setNumTel(doc.data().telefone);
+                    setCep(doc.data().cep);
+                    setComplemento(doc.data().complemento);
+                    setEmail(doc.data().email);
 
                     setDocId(doc.id);
 
@@ -142,7 +149,7 @@ export default function MeuPerfil({ navigation }) {
                     </View>
 
                     <View style={styles.funcoesGrid}>
-                        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Configurações', { id: docId, tipoUser: tipoUser })}>
+                        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Configurações', { id: docId, tipoUser: tipoUser, telefone: numTel, email: email, dataNasc: dataNasc })}>
                             <View style={styles.funcoesIconContainer}>
                                 <Ionicons name="settings" size={40} color="#fff" />
                             </View>
