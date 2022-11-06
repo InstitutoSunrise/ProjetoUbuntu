@@ -23,6 +23,12 @@ export default function MeuPerfil({ navigation }) {
     const [email, setEmail] = useState();
     const [dataNasc, setDataNascimento] = useState();
 
+    const [cnpj, setCnpj] = useState();
+    const [horario, setHorario] = useState();
+    const [alimento, setAlimento] = useState();
+    const [banho, setBanho] = useState();
+    const [voluntario, setVoluntario] = useState();
+
     const [nome, setNome] = useState();
     const [sobrenome, setSobrenome] = useState();
 
@@ -70,6 +76,12 @@ export default function MeuPerfil({ navigation }) {
                     setComplemento(doc.data().complemento);
                     setEmail(doc.data().email);
 
+                    setCnpj(doc.data().cnpj);
+                    setHorario(doc.data().horário)
+                    setAlimento(doc.data().alimento);
+                    setBanho(doc.data().banho);
+                    setVoluntario(doc.data().voluntario);
+
                     setDocId(doc.id);
 
                 }
@@ -98,6 +110,14 @@ export default function MeuPerfil({ navigation }) {
         //fetch infos sobre users
         ShowUserInfos();
     });
+
+    const navegar = () => {
+        if (tipoUser == "Fis") {
+            navigation.navigate('Configurações', { id: docId, tipoUser: tipoUser, telefone: numTel, email: email, dataNasc: dataNasc })
+        } else {
+            navigation.navigate('Configurações', { id: docId, tipoUser: tipoUser, telefone: numTel, email: email, cnpj: cnpj, horario: horario, alimentacao: alimento, banho: banho, voluntario: voluntario })
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -149,7 +169,7 @@ export default function MeuPerfil({ navigation }) {
                     </View>
 
                     <View style={styles.funcoesGrid}>
-                        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('Configurações', { id: docId, tipoUser: tipoUser, telefone: numTel, email: email, dataNasc: dataNasc })}>
+                        <TouchableOpacity style={styles.btn} onPress={navegar}>
                             <View style={styles.funcoesIconContainer}>
                                 <Ionicons name="settings" size={40} color="#fff" />
                             </View>

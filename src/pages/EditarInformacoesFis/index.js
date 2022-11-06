@@ -25,6 +25,7 @@ export default function EditarInformacoesFis({ navigation, route }) {
     const [senha, setSenha] = useState('');
     const [confirmeSenha, setConfirmeSenha] = useState('');
     const [senhaAtual, setSenhaAtual] = useState('');
+    const [senhaIncorreta, setSenhaIncorreta] = useState(false)
 
     const [modalVisible, setModalVisible] = useState(false)
 
@@ -45,7 +46,6 @@ export default function EditarInformacoesFis({ navigation, route }) {
         setEmail(route.params.email)
         setDataNascimento(route.params.dataNasc)
     }, [route.params.docId])
-
 
     const changePassword = (newPassword) => {
         updatePassword(user, newPassword)
@@ -76,29 +76,37 @@ export default function EditarInformacoesFis({ navigation, route }) {
     }
 
     async function editarInformacoes(newEmail, newPassword) {
-        if (datanascimento === "" || email === "" || telefone === "" || confirmeSenha === "" || senha === "" || senhaAtual === "") {
+        if (datanascimento === "" || email === "" || telefone === "" || senhaAtual === "") {
             alert("Preencha todos os campos")
-            setModalVisible(!modalVisible)
-        } else if (senha !== confirmeSenha) {
-            alert('Senhas não correspondem')
             setModalVisible(!modalVisible)
         } else if (errorTel === true) {
             alert('Número de telefone inválido')
-            setModalVisible(!modalVisible)
-        } else if (senha.length < 6) {
-            alert('Senha muito curta (mínimo 6 digitos)')
             setModalVisible(!modalVisible)
         } else {
             setModalVisible(!modalVisible)
             setCarregamento(true)
 
-
             reauthenticate(senhaAtual)
                 .then(response => {
-
-                    console.log('reauth foi!')
-                    changeEmail(newEmail)
-                    changePassword(newPassword)
+                    if (newEmail !== user.email) {
+                        changeEmail(newEmail)
+                    } else if (senha !== "") {
+                        if (senha.length < 6) {
+                            alert('Senha muito curta (mínimo 6 digitos)')
+                            setModalVisible(!modalVisible)
+                            setCarregamento(false)
+                            setFinalCarregamentoError(true)
+                            return
+                        } else if (senha !== confirmeSenha) {
+                            alert("Senhas não correspondem")
+                            setModalVisible(!modalVisible)
+                            setCarregamento(false)
+                            setFinalCarregamentoError(true)
+                            return
+                        } else {
+                            changePassword(newPassword)
+                        }
+                    }
 
                     const userRef = doc(db, "Usuários", route.params.docId)
 
@@ -112,10 +120,19 @@ export default function EditarInformacoesFis({ navigation, route }) {
 
                     setCarregamento(false)
                     setFinalCarregamento(true)
+                    setSenhaIncorreta(false)
 
                 })
-                .catch(error => {
-                    console.log(error)
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log(errorCode)
+                    console.log(errorMessage)
+                    switch (errorCode) {
+                        case 'auth/wrong-password':
+                            setSenhaIncorreta(true)
+                            break;
+                    }
                     setCarregamento(false)
                     setFinalCarregamentoError(true)
                 })
@@ -132,7 +149,7 @@ export default function EditarInformacoesFis({ navigation, route }) {
         setFinalCarregamento(false)
         navigation.navigate('Entrar')
     }
-    
+
     const confirmError = () => {
         setFinalCarregamentoError(false)
     }
@@ -175,10 +192,10 @@ export default function EditarInformacoesFis({ navigation, route }) {
                     onChangeText={text => setEmail(text)}
                 />
 
-                <View style={styles.inputView}>
+                <View style={senhaIncorreta ? styles.inputViewError : styles.inputView}>
                     <View style={{ width: '95%' }}>
                         <TextInput
-                            style={styles.input}
+                            style={senhaIncorreta ? styles.wrongPW : styles.input}
                             placeholder='DIGITE A SENHA ATUAL'
                             secureTextEntry={revealSenhaAtual}
                             type='text'
@@ -193,8 +210,8 @@ export default function EditarInformacoesFis({ navigation, route }) {
                 <View style={styles.inputView}>
                     <View style={{ width: '95%' }}>
                         <TextInput
-                            style={styles.input}
-                            placeholder='DIGITE A SUA NOVA SENHA'
+                            style={styles.inputChangePW}
+                            placeholder='DIGITE A SUA NOVA SENHA (CASO QUEIRA MUDAR)'
                             secureTextEntry={revealSenha}
                             type='text'
                             onChangeText={(text) => setSenha(text)}
@@ -208,8 +225,8 @@ export default function EditarInformacoesFis({ navigation, route }) {
                 <View style={styles.inputView}>
                     <View style={{ width: '95%' }}>
                         <TextInput
-                            style={styles.input}
-                            placeholder='CONFIRME SUA NOVA SENHA'
+                            style={styles.inputChangePW}
+                            placeholder='CONFIRME SUA NOVA SENHA (CASO QUEIRA MUDAR)'
                             secureTextEntry={revealConfirmeSenha}
                             type='text'
                             onChangeText={(text) => setConfirmeSenha(text)}
@@ -300,7 +317,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     botao: {
-        marginVertical: 30,
+        marginVertical: 10,
         width: '45%',
         backgroundColor: '#0e52b2',
         padding: 12,
@@ -367,10 +384,33 @@ const styles = StyleSheet.create({
         marginTop: 15,
         flexDirection: 'row'
     },
+    inputViewError: {
+        width: '80%',
+        height: 65,
+        alignItems: 'center',
+        backgroundColor: '#e8eaea',
+        borderRadius: 30,
+        marginTop: 15,
+        flexDirection: 'row',
+        borderColor: '#ff4040',
+        borderWidth: 1,
+        color: '#ff4040',
+    },
     input: {
         marginLeft: 25,
         width: '70%',
         fontSize: 14,
+    },
+    inputChangePW: {
+        marginLeft: 25,
+        width: '70%',
+        fontSize: 9.5,
+    },
+    wrongPW: {
+        marginLeft: 25,
+        width: '70%',
+        fontSize: 14,
+        color: '#ff4040',
     },
     iconView: {
         position: 'absolute',

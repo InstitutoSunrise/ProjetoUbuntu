@@ -51,13 +51,13 @@ export default function App({ navigation, route }) {
       fetch(`https://viacep.com.br/ws/${cep}/json/`)
         .then(res => res.json()).then(data => {
 
-          if (data.erro === "true") {
+          if (data.erro == true) {
             setCepValido(false);
+            setEndereco('')
           } else {
             setCepValido(true)
             setEndereco(data.logradouro);
           }
-
         })
         .catch((err) => console.log(err));
     }
@@ -126,7 +126,7 @@ export default function App({ navigation, route }) {
             onChangeText={(masked, unmasked) => {
               setHorario(masked);
             }}
-            mask={[/\d/, /\d/, ':', /\d/, /\d/, '-', /\d/, /\d/, ':', /\d/, /\d/]}
+            mask={[/\d/, /\d/, ':', /\d/, /\d/, ' - ' , /\d/, /\d/, ':', /\d/, /\d/]}
           />
 
           <Text style={styles.textService}>Selecione os serviços da sua instituição:</Text>

@@ -27,7 +27,6 @@ import { useEffect } from "react";
 
 export default function Configuracoes({ navigation, route }) {
   const [postList, setPostList] = useState();
-  const [userType, setUserType] = useState();
 
   function Logout() {
     const auth = getAuth();
@@ -93,15 +92,13 @@ export default function Configuracoes({ navigation, route }) {
       });
   };
 
-  useEffect(() => {
-
+  const navegar = () => {
     if (route.params.tipoUser == "Fis") {
-      setUserType("EditarInformacoesFis")
+      navigation.navigate("EditarInformacoesFis", { docId: route.params.id, numTel: route.params.telefone, email: route.params.email, dataNasc: route.params.dataNasc })
     } else {
-      setUserType("EditarInformacoesInst")
+      navigation.navigate("EditarInformacoesInst", { docId: route.params.id, telefone: route.params.telefone, email: route.params.email, cnpj: route.params.cnpj, horario: route.params.horario, alimentacao: route.params.alimentacao, banho: route.params.banho, voluntario: route.params.voluntario })
     }
-
-  })
+  }
 
   return (
     <View style={styles.container}>
@@ -117,7 +114,7 @@ export default function Configuracoes({ navigation, route }) {
         <Text style={styles.btnText}>SOBRE O APP</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate(`${userType}`, { docId: route.params.id, numTel: route.params.telefone, email: route.params.email, dataNasc: route.params.dataNasc })}>
+      <TouchableOpacity style={styles.btn} onPress={navegar}>
         <Text style={styles.btnText}>EDITAR INFORMAÇÕES</Text>
       </TouchableOpacity>
 

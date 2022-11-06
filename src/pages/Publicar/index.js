@@ -10,7 +10,7 @@ import FinalCarregamento from '../../components/Carregamento/finalCarregamento';
 import db from '../../config/configFirebase';
 import { getAuth } from "firebase/auth";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
-import { uploadImagePost, uploadImagePost2, uploadImagePost3 } from '../../config/configStorage';
+import { uploadImagePost } from '../../config/configStorage';
 
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { DATE_FORMAT } from 'react-native-gifted-chat';
@@ -49,10 +49,10 @@ export default function Publicar({ navigation }) {
 
     }, [newImg]);
 
-    useEffect(() =>{
-        if(isDoando == true){
+    useEffect(() => {
+        if (isDoando == true) {
             setStatus('Doando');
-        }else{
+        } else {
             setStatus('Recebendo');
 
         }
@@ -61,11 +61,11 @@ export default function Publicar({ navigation }) {
     useEffect(() => {
 
         fetchUserName();
-    
+
     }, [executePublicar])
 
     const fetchUserName = async () => {
-        
+
         const q = query(collection(db, 'Usuários'), where("userId", "==", user.uid));
         const querySnapshot = await getDocs(q);
 
@@ -83,39 +83,55 @@ export default function Publicar({ navigation }) {
             alert('Selecione se está doando ou recebendo')
         } else if (sobreVoce == '') {
             alert('Pelo menos diga algo sobre você')
-        } else{
+        } else {
             setCarregamento(true)
             setExecutePublicar(!executePublicar)
 
-            const auth = getAuth();
-            const userId = auth.currentUser.uid;
-            const urlImg1 = await uploadImagePost(image[0], userId);
-            const urlImg2 = await uploadImagePost(image[1], userId);
-            const urlImg3 = await uploadImagePost(image[2], userId);
+            if (isRecebendo == true) {
+                try {
+                    const docRef = await addDoc(collection(db, "posts"), {
+                        tipoAjuda: tipoAjuda,
+                        sobreVoce: sobreVoce,
+                        status: status,
+                        nomeUser: nomeCompleto,
+                        userId: user.uid,
+                        tipoUser: tipoUser,
+                        dataHoraPost: dataHoraPost
+                    });
 
-            try {
-
-                const docRef = await addDoc(collection(db, "posts"), {
-                    tipoAjuda: tipoAjuda,
-                    sobreVoce: sobreVoce,
-                    status: status,
-                    nomeUser: nomeCompleto,
-                    userId: user.uid,
-                    imgPost1: urlImg1,
-                    imgPost2: urlImg2,
-                    imgPost3: urlImg3,
-                    tipoUser: tipoUser,
-                    dataHoraPost:dataHoraPost
-                });
-
-                setCarregamento(false)
-                setFinalCarregamento(true)
-                // console.log("Document written with ID: ", docRef.id);
-            } catch (e) {
-                console.error("Error adding document: ", e);
+                    setCarregamento(false)
+                    setFinalCarregamento(true)
+                    // console.log("Document written with ID: ", docRef.id);
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                }
+            } else {
+                const auth = getAuth();
+                const userId = auth.currentUser.uid;
+                const urlImg1 = await uploadImagePost(image[0], userId);
+                const urlImg2 = await uploadImagePost(image[1], userId);
+                const urlImg3 = await uploadImagePost(image[2], userId);
+                try {
+                    const docRef = await addDoc(collection(db, "posts"), {
+                        tipoAjuda: tipoAjuda,
+                        sobreVoce: sobreVoce,
+                        status: status,
+                        nomeUser: nomeCompleto,
+                        userId: user.uid,
+                        imgPost1: urlImg1,
+                        imgPost2: urlImg2,
+                        imgPost3: urlImg3,
+                        tipoUser: tipoUser,
+                        dataHoraPost: dataHoraPost
+                    });
+                    setCarregamento(false)
+                    setFinalCarregamento(true)
+                    // console.log("Document written with ID: ", docRef.id);
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                }
             }
         }
-
     }
 
     function addImgIndex(imgUri) {
