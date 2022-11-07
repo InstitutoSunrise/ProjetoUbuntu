@@ -25,6 +25,7 @@ export default function InfoPostFisi({ navigation, route }) {
   const [endereco, setEndereco] = useState(route.params.endereco);
   const [img, setImg] = useState(route.params.imgUser);
   const [numero, setNumero] = useState(route.params.numero);
+  const [email, setEmail] = useState('')
 
   useEffect(async () => {
     const q = query(collection(db, "Usuários"), where("userId", "==", route.params.userId));
@@ -36,6 +37,7 @@ export default function InfoPostFisi({ navigation, route }) {
       setTelefone(doc.data().telefone);
       setAlimento(doc.data().alimento);
       setHorario(doc.data().horário);
+      setEmail(doc.data().email);
     });
     return getInfos;
   }, [route.params.nome]);
@@ -86,7 +88,7 @@ export default function InfoPostFisi({ navigation, route }) {
               color="#0e52B2"
               style={{ marginRight: 7 }}
             />
-            <Text style={styles.textInfo}>bemquerer@gmail.com</Text>
+            <Text style={styles.textInfo}>{email}</Text>
           </View>
         </View>
       </View>
