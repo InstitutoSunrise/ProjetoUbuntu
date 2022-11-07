@@ -151,8 +151,8 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   btn: {
-    height: "9%",
-    width: "65%",
+    height: "10%",
+    width: "70%",
     backgroundColor: "#0e52B2",
     marginVertical: 15,
     justifyContent: "center",

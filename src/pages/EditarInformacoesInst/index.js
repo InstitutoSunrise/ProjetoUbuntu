@@ -80,18 +80,25 @@ export default function EditarInformacoesInst({ navigation, route }) {
     }
 
     const reauthenticate = async (currentPassword) => {
-        const userCredential = await signInWithEmailAndPassword(auth, user.email, currentPassword);
-        return userCredential
+        const cred = EmailAuthProvider.credential(
+            user.email,
+            currentPassword
+        );
+        return reauthenticateWithCredential(user, cred)
     }
 
     async function editarInformacoes(newEmail, newPassword) {
-        if (cnpj === "" || email === "" || telefone === "" || horario === "" || alimento === null || banho === null || voluntario === null ||  senhaAtual === "") {
+        if (cnpj === "" || email === "" || telefone === "" || horario === "" || alimento === null || banho === null || voluntario === null) {
             alert("Preencha todos os campos")
             setModalVisible(!modalVisible)
         } else if (errorTel === true) {
             alert('Número de telefone inválido')
             setModalVisible(!modalVisible)
-        } else {
+        }  else  if (senhaAtual === "") {
+            alert("Digite sua senha")
+            setModalVisible(!modalVisible)
+            setSenhaIncorreta(true)
+         } else {
             setModalVisible(!modalVisible)
             setCarregamento(true)
 
