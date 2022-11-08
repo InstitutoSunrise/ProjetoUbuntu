@@ -63,7 +63,7 @@ export default function post({
     return getInfos;
   }
 
-  useEffect( () => {
+  useEffect(() => {
     fetchInfos()
   }, [imgUser]);
 
@@ -237,15 +237,16 @@ export default function post({
 
   const VerificarLocalLabel = () => {
     if (numero) {
-        return <Text style={styles.cidade}>{endereco}, {numero} </Text>
+      return <Text style={styles.cidade}>{endereco}, {numero} </Text>
     } else {
-        return <Text style={styles.cidade}>{endereco} </Text>
+      return <Text style={styles.cidade}>{endereco} </Text>
     }
-}
+  }
 
   return (
-    <TouchableOpacity onPress={showInfoPost} style={styles.card}>
+    <View style={styles.card}>
       <Text style={styles.dataPost}>{dataHoraPost}</Text>
+
       <View style={styles.userDatail}>
         <Image source={{ uri: imgUser }} style={styles.fotoPerfil} />
         <View style={styles.userText}>
@@ -253,8 +254,17 @@ export default function post({
           {endereco ? <VerificarLocalLabel /> : undefined}
         </View>
       </View>
+
       <Text style={styles.titulo}>{tipoAjuda}</Text>
       <Text style={styles.description}>{sobreVoce}</Text>
+
+      <TouchableOpacity
+        style={styles.btnDetalhes}
+        onPress={showInfoPost}
+      >
+        <Text style={styles.textDetalhes}>Ver Detalhes</Text>
+      </TouchableOpacity>
+
       {isStatus === "Doando" ? (
         <View style={styles.boxImages}>
           <CarouselPost data={imagesPost} />
@@ -267,7 +277,7 @@ export default function post({
           </TouchableOpacity>
         </View>
       ) : undefined}
-    </TouchableOpacity>
+    </View>
   );
 }
 
@@ -317,6 +327,13 @@ const styles = StyleSheet.create({
   description: {
     width: "100%",
     marginBottom: 10,
+  },
+  textDetalhes: {
+    width: '100%',
+    color: "#0e52b2",
+    fontSize: 15,
+    textTransform:'uppercase',
+    textDecorationLine: "underline",
   },
   fotoPerfil: {
     width: 50,
