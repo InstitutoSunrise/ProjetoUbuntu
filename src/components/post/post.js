@@ -334,6 +334,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textTransform:'uppercase',
     textDecorationLine: "underline",
+    marginBottom: 10
   },
   fotoPerfil: {
     width: 50,

@@ -21,16 +21,21 @@ export default function Publicar({ navigation }) {
     const user = auth.currentUser;
 
     const [imagePerfil, setImagePerfil] = useState(user.photoURL);
-    const [isDoando, setDoando] = useState(false);
-    const [isRecebendo, setRecebendo] = useState(false);
     const [carregamento, setCarregamento] = useState(false)
     const [finalCarregamento, setFinalCarregamento] = useState(false)
 
+    const [isDoando, setDoando] = useState(false);
+    const [isRecebendo, setRecebendo] = useState(false);
     const [tipoAjuda, setTipoAjuda] = useState('');
     const [sobreVoce, setSobreVoce] = useState('');
     const [nomeCompleto, setNomeCompleto] = useState('');
     const [tipoUser, setTipoUser] = useState('')
     const [status, setStatus] = useState('');
+    const [alimento, setAlimento] = useState(false);
+    const [roupa, setRoupa] = useState(false);
+    const [moveis, setMoveis] = useState(false);
+    const [outro, setOutro] = useState(false);
+
 
     const [executePublicar, setExecutePublicar] = useState(false);
     const [newImg, setNewImg] = useState(false)
@@ -96,7 +101,11 @@ export default function Publicar({ navigation }) {
                         nomeUser: nomeCompleto,
                         userId: user.uid,
                         tipoUser: tipoUser,
-                        dataHoraPost: dataHoraPost
+                        dataHoraPost: dataHoraPost,
+                        alimento: alimento,
+                        roupa: roupa,
+                        moveis: moveis,
+                        outro: outro,
                     });
 
                     setCarregamento(false)
@@ -122,7 +131,11 @@ export default function Publicar({ navigation }) {
                         imgPost2: urlImg2,
                         imgPost3: urlImg3,
                         tipoUser: tipoUser,
-                        dataHoraPost: dataHoraPost
+                        dataHoraPost: dataHoraPost,
+                        alimento: alimento,
+                        roupa: roupa,
+                        moveis: moveis,
+                        outro: outro,
                     });
                     setCarregamento(false)
                     setFinalCarregamento(true)
@@ -193,6 +206,49 @@ export default function Publicar({ navigation }) {
                                 value={isRecebendo}
                                 onValueChange={() => setRecebendo(true) & setDoando(false)}
                                 color={isRecebendo ? '#4630EB' : undefined}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={styles.checkBoxesContainer}>
+                        <Text style={styles.textoCheckBox}>Qual o tipo de doação?</Text>
+                        <View style={styles.containerCheck}>
+                            <Text style={styles.opcoesCheckBox}>Alimento</Text>
+                            <Checkbox
+                                style={styles.checkBox}
+                                value={alimento}
+                                onValueChange={() => setAlimento(!alimento)}
+                                color={alimento ? '#4630EB' : undefined}
+                            />
+                        </View>
+
+                        <View style={styles.containerCheck}>
+                            <Text style={styles.opcoesCheckBox}>Roupas</Text>
+                            <Checkbox
+                                style={styles.checkBox}
+                                value={roupa}
+                                onValueChange={() => setRoupa(!roupa)}
+                                color={roupa ? '#4630EB' : undefined}
+                            />
+                        </View>
+
+                        <View style={styles.containerCheck}>
+                            <Text style={styles.opcoesCheckBox}>Móveis</Text>
+                            <Checkbox
+                                style={styles.checkBox}
+                                value={moveis}
+                                onValueChange={() => setMoveis(!moveis)}
+                                color={moveis ? '#4630EB' : undefined}
+                            />
+                        </View>
+
+                        <View style={styles.containerCheck}>
+                            <Text style={styles.opcoesCheckBox}>Outros</Text>
+                            <Checkbox
+                                style={styles.checkBox}
+                                value={outro}
+                                onValueChange={() => setOutro(!outro)}
+                                color={outro ? '#4630EB' : undefined}
                             />
                         </View>
                     </View>
@@ -292,6 +348,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ebeff1',
         borderRadius: 20,
         paddingBottom: 10,
+        marginTop: 15,
     },
     containerCheck: {
         flexDirection: 'row',
@@ -319,8 +376,8 @@ const styles = StyleSheet.create({
         width: '85%',
         height: 115,
         backgroundColor: '#ebeff1',
-        marginTop: 15,
         borderRadius: 20,
+        marginTop: 15
     },
     containerInput2: {
         width: '85%',
