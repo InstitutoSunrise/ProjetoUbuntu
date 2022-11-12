@@ -53,7 +53,7 @@ const Tabs = createBottomTabNavigator();
 function TabBar({ navigation }) {
 
     const [image, setImage] = useState("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
-
+    const [isLoading,  setLoading] = useState();
     const [nomeCompleto, setNomeCompleto] = useState();
 
     async function ShowUserInfos() {
@@ -82,7 +82,7 @@ function TabBar({ navigation }) {
     useEffect(() => {
         //fetch infos sobre users
         ShowUserInfos();
-    });
+    }, [isLoading]);
 
     return (
         <Tabs.Navigator

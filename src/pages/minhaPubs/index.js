@@ -10,6 +10,7 @@ import Backbutton from "../../components/Backbutton";
 
 export default function MinhaPubs({ navigation }) {
   const [post, setPost] = useState([]);
+  const [refreshFlat, setRefreshFlat] = useState(false);
 
   const fetchPublicacoes = async () => {
     const auth = getAuth();
@@ -38,6 +39,8 @@ export default function MinhaPubs({ navigation }) {
         <FlatList
           vertical={true}
           data={post}
+          refreshing={refreshFlat}
+          onRefresh={fetchPublicacoes}
           ListEmptyComponent={ <Text style={styles.aviso}>Você não tem nenhuma publicação</Text>}
           renderItem={({ item }) => (
             <MinhaPublicacao

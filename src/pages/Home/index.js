@@ -31,9 +31,11 @@ export default function Home({ navigation }) {
   const [outrosFiltro, setOutrosFiltro] = useState(false);
   const [mostrarTudoFiltro, setMostrarTudoFiltro] = useState(true);
   const [post, setPost] = useState([]);
+  const [refreshFlat, setRefreshFlat] = useState(false);
   const windowWidth = Dimensions.get("window").width;
 
   const fetchPublicacoes = async () => {
+    setRefreshFlat(true)
     if (mostrarTudoFiltro === true) {
       const querySnapshot = await getDocs(collection(db, "posts"));
       const List = [];
@@ -42,6 +44,7 @@ export default function Home({ navigation }) {
         console.log(doc.id, "=>", doc.data());
       });
       console.log(List);
+      setRefreshFlat(false)
       return setPost(List);
     } else if (alimentosFiltro === true) {
       const q = query(collection(db, "posts"), where("alimento", "==", true));
@@ -52,6 +55,7 @@ export default function Home({ navigation }) {
         console.log(doc.id, "=>", doc.data());
       });
       console.log(post);
+      setRefreshFlat(false)
       return setPost(List);
     } else if (roupasFiltro === true) {
       const q = query(collection(db, "posts"), where("roupa", "==", true));
@@ -62,6 +66,7 @@ export default function Home({ navigation }) {
         console.log(doc.id, "=>", doc.data());
       });
       console.log(post);
+      setRefreshFlat(false)
       return setPost(List);
     } else if (moveisFiltro === true) {
       const q = query(collection(db, "posts"), where("moveis", "==", true));
@@ -72,8 +77,9 @@ export default function Home({ navigation }) {
         console.log(doc.id, "=>", doc.data());
       });
       console.log(post);
+      setRefreshFlat(false)
       return setPost(List);
-    }else if (outrosFiltro === true) {
+    } else if (outrosFiltro === true) {
       const q = query(collection(db, "posts"), where("outro", "==", true));
       const querySnapshot = await getDocs(q);
       const List = [];
@@ -82,10 +88,13 @@ export default function Home({ navigation }) {
         console.log(doc.id, "=>", doc.data());
       });
       console.log(post);
+      setRefreshFlat(false)
       return setPost(List);
-    }else{
+    } else {
       setPost(null)
+      setRefreshFlat(false)
     }
+
   };
 
   useEffect(() => {
@@ -241,6 +250,8 @@ export default function Home({ navigation }) {
         <FlatList
           showsVerticalScrollIndicator={false}
           data={post}
+          refreshing={refreshFlat}
+          onRefresh={fetchPublicacoes}
           renderItem={({ item }) => {
             return (
               <Post
