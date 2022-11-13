@@ -104,8 +104,8 @@ export default function MinhaPublicacao({
               >
                 <Text style={styles.btnTextAlert}>Agora não</Text>
               </TouchableOpacity>
-              <TouchableOpacity 
-                style={styles.btnAlert} 
+              <TouchableOpacity
+                style={styles.btnAlert}
                 onPress={deletarPost}
               >
                 <Text style={styles.btnTextAlert}>Deletar</Text>
@@ -172,17 +172,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#rgba(0,0,0,0.5)",
   },
   viewAlert: {
-    width: "70%",
+    width: "80%",
     backgroundColor: "#fff",
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    padding: 10,
+    padding: 15,
   },
   textAlert: {
     width: "100%",
-    fontSize: 15,
-    fontWeight:'500',
+    fontSize: 20,
+    fontWeight: '500',
     color: "#0e52B2",
   },
   viewBtnAlert: {
@@ -190,19 +190,21 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "space-around",
-    marginTop:15,
+    marginTop: 15,
   },
   btnAlert: {
-    width: '40%',
-    padding: 8,
-    borderRadius: 20,
-    backgroundColor: "#38B6FF",
-    alignItems:'center'
+    width: '45%',
+    backgroundColor: '#38B6FF',
+    padding: 20,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  btnTextAlert:{
-      color:'#fff',
-      fontSize: 13,
-      fontWeight:'500'
+  btnTextAlert: {
+    color: '#fff',
+    fontSize: 13,
+    fontWeight: '800',
+    textTransform: 'uppercase'
   },
   card: {
     backgroundColor: "#e8eaea",

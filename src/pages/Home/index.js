@@ -11,6 +11,7 @@ import {
   Alert,
   Dimensions,
   FlatList,
+  RefreshControl
 } from "react-native";
 import Post from "../../components/post/post";
 
@@ -106,7 +107,16 @@ export default function Home({ navigation }) {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
 
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshFlat}
+            onRefresh={fetchPublicacoes}
+            progressBackgroundColor='#fff'
+            colors={['#38B6FF']}
+          />
+        }
+      >
         <View style={{ height: 260 }}>
           <CarouselCards />
         </View>
@@ -250,8 +260,7 @@ export default function Home({ navigation }) {
         <FlatList
           showsVerticalScrollIndicator={false}
           data={post}
-          refreshing={refreshFlat}
-          onRefresh={fetchPublicacoes}
+          ListEmptyComponent={ <Text style={styles.aviso}>Não a publicações. Seja o primeiro a publicar</Text>}
           renderItem={({ item }) => {
             return (
               <Post
@@ -285,7 +294,7 @@ const styles = StyleSheet.create({
   },
   titulo: {
     textAlign: "center",
-    fontSize: 30,
+    fontSize: 40,
     fontWeight: "bold",
     color: "#38B6FF",
   },
@@ -383,4 +392,13 @@ const styles = StyleSheet.create({
     padding: 5,
     color: "#fff",
   },
+  aviso:{
+    width:'100%',
+    fontSize: 20,
+    fontWeight: "700",
+    textTransform:'uppercase',
+    color: '#0e52B2',
+    marginTop:50,
+    textAlign:'center'
+  }
 });

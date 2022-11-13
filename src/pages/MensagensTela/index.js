@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  RefreshControl
 } from "react-native";
 import {
   getDatabase,
@@ -33,6 +34,8 @@ export default function MensagemTela({ navigation }) {
   const [conversaId, setConversaId] = useState()
   const [load, setLoad] = useState(false);
   const [execute, setExecute] = useState(false)
+  const [refreshFlat, setRefreshFlat] = useState(false);
+
   const auth = getAuth();
   const user = auth.currentUser;
 
@@ -58,9 +61,11 @@ export default function MensagemTela({ navigation }) {
   }, []);
 
   const fetchLastMsg = async (roomId) => {
+    setRefreshFlat(true)
     const database = getDatabase();
     const snapshot = await get(ref(database, `chatrooms/${roomId}`));
     let snapshotResult = snapshot.val();
+    setRefreshFlat(false)
     return snapshotResult;
   };
 
@@ -110,7 +115,7 @@ export default function MensagemTela({ navigation }) {
                 name: nameFriend,
                 userName: element.username,
                 userImg: element.avatar,
-                messageTime:  dataHora,
+                messageTime: dataHora,
                 messageText: "Inicie uma conversa",
               },
             ];
@@ -171,6 +176,14 @@ export default function MensagemTela({ navigation }) {
       <FlatList
         vertical
         data={Messages}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshFlat}
+            onRefresh={fetchLastMsg}
+            progressBackgroundColor='#fff'
+            colors={['#38B6FF']}
+          />
+        }
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity

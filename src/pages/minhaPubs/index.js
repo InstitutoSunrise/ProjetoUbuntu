@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, RefreshControl } from "react-native";
 
 import { getAuth } from "firebase/auth";
 import { getDocs, query, collection, where } from "firebase/firestore";
@@ -39,9 +39,15 @@ export default function MinhaPubs({ navigation }) {
         <FlatList
           vertical={true}
           data={post}
-          refreshing={refreshFlat}
-          onRefresh={fetchPublicacoes}
-          ListEmptyComponent={ <Text style={styles.aviso}>Você não tem nenhuma publicação</Text>}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshFlat}
+              onRefresh={fetchPublicacoes}
+              progressBackgroundColor='#fff'
+              colors={['#38B6FF']}
+            />
+          }
+          ListEmptyComponent={ <Text style={styles.aviso}>Você não tem publicação.</Text>}
           renderItem={({ item }) => (
             <MinhaPublicacao
               tipoAjuda={item.tipoAjuda}

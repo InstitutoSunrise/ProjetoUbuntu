@@ -170,12 +170,14 @@ export default function EditarPerfilUserFis({ navigation, route }) {
                     <View style={styles.modalContainer}>
                         <Text style={styles.modalText}>Você tem certeza que deseja fazer essas atualizações?</Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <TouchableOpacity style={styles.modalBtn} onPress={editarPerfil}>
-                                <Text style={styles.modalBtnText}>CONFIRMAR</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.modalBtn} onPress={() => setModalVisible(!modalVisible)}>
-                                <Text style={styles.modalBtnText}>CANCELAR</Text>
-                            </TouchableOpacity>
+                            <View style={styles.viewModalBtn}>
+                                <TouchableOpacity style={styles.modalBtn} onPress={editarPerfil}>
+                                    <Text style={styles.modalBtnText}>CONFIRMAR</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.modalBtn} onPress={() => setModalVisible(!modalVisible)}>
+                                    <Text style={styles.modalBtnText}>CANCELAR</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -297,22 +299,29 @@ const styles = StyleSheet.create({
         backgroundColor: '#rgba(0,0,0,0.5)',
     },
     modalContainer: {
-        width: '90%',
-        height: '30%',
-        borderRadius: 40,
-        backgroundColor: '#fff',
-        padding: 25
+        width: "80%",
+        backgroundColor: "#fff",
+        borderRadius: 20,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 15,
     },
     modalText: {
+        width: "100%",
         fontSize: 20,
-        fontWeight: '700',
-        color: '#0e52b2',
-        textTransform: "uppercase",
+        fontWeight: '500',
+        color: "#0e52B2",
+    },
+    viewModalBtn:{
+        flexDirection: "row",
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "space-around",
+        marginTop:15,
     },
     modalBtn: {
-        marginTop: 35,
         width: '45%',
-        backgroundColor: '#0e52b2',
+        backgroundColor: '#38B6FF',
         padding: 20,
         borderRadius: 30,
         justifyContent: 'center',
@@ -320,7 +329,7 @@ const styles = StyleSheet.create({
     },
     modalBtnText: {
         color: '#fff',
-        fontSize: 16,
-        fontWeight: '800',
+        fontSize: 13,
+        fontWeight: '800'
     }
 })

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import { Image, Text, View, StyleSheet, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
+import { Image, Text, View, StyleSheet, TouchableOpacity, ScrollView, StatusBar, RefreshControl } from 'react-native';
 import { Ionicons, FontAwesome5, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { getAuth } from "firebase/auth";
@@ -9,8 +9,10 @@ import db from '../../config/configFirebase';
 
 
 import Backbutton from '../../components/Backbutton';
+import { async } from '@firebase/util';
 
 export default function MeuPerfil({ navigation }) {
+    const [refreshFlat, setRefreshFlat] = useState(false);
 
     const [image, setImage] = useState("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
 
@@ -38,7 +40,8 @@ export default function MeuPerfil({ navigation }) {
 
     const [docId, setDocId] = useState();
 
-    async function ShowUserInfos() {
+    const ShowUserInfos= async () => {
+        setRefreshFlat(true)
         const auth = getAuth();
         const user = auth.currentUser;
         if (user !== null) {
@@ -86,6 +89,7 @@ export default function MeuPerfil({ navigation }) {
 
                 }
             })
+            setRefreshFlat(false)
             return getInfos;
         }
     }
@@ -109,7 +113,7 @@ export default function MeuPerfil({ navigation }) {
     useEffect(() => {
         //fetch infos sobre users
         ShowUserInfos();
-    });
+    }, []);
 
     const navegar = () => {
         if (tipoUser == "Fis") {
@@ -123,7 +127,16 @@ export default function MeuPerfil({ navigation }) {
         <View style={styles.container}>
 
             <StatusBar barStyle="dark-content" backgroundColor="#0e52b2" />
-            <ScrollView>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshFlat}
+                        onRefresh={ShowUserInfos}
+                        progressBackgroundColor='#fff'
+                        colors={['#38B6FF']}
+                    />
+                }
+            >
 
                 <Backbutton onClick={() => navigation.goBack()} />
 
@@ -187,7 +200,7 @@ export default function MeuPerfil({ navigation }) {
                     </View>
                 </View>
             </ScrollView>
-        </View>
+        </View >
     );
 }
 
