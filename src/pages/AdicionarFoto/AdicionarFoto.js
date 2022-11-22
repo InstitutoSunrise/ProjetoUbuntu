@@ -16,6 +16,8 @@ export default function AdicionarFoto({ navigation, route }) {
 
   const [image, setImage] = useState("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png");
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -30,7 +32,8 @@ export default function AdicionarFoto({ navigation, route }) {
 
   const Cadastrar = async () => {
     if (image === "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png") {
-      alert("Adicione uma foto de perfil");
+      // alert("Adicione uma foto de perfil");
+      setModalVisible(!modalVisible)
     } else {
       const auth = getAuth();
       createUserWithEmailAndPassword(auth, route.params.email, route.params.senha)
@@ -70,6 +73,7 @@ export default function AdicionarFoto({ navigation, route }) {
           }
 
           subirFotoPerfil();
+          alert("Parabéns, cadastro realizado!");
 
         })
         .catch((error) => {
@@ -83,9 +87,7 @@ export default function AdicionarFoto({ navigation, route }) {
               break;
           }
         });
-
     }
-    alert("Parabéns, cadastro realizado!");
   }
 
   return (
@@ -103,6 +105,40 @@ export default function AdicionarFoto({ navigation, route }) {
       <TouchableOpacity style={styles.botao} onPress={Cadastrar}>
         <Text style={styles.textoBotao}>SALVAR</Text>
       </TouchableOpacity>
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.modalView}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalText}>
+              Para melhor identificação, é recomendado que adicone uma foto sua.
+            </Text>
+            {/* <Text
+              style={{ fontSize: 15, fontWeight: "600", color: "#0e52b2" }}
+            >
+            </Text> */}
+            <View
+              style={{
+                width:'100%',
+                alignItems:'center'
+              }}
+            >
+              <TouchableOpacity
+                style={styles.modalBtn}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.modalBtnText}>OK</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -159,5 +195,37 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 80
+  },
+  modalView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#rgba(0,0,0,0.5)",
+  },
+  modalContainer: {
+    width: "90%",
+    borderRadius: 40,
+    backgroundColor: "#fff",
+    padding: 25,
+  },
+  modalText: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#0e52b2",
+    textTransform: "uppercase",
+  },
+  modalBtn: {
+    marginTop: 35,
+    width: "45%",
+    backgroundColor: "#38B6FF",
+    padding: 20,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalBtnText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "800",
   },
 });

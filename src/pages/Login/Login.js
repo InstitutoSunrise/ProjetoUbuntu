@@ -14,6 +14,7 @@ export default function Login({ navigation }) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    
     const [erroAlert, setErroAlert] = useState(false);
     const [msgAlert, setMsgAlert] = useState('');
 
