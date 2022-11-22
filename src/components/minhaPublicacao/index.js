@@ -97,12 +97,17 @@ export default function MinhaPublicacao({
             <Text style={styles.textAlert}>
               Tem certeza que vai deletar essa publicação?
             </Text>
-            <View style={styles.viewBtnAlert}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
               <TouchableOpacity
                 style={styles.btnAlert}
                 onPress={() => setModalVisible(!modalVisible)}
               >
-                <Text style={styles.btnTextAlert}>Agora não</Text>
+                <Text style={styles.btnTextAlert}>Não</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.btnAlert}
@@ -172,39 +177,31 @@ const styles = StyleSheet.create({
     backgroundColor: "#rgba(0,0,0,0.5)",
   },
   viewAlert: {
-    width: "80%",
+    width: "90%",
+    borderRadius: 40,
     backgroundColor: "#fff",
-    borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 15,
+    padding: 25,
   },
   textAlert: {
-    width: "100%",
     fontSize: 20,
-    fontWeight: '500',
+    fontWeight: '700',
     color: "#0e52B2",
-  },
-  viewBtnAlert: {
-    flexDirection: "row",
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "space-around",
-    marginTop: 15,
+    textTransform: "uppercase",
   },
   btnAlert: {
-    width: '45%',
-    backgroundColor: '#38B6FF',
+    marginTop: 35,
+    width: "45%",
+    backgroundColor: "#38B6FF",
     padding: 20,
     borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   btnTextAlert: {
-    color: '#fff',
-    fontSize: 13,
-    fontWeight: '800',
-    textTransform: 'uppercase'
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "800",
+    textTransform: 'uppercase',
   },
   card: {
     backgroundColor: "#e8eaea",
@@ -251,7 +248,7 @@ const styles = StyleSheet.create({
   button: {
     width: "45%",
     backgroundColor: "#38B6FF",
-    borderRadius: 25,
+    borderRadius: 30,
     padding: 15,
     alignItems: "center",
   },

@@ -14,13 +14,17 @@ export default function Login({ navigation }) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [erroAlert, setErroAlert] = useState(false);
+    const [msgAlert, setMsgAlert] = useState('');
 
     const [revealSenha, setRevealSenha] = useState(true);
 
     const Login = () => {
-
+        // setErroAlert(false);
         if (email === '' || password === '') {
-            alert('Atenção!!! Digite email e senha.')
+            // alert('Atenção!!! Digite email e senha.')
+            setErroAlert(true);
+            setMsgAlert('Digite o email e a senha.');
         } else {
             const auth = getAuth();
             signInWithEmailAndPassword(auth, email, password)
@@ -38,16 +42,24 @@ export default function Login({ navigation }) {
                     console.log(errorMessage)
                     switch (errorCode) {
                         case 'auth/user-not-found':
-                            alert('Usuário não cadastrado.');
+                            // alert('Usuário não cadastrado.');
+                            setErroAlert(true);
+                            setMsgAlert('Usuário não cadastrado.');
                             break;
                         case 'auth/invalid-email':
-                            alert('Email inválido.');
+                            // alert('Email inválido.');
+                            setErroAlert(true);
+                            setMsgAlert('Email inválido.');
                             break;
                         case 'auth/wrong-password':
-                            alert('Senha inválida.');
+                            // alert('Senha inválida.');
+                            setErroAlert(true);
+                            setMsgAlert('Senha inválida.');
                             break;
                         case 'auth/user-disabled':
-                            alert('Usuário deasbilitado.');
+                            // alert('Usuário deasbilitado.');
+                            setErroAlert(true);
+                            setMsgAlert('Usuário deasbilitado.');
                             break;
                     }
 
@@ -56,14 +68,18 @@ export default function Login({ navigation }) {
     }
     const esqueceuSenha = () => {
         if (email === '') {
-            alert('Digite seu email')
+            // alert('Digite seu email')
+            setErroAlert(true);
+            setMsgAlert('Digite seu email.');
         } else {
             const auth = getAuth();
             fetchSignInMethodsForEmail(auth, email)
                 .then((result) => {
                     console.log(result);
                     if (result.length == 0) {
-                        alert('Email não cadastrado')
+                        // alert('Email não cadastrado')
+                        setErroAlert(true);
+                        setMsgAlert('Email não cadastrado');
                     } else {
                         navigation.navigate('RecuperarSenha', { userEmail: email })
                     }
@@ -75,7 +91,8 @@ export default function Login({ navigation }) {
                     console.log(errorMessage)
                     switch (errorCode) {
                         case 'auth/invalid-email':
-                            alert('Digite seu email');
+                            setErroAlert(true);
+                            setMsgAlert('Email inválido.');
                             break;
                     }
                 })
@@ -116,6 +133,9 @@ export default function Login({ navigation }) {
                 </TouchableOpacity>
             </View>
 
+            {erroAlert == true ?
+                <Text style={styles.textAlert}>{msgAlert}</Text>
+                : undefined}
 
             <TouchableOpacity
                 style={styles.esqueceu}

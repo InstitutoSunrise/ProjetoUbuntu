@@ -453,7 +453,6 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: "90%",
-    height: "30%",
     borderRadius: 40,
     backgroundColor: "#fff",
     padding: 25,
@@ -467,7 +466,7 @@ const styles = StyleSheet.create({
   modalBtn: {
     marginTop: 35,
     width: "45%",
-    backgroundColor: "#0e52b2",
+    backgroundColor: "#38B6FF",
     padding: 20,
     borderRadius: 30,
     justifyContent: "center",

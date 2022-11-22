@@ -7,7 +7,7 @@ import {
   StatusBar,
   Alert,
   Linking,
-  SectionList,
+  Modal,
 } from "react-native";
 
 import Backbutton from "../../components/Backbutton";
@@ -27,6 +27,8 @@ import { useEffect } from "react";
 
 export default function Configuracoes({ navigation, route }) {
   const [postList, setPostList] = useState();
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   function Logout() {
     const auth = getAuth();
@@ -64,6 +66,8 @@ export default function Configuracoes({ navigation, route }) {
   };
 
   const Deletar = async () => {
+    setModalVisible(!modalVisible);
+
     const auth = getAuth();
     const user = auth.currentUser;
     const userId = user.uid;
@@ -118,7 +122,7 @@ export default function Configuracoes({ navigation, route }) {
         <Text style={styles.btnText}>EDITAR INFORMAÇÕES</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.btn} onPress={Deletar}>
+      <TouchableOpacity style={styles.btn} onPress={() => setModalVisible(!modalVisible)}>
         <Text style={styles.btnText}>EXCLUIR CONTA</Text>
       </TouchableOpacity>
 
@@ -132,6 +136,47 @@ export default function Configuracoes({ navigation, route }) {
       >
         <Text style={styles.btnText}>SAIR</Text>
       </TouchableOpacity>
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.modalView}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalText}>
+              Você tem certeza quer deletar essa conta?
+            </Text>
+            <Text
+              style={{ fontSize: 15, fontWeight: "600", color: "#0e52b2" }}
+            >
+              (Não será possível recupera-lá.)
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <TouchableOpacity
+                style={styles.modalBtn}
+                onPress={Deletar}
+              >
+                <Text style={styles.modalBtnText}>CONFIRMAR</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.modalBtn}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.modalBtnText}>CANCELAR</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -166,5 +211,37 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: 'center',
     justifyContent: "center",
+  },
+  modalView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#rgba(0,0,0,0.5)",
+  },
+  modalContainer: {
+    width: "90%",
+    borderRadius: 40,
+    backgroundColor: "#fff",
+    padding: 25,
+  },
+  modalText: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#0e52b2",
+    textTransform: "uppercase",
+  },
+  modalBtn: {
+    marginTop: 35,
+    width: "45%",
+    backgroundColor: "#38B6FF",
+    padding: 20,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalBtnText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "800",
   },
 });
