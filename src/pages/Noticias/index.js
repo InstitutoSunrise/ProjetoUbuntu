@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ImageBackground, StyleSheet, View, Text, TouchableOpacity, ScrollView, Dimensions, Modal, SafeAreaView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ImageBackground, StyleSheet, View, Text, TouchableOpacity, ScrollView, Dimensions, Modal, FlatList } from 'react-native';
 
 import Backbutton from '../../components/Backbutton';
 
@@ -18,48 +18,70 @@ export default function Noticias({ navigation }) {
     //backgroundimage ilustrativa, mudar depois
     const image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJAtSZ2L4cHgmAH3csvOlqd5RUHlAU-YtUMSY6-4AfqqODMbP5PGj635jNZOkO-qA2rqk&usqp=CAU"
 
-    const windowHeight = Dimensions.get('window').height;
-    const windowWidth = Dimensions.get('window').width
-
     const [modalVisible, setModalVisible] = useState(false);
+    const [noticias, setNoticias] = useState([]);
+    const [execute, setExecute] = useState(false);
 
-    const [qtdEstrela, setQtdEstrela] = useState({
-        1: false,
-        2: false,
-        3: false,
-        4: false,
-        5: false,
-    })
+    const [title, setTitle] = useState();
+    const [content, setContent] = useState();
+    const [dataPublicacao, setDataPublicacao] = useState();
+
+
+    const getNews = async () => {
+        const News = [];
+        // https://newsdata.io/api/1/news?apikey=YOUR_API_KEY&country=br&language=pt&category=environment,food,health,politics 
+        // https://newsapi.org/v2/top-headlines?country=br&sortBy=popularity&apiKey=e09b5fda3f364078b698a16fd22fcedb
+        await fetch('https://newsdata.io/api/1/news?apikey=pub_137812eeee5c09a78dae454eec614e215ee44&country=br&language=pt&category=environment,food,health,politics')
+            .then(res => res.json()).then(data => {
+                console.log(data)
+                const noticiasRequest = data.results
+                noticiasRequest.forEach(element => {
+                    if (element.content == null) {
+                        console.log("sem conteudo")
+                    } else {
+                        News.push({ ...element });
+                    }
+
+                });
+            })
+            .catch((err) => console.log(err));
+        return setNoticias(News);
+    }
+
+    const infos = (titulo, content, data) => {
+        setModalVisible(!modalVisible)
+        setTitle(titulo)
+        setContent(content)
+        setDataPublicacao(data)
+    }
+
+    useEffect(() => {
+        getNews();
+        setExecute(true)
+    }, [])
+
 
     return (
         <View style={styles.container}>
-            <ImageBackground source={{ uri: image }} style={styles.ImageBackground} imageStyle={{ opacity: 0.5 }}>
-                <ScrollView contentContainerStyle={{ padding: 5 }}>
+            <ImageBackground source={{ uri: image }} style={styles.imgBackgroud} imageStyle={{ opacity: 0.5 }}>
 
-                    <Backbutton onClick={() => navigation.goBack()} />
+                <Backbutton onClick={() => navigation.goBack()} />
 
-                    <TouchableOpacity style={styles.containerNoticia} onPress={() => setModalVisible(!modalVisible)}>
-                        <Text style={styles.tituloNoticia}>Fome em Tempos de Crise</Text>
-                        <Text style={styles.textNoticia}>{filterDesc("Ullamco voluptate reprehenderit consequat dolore do velit exercitation. Velit adipisicing veniam quis cillum quis deserunt nisi. Ex culpa non anim sint minim cupidatat adipisicing. Tempor eiusmod eu ea magna ipsum aliquip quis.")}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.containerNoticia} onPress={() => setModalVisible(!modalVisible)}>
-                        <Text style={styles.tituloNoticia}>Por que fazer doações?</Text>
-                        <Text style={styles.textNoticia}>{filterDesc("Ullamco voluptate reprehenderit consequat dolore do velit exercitation. Velit adipisicing veniam quis cillum quis deserunt nisi. Ex culpa non anim sint minim cupidatat adipisicing. Tempor eiusmod eu ea magna ipsum aliquip quis.")}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.containerNoticia} onPress={() => setModalVisible(!modalVisible)}>
-                        <Text style={styles.tituloNoticia}>A importância de ajudar o próximo</Text>
-                        <Text style={styles.textNoticia}>{filterDesc("Ullamco voluptate reprehenderit consequat dolore do velit exercitation. Velit adipisicing veniam quis cillum quis deserunt nisi. Ex culpa non anim sint minim cupidatat adipisicing. Tempor eiusmod eu ea magna ipsum aliquip quis.")}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.containerNoticia} onPress={() => setModalVisible(!modalVisible)}>
-                        <Text style={styles.tituloNoticia}>O que é ser uma pessoa solidaria</Text>
-                        <Text style={styles.textNoticia}>{filterDesc("Ullamco voluptate reprehenderit consequat dolore do velit exercitation. Velit adipisicing veniam quis cillum quis deserunt nisi. Ex culpa non anim sint minim cupidatat adipisicing. Tempor eiusmod eu ea magna ipsum aliquip quis.")}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.containerNoticia} onPress={() => setModalVisible(!modalVisible)}>
-                        <Text style={styles.tituloNoticia}>O que é ser uma pessoa solidaria</Text>
-                        <Text style={styles.textNoticia}>{filterDesc("Ullamco voluptate reprehenderit consequat dolore do velit exercitation. Velit adipisicing veniam quis cillum quis deserunt nisi. Ex culpa non anim sint minim cupidatat adipisicing. Tempor eiusmod eu ea magna ipsum aliquip quis.")}</Text>
-                    </TouchableOpacity>
-
-                </ScrollView>
+                {execute ?
+                    <FlatList
+                        showsVerticalScrollIndicator={false}
+                        data={noticias}
+                        ListEmptyComponent={<Text style={styles.aviso}>Não há noticias no momento, volte mais tarde</Text>}
+                        renderItem={({ item }) => {
+                            return (
+                                <TouchableOpacity style={styles.containerNoticia} onPress={() => infos(item.title, item.content, item.pubDate)}>
+                                    <Text style={styles.tituloNoticia}>{item.title}</Text>
+                                    <Text style={styles.textNoticia}>{item.description}</Text>
+                                </TouchableOpacity>
+                            );
+                        }}
+                    />
+                    : undefined}
 
                 <Modal
                     animationType="fade"
@@ -73,43 +95,22 @@ export default function Noticias({ navigation }) {
                         <View style={styles.viewModal}>
                             <View style={styles.containerModalFiltro}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={styles.noticiaData}>Publicado em 21/09/2022 ás 17:30h</Text>
+                                    <Text style={styles.noticiaData}>{dataPublicacao}</Text>
                                     <TouchableOpacity style={{ position: 'absolute', right: 20, paddingVertical: 15 }} onPress={() => setModalVisible(!modalVisible)}>
                                         <AntDesign name="close" size={40} color="#545454" style={{ alignSelf: 'flex-end', paddingVertical: 10, }} />
                                     </TouchableOpacity>
                                 </View>
-                                <View style={styles.tituloNoticiaModalView}>
-                                    <Text style={styles.tituloModalNoticia}>Fome em Tempos de Crise</Text>
-                                </View>
-
                                 <ScrollView style={styles.textModalNoticiaView}>
-                                    <View style={styles.textModalNoticiaView}>
-                                        <Text style={styles.textModalNoticia}>
-                                            Aliqua do aute aliquip labore esse cillum. Veniam reprehenderit anim laboris aliquip et sint. Anim irure eu id velit nisi. Lorem proident nulla commodo ex consectetur est anim ipsum.
-                                            Ut laboris commodo est ipsum in nulla. Ullamco adipisicing ipsum proident nostrud et occaecat est consequat voluptate irure non aliquip nisi. Aute ea nisi minim do. In quis sunt nisi et reprehenderit nisi dolore id mollit sunt Lorem. Deserunt eu minim eiusmod fugiat excepteur eiusmod adipisicing. Labore consequat mollit amet dolor consequat pariatur magna fugiat non. Veniam sunt qui nostrud laborum commodo et pariatur dolore et officia cupidatat ea anim.
-                                            Laboris et magna nostrud ad officia incididunt deserunt mollit nostrud qui est reprehenderit culpa fugiat. Magna pariatur sit amet adipisicing culpa nostrud anim quis deserunt ea anim deserunt. Non reprehenderit adipisicing anim ad irure elit pariatur incididunt elit sint elit proident consequat aliquip. Culpa tempor elit nisi qui eiusmod proident duis. Elit enim elit est consectetur Lorem duis commodo sit reprehenderit nisi esse.
-                                            Pariatur amet ex deserunt ad. Voluptate ex enim occaecat deserunt veniam. Cillum ad in elit ea ut in voluptate aliquip qui qui non dolore labore. Occaecat eu esse veniam eu incididunt cupidatat qui incididunt sunt ad. Veniam eiusmod irure ipsum occaecat.
-                                        </Text>
+
+                                    <View style={styles.tituloNoticiaModalView}>
+                                        <Text style={styles.tituloModalNoticia}>{title}</Text>
                                     </View>
+
+                                    <View style={styles.textModalNoticiaView}>
+                                        <Text style={styles.textModalNoticia}>{content}</Text>
+                                    </View>
+
                                 </ScrollView>
-                                <View style={styles.ratingView}>
-                                    <Text style={styles.span}>Este artigo foi útil?</Text>
-                                    <TouchableOpacity style={{ padding: 2 }} onPress={(() => setQtdEstrela({ 1: !qtdEstrela[1], 2: false, 3: false, 4: false, 5: false }))}>
-                                        <AntDesign name="star" size={23} color={qtdEstrela[1] ? "#f5bf00" : "#636363"} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={{ padding: 2 }} onPress={(() => setQtdEstrela({ 1: true, 2: true, 3: false, 4: false, 5: false }))}>
-                                        <AntDesign name="star" size={23} color={qtdEstrela[2] ? "#f5bf00" : "#636363"} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={{ padding: 2 }} onPress={(() => setQtdEstrela({ 1: true, 2: true, 3: true, 4: false, 5: false }))}>
-                                        <AntDesign name="star" size={23} color={qtdEstrela[3] ? "#f5bf00" : "#636363"} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={{ padding: 2 }} onPress={(() => setQtdEstrela({ 1: true, 2: true, 3: true, 4: true, 5: false }))}>
-                                        <AntDesign name="star" size={23} color={qtdEstrela[4] ? "#f5bf00" : "#636363"} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={{ padding: 2 }} onPress={(() => setQtdEstrela({ 1: true, 2: true, 3: true, 4: true, 5: true }))}>
-                                        <AntDesign name="star" size={23} color={qtdEstrela[5] ? "#f5bf00" : "#636363"} />
-                                    </TouchableOpacity>
-                                </View>
                             </View>
                         </View>
                     </View>
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
     },
     tituloNoticiaModalView: {
         alignItems: 'center',
-        marginTop: 10
+        maxWidth: '100%'
     },
     tituloModalNoticia: {
         color: '#0e52b2',
@@ -187,25 +188,29 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase',
     },
     textModalNoticiaView: {
-        height: '85%',
-        padding: 15,
+        height: '100%',
+        paddingHorizontal: 9,
+        marginLeft: 5,
+        marginBottom: 15,
     },
     textModalNoticia: {
         fontSize: 15,
-    },
-    ratingView: {
-        width: "100%",
-        height: '10%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'row'
     },
     span: {
         fontSize: 13.5,
         color: '#0e52b2',
         padding: 5
     },
-    starIcons: {
-
+    imgBackgroud: {
+        flex: 1,
     },
+    aviso: {
+        width: '100%',
+        fontSize: 20,
+        fontWeight: "700",
+        textTransform: 'uppercase',
+        color: '#0e52B2',
+        marginTop: 50,
+        textAlign: 'center'
+    }
 })
