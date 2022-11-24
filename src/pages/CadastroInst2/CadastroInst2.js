@@ -86,10 +86,10 @@ export default function App({ navigation, route }) {
     } else if (cepValido === false) {
       setErroAlert(true);
       setMsgAlert("CEP inválido.");
-    } else if(banho == false || alimento == false || voluntario == false){
+    } else if (banho == false || alimento == false || voluntario == false) {
       setErroAlert2(true);
       setMsgAlert("Selecione pelo menos um serviço");
-    }else{
+    } else {
       navigation.navigate("AdicionarFoto", {
         cep: cep,
         endereco: endereco,
@@ -111,8 +111,9 @@ export default function App({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <Backbutton onClick={() => navigation.goBack()} />
-
+      <View style={{marginTop: 30}}>
+        <Backbutton onClick={() => navigation.goBack()} />
+      </View>
       <ScrollView>
         <Text style={styles.titulo}>CADASTRE-SE</Text>
 
@@ -250,7 +251,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "#38B6FF",
-    marginTop: 30,
+    marginTop: 20,
   },
   viewInput: {
     width: "100%",

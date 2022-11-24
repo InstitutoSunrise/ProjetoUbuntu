@@ -61,15 +61,14 @@ export default function MensagemTela({ navigation }) {
   }, []);
 
   const fetchLastMsg = async (roomId) => {
-    setRefreshFlat(true)
     const database = getDatabase();
     const snapshot = await get(ref(database, `chatrooms/${roomId}`));
     let snapshotResult = snapshot.val();
-    setRefreshFlat(false)
     return snapshotResult;
   };
 
   const onLoad = useCallback(async () => {
+    setRefreshFlat(true)
     const auth = getAuth();
     const user = auth.currentUser;
     const database = getDatabase();
@@ -153,8 +152,9 @@ export default function MensagemTela({ navigation }) {
         });
       }
     });
-  }
-  );
+  
+    setRefreshFlat(false)
+  });
 
   useEffect(() => {
     setExecute(!execute)
@@ -179,7 +179,7 @@ export default function MensagemTela({ navigation }) {
         refreshControl={
           <RefreshControl
             refreshing={refreshFlat}
-            onRefresh={fetchLastMsg}
+            onRefresh={onLoad}
             progressBackgroundColor='#fff'
             colors={['#38B6FF']}
           />

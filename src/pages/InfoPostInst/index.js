@@ -2,9 +2,18 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import Backbutton from "../../components/Backbutton/index";
 import PostInfo from "../../components/PostInfo/index";
-
+import { getAuth } from "firebase/auth";
 import { getDocs, query, collection, where } from "firebase/firestore";
 import db from "../../config/configFirebase";
+import {
+  getDatabase,
+  get,
+  ref,
+  set,
+  onValue,
+  push,
+  update,
+} from "firebase/database";
 
 import {
   Ionicons,
@@ -24,8 +33,10 @@ export default function InfoPostFisi({ navigation, route }) {
   const [nome, setNome] = useState(route.params.nome);
   const [endereco, setEndereco] = useState(route.params.endereco);
   const [img, setImg] = useState(route.params.imgUser);
+  const [imgUser, setImgUser] = useState("");
   const [numero, setNumero] = useState(route.params.numero);
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('');
+  const [userId, setUserId] = useState(route.params.userId)
 
   useEffect(async () => {
     const q = query(collection(db, "Usuários"), where("userId", "==", route.params.userId));
@@ -38,9 +49,123 @@ export default function InfoPostFisi({ navigation, route }) {
       setAlimento(doc.data().alimento);
       setHorario(doc.data().horário);
       setEmail(doc.data().email);
+      setImgUser(doc.data().imgUser)
+      setImgUser(doc.data().imgUser)
     });
     return getInfos;
   }, [route.params.nome]);
+
+  const addUserToChat = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const database = getDatabase();
+
+    const userInfo = await findUser(user.uid);
+
+    if (userId == user.uid) {
+      return;
+    }
+
+    if (userInfo !== null) {
+      let usernames = userInfo.friends;
+      if (usernames.findIndex((friends) => friends.username === userId) > -1) {
+        console.log("usuário repetido");
+        return;
+      }
+    }
+
+    const newChatroomRef = push(ref(database, "chatrooms"), {
+      firstUser: user.uid,
+      secondUser: userId,
+      messages: [],
+    });
+
+    const newChatroomId = newChatroomRef.key;
+
+    if (userInfo == null) {
+      console.log(userInfo, "é nulo");
+      const newUserObj = {
+        username: user.uid,
+        avatar: user.photoURL,
+        friends: [
+          {
+            username: userId,
+            avatar: imgUser,
+            chatroomId: newChatroomId,
+          },
+        ],
+      };
+      set(ref(database, `users/${user.uid}`), newUserObj);
+
+      console.log(newUserObj);
+    } else {
+      if (userInfo.friends == null) {
+        console.log(otherUserInfo);
+        // console.log(myFriends)
+
+        update(ref(database, `users/${user.uid}`), {
+          friends: [
+            {
+              username: userId,
+              avatar: imgUser,
+              chatroomId: newChatroomId,
+            },
+          ],
+        });
+      } else {
+        console.log(otherUserInfo);
+        const myFriends = userInfo.friends || [];
+        console.log(myFriends);
+        update(ref(database, `users/${user.uid}`), {
+          friends: [
+            ...userInfo.friends,
+            {
+              username: userId,
+              avatar: imgUser,
+              chatroomId: newChatroomId,
+            },
+          ],
+        });
+      }
+    }
+
+    const otherUserInfo = await findUser(userId);
+    //join myself to this user friend list
+    if (otherUserInfo == null) {
+      const newOtherUserObj = {
+        username: userId,
+        avatar: imgUser,
+        friends: [
+          {
+            username: user.uid,
+            avatar: user.photoURL,
+            chatroomId: newChatroomId,
+          },
+        ],
+      };
+      set(ref(database, `users/${userId}`), newOtherUserObj);
+    } else {
+      const userFriends = otherUserInfo.friends || [];
+      update(ref(database, `users/${userId}`), {
+        friends: [
+          ...userFriends,
+          {
+            username: user.uid,
+            avatar: user.photoURL,
+            chatroomId: newChatroomId,
+          },
+        ],
+      });
+    }
+  };
+
+  const findUser = async (id) => {
+    const database = getDatabase();
+
+    const mySnapshot = await get(ref(database, `users/${id}`));
+
+    return mySnapshot.val();
+  };
 
   return (
     <View style={styles.container}>
@@ -129,7 +254,7 @@ export default function InfoPostFisi({ navigation, route }) {
         ) : undefined}
       </View>
       <View style={styles.linha}></View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={addUserToChat}>
         <Text style={styles.text}>ENTRAR EM CONTATO</Text>
       </TouchableOpacity>
     </View>

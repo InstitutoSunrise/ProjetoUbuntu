@@ -5,7 +5,16 @@ import CarouselPost from '../CarouselPost';
 import { useEffect } from 'react';
 import { getAuth } from 'firebase/auth';
 import db from '../../config/configFirebase';
-
+import {
+    getDatabase,
+    get,
+    ref,
+    set,
+    onValue,
+    push,
+    update,
+} from "firebase/database";
+import { getDocs, query, collection, where } from "firebase/firestore";
 
 
 export default function post({ sobreVoce, tipoAjuda, imgPost1, imgPost2, imgPost3, status, dataHoraPost, userId, onClick }) {
@@ -13,6 +22,7 @@ export default function post({ sobreVoce, tipoAjuda, imgPost1, imgPost2, imgPost
     const [isStatus, setStatus] = useState(status);
     const [imagesPost, setImagesPost] = useState([]);
     const [btn, setBtn] = useState(false);
+    const [imgUser, setImgUser] = useState("");
 
     const getImages = () => {
         let newArray = imagesPost
@@ -23,12 +33,141 @@ export default function post({ sobreVoce, tipoAjuda, imgPost1, imgPost2, imgPost
     const showBtn = () => {
         const auth = getAuth();
         const user = auth.currentUser;
-        if(user.uid === userId){
+        if (user.uid === userId) {
             setBtn(false);
-        }else{
+        } else {
             setBtn(true);
         }
     }
+
+    const fetchInfos = async () => {
+        const q = query(collection(db, "Usuários"), where("userId", "==", userId));
+        const querySnapshot = await getDocs(q);
+        const getInfos = querySnapshot.forEach((doc) => {
+            if (doc.data().tipoUser === "userFisico") {          
+                setImgUser(doc.data().imgUser)
+            } else {
+                setImgUser(doc.data().imgUser)
+            }
+        });
+        return getInfos;
+    }
+
+    useEffect(() => {
+        fetchInfos()
+    }, [imgUser]);
+
+    const addUserToChat = async () => {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        const database = getDatabase();
+
+        const userInfo = await findUser(user.uid);
+
+        if (userId == user.uid) {
+            return;
+        }
+
+        if (userInfo !== null) {
+            let usernames = userInfo.friends;
+            if (usernames.findIndex((friends) => friends.username === userId) > -1) {
+                console.log("usuário repetido");
+                return;
+            }
+        }
+
+        const newChatroomRef = push(ref(database, "chatrooms"), {
+            firstUser: user.uid,
+            secondUser: userId,
+            messages: [],
+        });
+
+        const newChatroomId = newChatroomRef.key;
+
+        if (userInfo == null) {
+            console.log(userInfo, "é nulo");
+            const newUserObj = {
+                username: user.uid,
+                avatar: user.photoURL,
+                friends: [
+                    {
+                        username: userId,
+                        avatar: imgUser,
+                        chatroomId: newChatroomId,
+                    },
+                ],
+            };
+            set(ref(database, `users/${user.uid}`), newUserObj);
+
+            console.log(newUserObj);
+        } else {
+            if (userInfo.friends == null) {
+                console.log(otherUserInfo);
+                // console.log(myFriends)
+
+                update(ref(database, `users/${user.uid}`), {
+                    friends: [
+                        {
+                            username: userId,
+                            avatar: imgUser,
+                            chatroomId: newChatroomId,
+                        },
+                    ],
+                });
+            } else {
+                console.log(otherUserInfo);
+                const myFriends = userInfo.friends || [];
+                console.log(myFriends);
+                update(ref(database, `users/${user.uid}`), {
+                    friends: [
+                        ...userInfo.friends,
+                        {
+                            username: userId,
+                            avatar: imgUser,
+                            chatroomId: newChatroomId,
+                        },
+                    ],
+                });
+            }
+        }
+
+        const otherUserInfo = await findUser(userId);
+        //join myself to this user friend list
+        if (otherUserInfo == null) {
+            const newOtherUserObj = {
+                username: userId,
+                avatar: imgUser,
+                friends: [
+                    {
+                        username: user.uid,
+                        avatar: user.photoURL,
+                        chatroomId: newChatroomId,
+                    },
+                ],
+            };
+            set(ref(database, `users/${userId}`), newOtherUserObj);
+        } else {
+            const userFriends = otherUserInfo.friends || [];
+            update(ref(database, `users/${userId}`), {
+                friends: [
+                    ...userFriends,
+                    {
+                        username: user.uid,
+                        avatar: user.photoURL,
+                        chatroomId: newChatroomId,
+                    },
+                ],
+            });
+        }
+    };
+
+    const findUser = async (id) => {
+        const database = getDatabase();
+
+        const mySnapshot = await get(ref(database, `users/${id}`));
+
+        return mySnapshot.val();
+    };
 
     useEffect(() => {
         getImages()
@@ -47,8 +186,8 @@ export default function post({ sobreVoce, tipoAjuda, imgPost1, imgPost2, imgPost
                     />
                 </View>
                 : undefined}
-            {btn === true ?<View style={styles.ViewBtn}>
-                <TouchableOpacity style={styles.button}>
+            {btn === true ? <View style={styles.ViewBtn}>
+                <TouchableOpacity style={styles.button} onPress={addUserToChat}>
                     <Text style={styles.text}>ENTRAR EM CONTATO</Text>
                 </TouchableOpacity>
             </View> : undefined}

@@ -97,8 +97,9 @@ export default function App({ navigation }) {
       <ScrollView
         contentContainerStyle={{ alignItems: "center", width: "100%" }}
       >
-        <Backbutton onClick={() => navigation.goBack()} />
-
+        <View style={{marginTop: 30, alignSelf: "flex-start"}}>
+          <Backbutton onClick={() => navigation.goBack()} />
+        </View>
         <Text style={styles.titulo}>CADASTRE-SE</Text>
 
         <TextInput
@@ -270,14 +271,13 @@ export default function App({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
+    backgroundColor: "#fff"
   },
   titulo: {
     fontSize: 50,
     fontWeight: "bold",
     color: "#38B6FF",
-    marginTop: 30,
+    marginTop: 20,
   },
   containerInput: {
     justifyContent: "space-between",

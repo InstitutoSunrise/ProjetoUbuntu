@@ -25,7 +25,6 @@ import MeuPerfil from '../pages/MeuPerfil';
 import MinhasPubs from '../pages/minhaPubs';
 import Instituicoes from '../pages/Instituicoes/instituicoes';
 import InstituiçoesDetalhes from '../pages/instituiçãoDestalhe/instDetalhes';
-import Notificacao from '../pages/Notificações/notificações';
 import CadastroFisi from '../pages/CadastroFisi/CadastroFisi';
 import CadastroFisi2 from '../pages/CadastroFisi2/CadastroFisi2';
 import CadastroInst1 from '../pages/CadastroInst1/CadastroInst1';
@@ -126,21 +125,11 @@ function TabBar({ navigation }) {
                 }}
             />
             <Tabs.Screen
-                name='Noticações'
-                component={Notificacao}
-                options={{
-                    tabBarIcon: ({ size, color }) => (
-                        <Ionicons name="notifications-sharp" size={size} color={color} />
-                    ),
-                    headerShown: false
-                }}
-            />
-            <Tabs.Screen
                 name='CreatePost'
                 component={Publicar}
                 options={{
                     tabBarIcon: ({ size, color }) => (
-                        <FontAwesome5 name="plus" size={35} color={color} />
+                        <FontAwesome5 name="plus" size={size} color={color} />
                     ),
                     headerShown: false
                 }}

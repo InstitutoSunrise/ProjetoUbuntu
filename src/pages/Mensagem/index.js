@@ -82,7 +82,7 @@ export default function Mensagem({ navigation, route }) {
 
   const onSend = useCallback(
     async (msg = []) => {
-      let date = new Date();    
+      let date = new Date();
       const database = getDatabase();
 
       //fetch fresh messages from server
@@ -133,8 +133,8 @@ export default function Mensagem({ navigation, route }) {
         <View>
           <MaterialCommunityIcons
             name="send-circle"
-            style={{ marginVertical: 5, marginHorizontal: 5 }}
-            size={40}
+            style={{ marginVertical: 0, marginHorizontal: 0 }}
+            size={45}
             color="#0c4a86" />
         </View>
       </Send>
@@ -159,6 +159,7 @@ export default function Mensagem({ navigation, route }) {
           _id: user.uid,
         }}
         renderBubble={renderBubble}
+        placeholder="Digite Uma Mensagem"
         alwaysShowSend
         renderSend={renderSend}
         scrollToBottom={true}
