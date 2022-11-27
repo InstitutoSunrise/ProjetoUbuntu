@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "react-native-ProjetoUbuntu",
+    "name": "ProjetoUbuntu",
     "slug": "react-native-ProjetoUbuntu",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/assets/logo_projeto.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./src/assets/logo_projeto.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff",
     
@@ -34,6 +34,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDokjQxsu7qomg4FUHtXP_UtqkJtiAd-dA"
+        }
       }
     },
     "web": {
