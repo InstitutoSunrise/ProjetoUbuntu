@@ -257,11 +257,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "300",
     textAlign: "right",
+    marginRight: 15
   },
   text: {
     fontSize: 15,
     textAlign: "left",
     justifyContent: "center",
-    // width:'70%',
   },
 });

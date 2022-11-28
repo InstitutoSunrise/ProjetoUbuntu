@@ -22,6 +22,7 @@ export default function DentroMapa({ navigation }) {
 
   const [destination, setDestination] = useState(null);
   const [distance, setDistance] = useState(null);
+  const [duration, setDuration] = useState(null);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
@@ -46,6 +47,8 @@ export default function DentroMapa({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <Backbutton onClick={() => navigation.goBack()} />
+
       <MapView
         style={styles.imgContainer}
         initialRegion={location}
@@ -63,13 +66,14 @@ export default function DentroMapa({ navigation }) {
             strokeWidth={3}
             strokeColor="#38b6ff"
             onReady={result => {
-              setDistance(result.distance);
+              setDuration(result.legs[0].duration.text)
+              setDistance(result.legs[0].distance.text);
             }}
           />
         }
       </MapView>
 
-      <View style={{ width: '85%', height: '50%', position: 'absolute', alignSelf: 'flex-start', marginTop: 16 }}>
+      <View style={{ width: '90%', height: '50%', position: 'absolute', alignSelf: 'center', margin: 15, marginTop: 80 }}>
         <GooglePlacesAutocomplete
           placeholder="Busque uma institutição"
           minLength={2}
@@ -91,7 +95,8 @@ export default function DentroMapa({ navigation }) {
           fetchDetails={true}
           styles={{
             container: {
-              flex: 1
+              flex: 1,
+              zIndex: 1
             },
             textInputContainer: {
               width: '100%',
@@ -116,6 +121,18 @@ export default function DentroMapa({ navigation }) {
 
           }}
         />
+        {distance &&
+          <View style={styles.containerInfo}>
+            <View style={styles.boxInfo}>
+              <Text style={styles.text}>Distancia:</Text>
+              <Text>{distance}</Text>
+            </View>
+            <View style={styles.boxInfo}>
+              <Text style={styles.text}>Duração:</Text>
+              <Text>{duration}</Text>
+            </View>
+          </View>
+        }
       </View>
     </View>
   );
@@ -128,6 +145,23 @@ const styles = StyleSheet.create({
   imgContainer: {
     width: windowWidth,
     height: windowHeight,
-    marginTop: 10,
+    marginTop: 10
+  },
+  containerInfo: {
+    position: 'absolute',
+    marginTop: 60,
+    flexDirection: 'row',
+    alignSelf: 'center',
+    backgroundColor: 'lightgrey',
+    padding: 10
+  },
+  boxInfo: {
+    marginLeft: 10,
+  },
+  text: {
+    fontSize: 15,
+    fontWeight: '800',
+    color: 'rgb(14, 82, 178)',
+    textTransform: 'uppercase'
   },
 });

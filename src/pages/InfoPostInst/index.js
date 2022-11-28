@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView } from "react-native";
 import Backbutton from "../../components/Backbutton/index";
 import PostInfo from "../../components/PostInfo/index";
 import { getAuth } from "firebase/auth";
@@ -171,92 +171,94 @@ export default function InfoPostFisi({ navigation, route }) {
     <View style={styles.container}>
       <Backbutton onClick={() => navigation.goBack()} />
 
-      <Text style={styles.nome}>{nome}</Text>
-      <Text style={styles.endereco}>
-        <Ionicons name="location" size={24} color="#0e52B2" />
-        {endereco}, {numero}
-      </Text>
-      <View style={styles.imgPerfilContainer}>
-        <Image
-          source={{ uri: img }}
-          style={styles.fotoPerfil}
-        />
-      </View>
-
-      <Text style={styles.descricao}>{descricao}</Text>
-
-      <View style={styles.infomaçoes}>
-        <View style={{ alignItems: "center", flexDirection: "row" }}>
-          <Ionicons
-            name="time-outline"
-            size={24}
-            color="#0e52B2"
-            style={{ marginRight: 5 }}
+      <ScrollView contentContainerStyle={{alignItems: 'center'}}>
+        <Text style={styles.nome}>{nome}</Text>
+        <Text style={styles.endereco}>
+          <Ionicons name="location" size={24} color="#0e52B2" />
+          {endereco}, {numero}
+        </Text>
+        <View style={styles.imgPerfilContainer}>
+          <Image
+            source={{ uri: img }}
+            style={styles.fotoPerfil}
           />
-          <Text style={styles.textInfo}>{horario}</Text>
         </View>
-        <View style={styles.ViewContato}>
-          <View style={{ alignItems: "center", flexDirection: "row" }}>
-            <Foundation
-              name="telephone"
-              size={24}
-              color="#0e52B2"
-              style={{ marginRight: 7 }}
-            />
-            <Text style={styles.textInfo}>{telefone}</Text>
-          </View>
 
+        <Text style={styles.descricao}>{descricao}</Text>
+
+        <View style={styles.infomaçoes}>
           <View style={{ alignItems: "center", flexDirection: "row" }}>
-            <MaterialIcons
-              name="email"
+            <Ionicons
+              name="time-outline"
               size={24}
               color="#0e52B2"
-              style={{ marginRight: 7 }}
+              style={{ marginRight: 5 }}
             />
-            <Text style={styles.textInfo}>{email}</Text>
+            <Text style={styles.textInfo}>{horario}</Text>
+          </View>
+          <View style={styles.ViewContato}>
+            <View style={{ alignItems: "center", flexDirection: "row" }}>
+              <Foundation
+                name="telephone"
+                size={24}
+                color="#0e52B2"
+                style={{ marginRight: 7 }}
+              />
+              <Text style={styles.textInfo}>{telefone}</Text>
+            </View>
+
+            <View style={{ alignItems: "center", flexDirection: "row" }}>
+              <MaterialIcons
+                name="email"
+                size={24}
+                color="#0e52B2"
+                style={{ marginRight: 7 }}
+              />
+              <Text style={styles.textInfo}>{email}</Text>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.containerFuncao}>
-        {banho === true ? (
-          <View style={styles.funcoesGrid}>
-            <View style={styles.btn}>
-              <View style={styles.containerIcon}>
-                <FontAwesome name="shower" size={40} color="#fff" />
+        <View style={styles.containerFuncao}>
+          {banho === true ? (
+            <View style={styles.funcoesGrid}>
+              <View style={styles.btn}>
+                <View style={styles.containerIcon}>
+                  <FontAwesome name="shower" size={40} color="#fff" />
+                </View>
+                <Text style={styles.textFuncoes}>Banho</Text>
               </View>
-              <Text style={styles.textFuncoes}>Banho</Text>
             </View>
-          </View>
-        ) : undefined}
-        {voluntario == true ? (
-          <View style={styles.funcoesGrid}>
-            <View style={styles.btn}>
-              <View style={styles.containerIcon}>
-                <FontAwesome name="heart" size={40} color="#fff" />
+          ) : undefined}
+          {voluntario == true ? (
+            <View style={styles.funcoesGrid}>
+              <View style={styles.btn}>
+                <View style={styles.containerIcon}>
+                  <FontAwesome name="heart" size={40} color="#fff" />
+                </View>
+                <Text style={styles.textFuncoes}>Seja voluntário</Text>
               </View>
-              <Text style={styles.textFuncoes}>Seja voluntário</Text>
             </View>
-          </View>
-        ) : undefined}
-        {alimento == true ? (
-          <View style={styles.funcoesGrid}>
-            <View style={styles.btn}>
-              <View style={styles.containerIcon}>
-                <MaterialCommunityIcons
-                  name="silverware-fork-knife"
-                  size={40}
-                  color="#fff"
-                />
+          ) : undefined}
+          {alimento == true ? (
+            <View style={styles.funcoesGrid}>
+              <View style={styles.btn}>
+                <View style={styles.containerIcon}>
+                  <MaterialCommunityIcons
+                    name="silverware-fork-knife"
+                    size={40}
+                    color="#fff"
+                  />
+                </View>
+                <Text style={styles.textFuncoes}>alimentação</Text>
               </View>
-              <Text style={styles.textFuncoes}>alimentação</Text>
             </View>
-          </View>
-        ) : undefined}
-      </View>
-      <View style={styles.linha}></View>
-      <TouchableOpacity style={styles.button} onPress={addUserToChat}>
-        <Text style={styles.text}>ENTRAR EM CONTATO</Text>
-      </TouchableOpacity>
+          ) : undefined}
+        </View>
+        <View style={styles.linha}></View>
+        <TouchableOpacity style={styles.button} onPress={addUserToChat}>
+          <Text style={styles.text}>ENTRAR EM CONTATO</Text>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 }
@@ -366,6 +368,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     padding: 15,
     alignItems: "center",
+    marginBottom: 15,
   },
   text: {
     fontSize: 18,
@@ -373,7 +376,4 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     letterSpacing: 1,
   },
-  // ViewPost:{
-  //     width:'100%'
-  // },
 });
