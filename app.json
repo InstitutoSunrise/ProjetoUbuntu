@@ -1,16 +1,26 @@
 {
   "expo": {
-    "name": "react-native-ProjetoUbuntu",
+    "name": "ProjetoUbuntu",
     "slug": "react-native-ProjetoUbuntu",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/assets/logo_projeto.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./src/assets/logo_projeto.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffffff",
+    
+      "plugins": [
+        [
+          "expo-image-picker",
+          {
+            "photosPermission": "The app accesses your photos to let you share them with your friends."
+          }
+        ]
+      ]
     },
+    
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -24,6 +34,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDokjQxsu7qomg4FUHtXP_UtqkJtiAd-dA"
+        }
       }
     },
     "web": {
